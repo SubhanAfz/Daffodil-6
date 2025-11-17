@@ -1,3 +1,4 @@
+# ruff: noqa: F403
 from .dashboard_view import *
 from .home_view import *
 from .log_in_view import *
