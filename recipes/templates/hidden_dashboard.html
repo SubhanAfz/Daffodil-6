@@ -23,38 +23,23 @@
             </select>
         </form>
     </div>
-    {% if num_reports == 0 %}
-        <p>There are no reports!</p>
+
+    {% if num_posts == 0 %}
+        <p>There are no posts!</p>
     {% else %}
-        {% if order == 'posts' %}
-            {% for item in list %}
-                <li style="display:flex; align-items:center; gap:20px">
-                    {{ item.report_info_str }}
-                    <button>View Post</button>
-                    <form action="{% url 'post_hide' item.id %}" method="post"> <!-- Delete object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
-                        {% csrf_token %}
-                        <input type="submit" value="Hide post"> 
-                    </form>
-                    {% if request.user.is_superuser %}
-                        <button>Delete Post</button>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        {% else %}
-            {% for item in list %}
-                <li style="display:flex; align-items:center; gap:20px">
-                    {{ item.report_str }}
-                    <button>View Post</button>
-                    <form action="{% url 'post_hide' item.id %}" method="post"> <!-- Delete object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
-                        {% csrf_token %}
-                        <input type="submit" value="Hide post"> 
-                    </form>
-                    {% if request.user.is_superuser %}
-                        <button>Delete Post</button>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        {% endif %}
+        {% for item in list %}
+            <li style="display:flex; align-items:center; gap:20px">
+                {{ item.report_info_str }}
+                <button>View Post</button>
+                <form action="{% url 'post_release' item.id %}" method="post"> <!-- Release object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
+                    {% csrf_token %}
+                    <input type="submit" value="Release post"> 
+                </form>
+                {% if request.user.is_superuser %}
+                    <button>Delete Post</button>
+                {% endif %}
+            </li>
+        {% endfor %}
     {% endif %}
 {% else %}
     <header>

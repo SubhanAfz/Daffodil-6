@@ -23,12 +23,13 @@ class Recipe(models.Model):
         else:
             return f'"{self.title}" by {self.author.username} has been reported {self.num_reports} times.'
 
-    def setHidden(self):
+    def set_hidden(self):
         self.is_hidden = True
         self.date_hidden = timezone.now()
 
-    def setPublic(self):
+    def set_public(self):
         self.is_hidden = False
+        self.date_hidden = None
 
             
         

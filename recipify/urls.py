@@ -22,8 +22,10 @@ from recipes import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('admin/reports/', views.get_reports_list, name='reports_list'),
-    path('admin/moderation-queue/', views.get_moderation_queue, name='mod_queue'),
+    path('reports/', views.get_reports_list, name='reports_list'),
+    path('moderation-queue/', views.get_moderation_queue, name='mod_queue'),
+    path('hide/<int:id>', views.post_hide, name='post_hide'),
+    path('release/<int:id>', views.post_release, name='post_release'),
     path('', views.home, name='home'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('log_in/', views.LogInView.as_view(), name='log_in'),
@@ -31,6 +33,5 @@ urlpatterns = [
     path('password/', views.PasswordView.as_view(), name='password'),
     path('profile/', views.ProfileUpdateView.as_view(), name='profile'),
     path('sign_up/', views.SignUpView.as_view(), name='sign_up'),
-    path('hide/<int:id>', views.post_hide, name='post_hide'),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
