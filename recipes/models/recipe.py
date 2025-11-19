@@ -11,3 +11,5 @@ class Recipe(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     views = models.PositiveIntegerField()
+    is_reported = models.BooleanField()
+    num_reports = models.IntegerField()

@@ -1,2 +1,12 @@
-<!--test-->
-<!--test4-->
+{% if request.user.is_staff %}
+<header><p> Welcome, {{ request.user.username }} </p></header>
+{% if Report.objects.count==1 %}
+<p> there is 1 report awaiting decision.</p>
+{% else %}
+<p> there are {{ Report.objects.count() }} reports awaiting decision.</p>
+{% endif %}
+
+
+{% else %}
+
+{% endif %}
