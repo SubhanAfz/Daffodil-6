@@ -1,6 +1,7 @@
 import django.db.models as models
 
 from recipes.models.user import User
+from django.utils import timezone
 
 
 class Recipe(models.Model):
@@ -14,6 +15,7 @@ class Recipe(models.Model):
     is_reported = models.BooleanField(default=False)
     num_reports = models.IntegerField(default=0)
     is_hidden = models.BooleanField(default=False)
+    date_hidden = models.DateTimeField(null=True, default=None)
 
     def report_info_str(self):
         if not self.is_reported:
@@ -23,8 +25,10 @@ class Recipe(models.Model):
 
     def setHidden(self):
         self.is_hidden = True
+        self.date_hidden = timezone.now()
 
     def setPublic(self):
         self.is_hidden = False
+
             
         

@@ -22,7 +22,8 @@ from recipes import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('reports/', views.get_reports_list, name='reports_list'),
+    path('admin/reports/', views.get_reports_list, name='reports_list'),
+    path('admin/moderation-queue/', views.get_moderation_queue, name='mod_queue'),
     path('', views.home, name='home'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('log_in/', views.LogInView.as_view(), name='log_in'),

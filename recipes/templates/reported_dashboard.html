@@ -2,6 +2,9 @@
 {% block content %}
 
 {% if request.user.is_staff %}
+    <h1>
+        Reported Posts
+    </h1>
     <header>
         <p>Welcome, {{ request.user.username }}</p>
     </header>
@@ -12,10 +15,10 @@
             <p>There are {{ num_reports }} reports awaiting decision.</p>
         {% endif %}
         <form method="get" style="margin:0">
-            <label for="order">Sort by:</label>
+            <label for="order">List as:</label>
             <select name="order" id="order" onchange="this.form.submit()">
-                <option value="asc" {% if order == 'asc' %}selected{% endif %}>Oldest First</option>
-                <option value="desc" {% if order == 'desc' %}selected{% endif %}>Newest First</option>
+                <option value="asc" {% if order == 'asc' %}selected{% endif %}>Oldest Reports First</option>
+                <option value="desc" {% if order == 'desc' %}selected{% endif %}>Newest Reports First</option>
                 <option value="posts" {% if order == 'posts' %}selected{% endif %}>Posts</option>
             </select>
         </form>

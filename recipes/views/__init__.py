@@ -7,3 +7,4 @@ from .profile_view import *
 from .sign_up_view import *
 from .reports_list_view import *
 from .post_hide import *
+from mod_queue_view import *
