@@ -38,6 +38,7 @@ class Command(BaseCommand):
     """
 
     USER_COUNT = 200
+    RECIPES_PER_USER = 2
     DEFAULT_PASSWORD = 'Password123'
     help = 'Seeds the database with sample data'
 
@@ -55,6 +56,68 @@ class Command(BaseCommand):
         """
         self.create_users()
         self.users = User.objects.all()
+
+
+    """
+    Recipe seeding workflow methods.
+
+    assigne_recipes_to_users(): Assign RECIPES_PER_USER recipes to each user.
+    generate_recipe_data(user): Generate random recipe data for a given user.
+    try_create_recipe(data): Attempt to create a recipe and ignore any errors.
+    create_recipe(data): Create a recipe with the given data.
+
+    """   
+
+    def assign_recipes_to_users(self):
+        for user in self.users:
+            for i in self.RECIPES_PER_USER:
+                recipe_data = self.generate_recipe_data(user)
+
+
+
+
+    def generate_recipe_data(self, user):
+        """
+        Generate random recipe data for a given user.
+        
+        Args:
+            user (User): The author of the recipe.
+
+        Returns:
+            dict: Mapping with recipe data | ``title``, ``description``, 
+            ``content``, ``author``, ``created_at``, ``updated_at``, ``views`` |.
+        """
+        
+        title = self.faker.sentence(nb_words=6)
+        description = self.faker.paragraph(nb_sentences=3)
+        content = self.faker.text(max_nb_chars=2000)
+        return {
+            'title': title,
+            'description': description,
+            'content': content,
+            'author': user,
+            'created_at': self.faker.date_time_this_year(),
+            'updated_at': self.faker.date_time_this_year(),
+            'views': randint(0, 1000),
+        }
+
+    def try_create_recipe(self, data):
+        """
+        Attempt to create a recipe and ignore any errors.
+        
+        Args:
+            data (dict): Mapping with recipe data | ``title``, ``description``, 
+            ``content``, ``author``, ``created_at``, ``updated_at``, ``views`` |.
+        """
+        try:
+            self.create_recipe(data)
+        except:
+            pass
+
+    def create_recipe(self, data):
+        """Create a recipe with the given data."""
+        pass
+    
 
     def create_users(self):
         """
