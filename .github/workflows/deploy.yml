@@ -1,0 +1,24 @@
+name: Deploy Application
+
+on:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
+
+jobs:
+    deploy:
+        name: Deploy to Server
+        runs-on: ubuntu-latest
+        steps:
+            - name: SSH into Server and Pull Latest Code
+              run: |
+                    echo "${{ secrets.DEPLOYMENT_SSH_KEY }}" > deploy_key
+                    chmod 600 deploy_key
+                    ssh -o "StrictHostKeyChecking=no" -i deploy_key ubuntu@${{ secrets.DEPLOYMENT_SERVER_IP }} "
+                    cd /Daffodil-6 && git pull
+                    docker compose down
+                    docker compose pull
+                    docker compose up -d
+                    docker image prune -f
+                    "
