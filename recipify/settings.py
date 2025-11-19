@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
+import os
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,9 +26,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-n*%ityrpt9+wxz#e%i(&7_1e=w-dv1h33&$n(mg=$0&8m0k5f-"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ["recipify.subhan.work"]
+ALLOWED_HOSTS = []
+
+if not DEBUG:
+    ALLOWED_HOSTS.append("recipify.subhan.work") ## Production Hostname
 
 
 # Application definition
