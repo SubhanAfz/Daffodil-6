@@ -7,6 +7,16 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="ms-auto d-flex align-items-center">
+      {% if user.is_superuser %} 
+        <p style="color:white; margin-top:0; margin-bottom:0; margin-left:10px; margin-right:10px;"> Super User </p>
+      {% elif user.is_staff %}
+        <p style="color:white; margin-top:0; margin-bottom:0; margin-left:10px; margin-right:10px;"> Admin </p>
+      {% else %}
+        <p style="color:white; margin-top:0; margin-bottom:0; margin-left:10px; margin-right:10px;"> User </p>
+      {% endif %}
+
+      <p style="color:white; margin-top:0; margin-bottom:0; margin-left:10px; margin-right:10px;"> {{ request.user.username }}</p>
+
       {% if user.is_staff %}
         {% include 'partials/admin_menu.html' %}
       {% endif %}
