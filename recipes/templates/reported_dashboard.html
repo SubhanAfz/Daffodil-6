@@ -7,12 +7,12 @@
 <p> There are {{ num_reports }} reports awaiting decision.</p>
 {% endif %}
 
-<form method="get">
+<form method="get" style="margin:0">
     <label for="order">Sort by:</label>
     <select name="order" id="order" onchange="this.form.submit()">
-        <option value="asc">Oldest First</option>
-        <option value="desc">Newest First</option>
-        <option value="posts">Posts</option>
+        <option value="asc" {% if order == 'asc' %}selected{% endif %}>Oldest First</option>
+        <option value="desc" {% if order == 'desc' %}selected{% endif %}>Newest First</option>
+        <option value="posts" {% if order == 'posts' %}selected{% endif %}>Posts</option>
     </select>
 </form>
 </div>
@@ -34,6 +34,7 @@
 {% else %}
 {% for item in list %}
 
+<p>is it getting here?</p>
 <li>
     {{ item.report_str }}
 </li>

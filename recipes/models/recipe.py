@@ -15,10 +15,10 @@ class Recipe(models.Model):
     num_reports = models.IntegerField()
 
     def report_info_str(self):
-        if not is_reported:
+        if not self.is_reported:
             return f'This recipe has not been reported.'
         else:
-            return f'"{self.title}" by {self.author.username} has been reported {self.num_report} times.'
+            return f'"{self.title}" by {self.author.username} has been reported {self.num_reports} times.'
 
             
         

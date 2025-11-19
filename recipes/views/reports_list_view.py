@@ -4,7 +4,7 @@ from recipes.models.report import Report
 
 
 def get_reports_list(request):
-    order = request.GET.get('order')
+    order = request.GET.get('order', 'asc')
 
     if order == "desc":
         list = Report.objects.all().order_by('report_time')
@@ -17,6 +17,7 @@ def get_reports_list(request):
     context = {
         'num_reports' : Report.objects.count(),
         'list' : list,
+        'order' : order,
     }
 
     return render(request, 'reported_dashboard.html', context)
