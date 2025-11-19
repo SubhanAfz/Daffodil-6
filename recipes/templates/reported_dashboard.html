@@ -10,9 +10,9 @@
     </header>
     <div style="display:flex; align-items:center; gap:50px">
         {% if num_reports == 1 %}
-            <p>There is 1 report awaiting decision.</p>
+            <p style="margin:0">There is 1 report awaiting decision.</p>
         {% else %}
-            <p>There are {{ num_reports }} reports awaiting decision.</p>
+            <p style="margin:0">There are {{ num_reports }} reports awaiting decision.</p>
         {% endif %}
         <form method="get" style="margin:0">
             <label for="order">List as:</label>
