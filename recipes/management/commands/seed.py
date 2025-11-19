@@ -47,7 +47,7 @@ class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
         """Initialize the command with a locale-specific Faker instance."""
         super().__init__(*args, **kwargs)
-        self.faker = Faker('en_GB')
+        self.faker = Faker("en_US")
 
     def handle(self, *args, **options):
         """
@@ -67,7 +67,6 @@ class Command(BaseCommand):
         """
         users = User.objects.all()
         for user in users:
-            print(f"Assigning recipes to user {user.username}", end='\r')
             for _ in range(self.RECIPES_PER_USER):
                 recipe_count = Recipe.objects.count()
                 print(f"Seeding recipes {recipe_count}/{self.SEEDED_RECIPE_COUNT}", end='\r')
