@@ -61,18 +61,10 @@ class Command(BaseCommand):
 
         self.assign_recipes_to_users()
 
-
-    """
-    Recipe seeding workflow methods.
-
-    assign_recipes_to_users(): Assign RECIPES_PER_USER recipes to each user.
-    generate_recipe_data(user): Generate random recipe data for a given user.
-    try_create_recipe(data): Attempt to create a recipe and ignore any errors.
-    create_recipe(data): Create a recipe with the given data.
-
-    """   
-
     def assign_recipes_to_users(self):
+        """
+        For each user in the database, assign RECIPES_PER_USER recipes.
+        """
         users = User.objects.all()
         for user in users:
             print(f"Assigning recipes to user {user.username}", end='\r')
@@ -123,7 +115,12 @@ class Command(BaseCommand):
             pass
 
     def create_recipe(self, data):
-        """Create a recipe with the given data."""
+        """
+        Create a recipe with the given data.
+        Args:
+            data (dict): Mapping with recipe data | ``title``, ``description``, 
+            ``content``, ``author``, ``created_at``, ``updated_at``, ``views`` |.
+        """
         
         Recipe.objects.create(
             title=data['title'],
