@@ -7,11 +7,13 @@ are left untouched—if a create fails (e.g., due to duplicates), the error
 is swallowed and generation continues.
 """
 
-
+# ruff: noqa: F401
+# note to contributor: remove this comment above when it is completed (all the imports are used)
 
 from faker import Faker
 from random import randint, random
 from django.core.management.base import BaseCommand, CommandError
+from django.db import IntegrityError
 from recipes.models import User
 
 
@@ -106,7 +108,7 @@ class Command(BaseCommand):
         """
         try:
             self.create_user(data)
-        except:
+        except IntegrityError:
             pass
 
     def create_user(self, data):

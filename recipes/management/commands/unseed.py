@@ -1,3 +1,5 @@
+# ruff: noqa: F401
+# note to contributor: remove this comment above when it is completed (all the imports are used)
 from django.core.management.base import BaseCommand, CommandError
 from recipes.models import User
 
