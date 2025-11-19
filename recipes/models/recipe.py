@@ -13,3 +13,12 @@ class Recipe(models.Model):
     views = models.PositiveIntegerField()
     is_reported = models.BooleanField()
     num_reports = models.IntegerField()
+
+    def report_info_str(self):
+        if not is_reported:
+            return f'This recipe has not been reported.'
+        else:
+            return f'"{self.title}" by {self.author.username} has been reported {self.num_report} times.'
+
+            
+        

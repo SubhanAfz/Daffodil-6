@@ -1,12 +1,50 @@
 {% if request.user.is_staff %}
 <header><p> Welcome, {{ request.user.username }} </p></header>
-{% if Report.objects.count==1 %}
-<p> there is 1 report awaiting decision.</p>
+<div style="display:flex; align-items:center; gap:50px">
+{% if num_reports == 1 %}
+<p> There is 1 report awaiting decision.</p>
 {% else %}
-<p> there are {{ Report.objects.count() }} reports awaiting decision.</p>
+<p> There are {{ num_reports }} reports awaiting decision.</p>
 {% endif %}
 
+<form method="get">
+    <label for="order">Sort by:</label>
+    <select name="order" id="order" onchange="this.form.submit()">
+        <option value="asc">Oldest First</option>
+        <option value="desc">Newest First</option>
+        <option value="posts">Posts</option>
+    </select>
+</form>
+</div>
+
+{% if num_reports == 0 %}
+<p>There are no reports!</p>
 
 {% else %}
 
+{% if order == 'posts' %}
+
+{% for item in list %}
+<li>
+    {{ item.report_info_str }}
+</li>
+
+{% endfor %}
+
+{% else %}
+{% for item in list %}
+
+<li>
+    {{ item.report_str }}
+</li>
+
+{% endfor %}
+
+{% endif %}
+
+{% endif %}
+
+{% else %}
+<header> Error 403: Forbidden</header>
+<p> You are not authorised to access this page!</p>
 {% endif %}
