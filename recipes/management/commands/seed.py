@@ -13,6 +13,7 @@ from faker import Faker
 from random import randint, random
 from django.core.management.base import BaseCommand, CommandError
 from recipes.models import User
+from recipes.models import Recipe
 
 
 user_fixtures = [
@@ -39,6 +40,7 @@ class Command(BaseCommand):
 
     USER_COUNT = 200
     RECIPES_PER_USER = 2
+    SEEDED_RECIPE_COUNT = USER_COUNT * RECIPES_PER_USER
     DEFAULT_PASSWORD = 'Password123'
     help = 'Seeds the database with sample data'
 
@@ -57,11 +59,13 @@ class Command(BaseCommand):
         self.create_users()
         self.users = User.objects.all()
 
+        self.assign_recipes_to_users()
+
 
     """
     Recipe seeding workflow methods.
 
-    assigne_recipes_to_users(): Assign RECIPES_PER_USER recipes to each user.
+    assign_recipes_to_users(): Assign RECIPES_PER_USER recipes to each user.
     generate_recipe_data(user): Generate random recipe data for a given user.
     try_create_recipe(data): Attempt to create a recipe and ignore any errors.
     create_recipe(data): Create a recipe with the given data.
@@ -69,11 +73,15 @@ class Command(BaseCommand):
     """   
 
     def assign_recipes_to_users(self):
-        for user in self.users:
-            for i in self.RECIPES_PER_USER:
+        users = User.objects.all()
+        for user in users:
+            print(f"Assigning recipes to user {user.username}", end='\r')
+            for _ in range(self.RECIPES_PER_USER):
+                recipe_count = Recipe.objects.count()
+                print(f"Seeding recipes {recipe_count}/{self.SEEDED_RECIPE_COUNT}", end='\r')
+
                 recipe_data = self.generate_recipe_data(user)
-
-
+                self.try_create_recipe(recipe_data)
 
 
     def generate_recipe_data(self, user):
@@ -116,7 +124,16 @@ class Command(BaseCommand):
 
     def create_recipe(self, data):
         """Create a recipe with the given data."""
-        pass
+        
+        Recipe.objects.create(
+            title=data['title'],
+            description=data['description'],
+            content=data['content'],
+            author=data['author'],
+            created_at=data['created_at'],
+            updated_at=data['updated_at'],
+            views=data['views'],
+        )
     
 
     def create_users(self):
