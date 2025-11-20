@@ -10,8 +10,9 @@ is swallowed and generation continues.
 
 
 from faker import Faker
-from random import randint, random
-from django.core.management.base import BaseCommand, CommandError
+from random import randint
+from django.core.management.base import BaseCommand
+from django.db import IntegrityError
 from recipes.models import User
 from recipes.models import Recipe
 
@@ -110,7 +111,7 @@ class Command(BaseCommand):
         """
         try:
             self.create_recipe(data)
-        except:
+        except IntegrityError:
             pass
 
     def create_recipe(self, data):
