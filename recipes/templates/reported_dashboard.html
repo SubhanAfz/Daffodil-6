@@ -36,7 +36,10 @@
                         <input type="submit" value="Hide post"> 
                     </form>
                     {% if request.user.is_superuser %}
-                        <button>Delete Post</button>
+                    <form action="{% url 'post_delete' item.id %}" method="post"> <!-- Release object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
+                        {% csrf_token %}
+                        <input type="submit" value="Delete post"> 
+                    </form>
                     {% endif %}
                 </li>
             {% endfor %}
@@ -45,12 +48,15 @@
                 <li style="display:flex; align-items:center; gap:20px">
                     {{ item.report_str }}
                     <button>View Post</button>
-                    <form action="{% url 'post_hide' item.id %}" method="post"> <!-- Delete object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
+                    <form action="{% url 'post_hide' item.recipe.id %}" method="post"> <!-- Delete object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
                         {% csrf_token %}
                         <input type="submit" value="Hide post"> 
                     </form>
                     {% if request.user.is_superuser %}
-                        <button>Delete Post</button>
+                        <form action="{% url 'post_delete' item.recipe.id %}" method="post"> <!-- Release object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
+                            {% csrf_token %}
+                            <input type="submit" value="Delete post"> 
+                        </form>
                     {% endif %}
                 </li>
             {% endfor %}
