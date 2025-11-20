@@ -1,0 +1,26 @@
+{% extends 'base_content.html' %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1>{{ recipe.title }}</h1>
+    </div>
+
+    <div class="col-12">
+      <i> Author: {{ recipe.author }}</i>
+    </div>
+
+    <div class="col-12">
+      <i> Views: {{recipe.views}}</i>
+    </div>
+    
+    <div class="col-12">
+        <i>{{ recipe.description }}</i>
+    </div>
+
+    <div class="col-12">
+        <p>{{ recipe.content }}</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
