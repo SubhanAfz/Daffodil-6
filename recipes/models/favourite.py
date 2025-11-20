@@ -12,4 +12,4 @@ class Favourite(models.Model):
         unique_together = ('user', 'recipe')
 
     def __str__(self):
-        return f'{self.user} favourites {self.recipe}'
+        return f'{self.user} favourited {self.recipe}'
