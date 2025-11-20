@@ -11,10 +11,11 @@ is swallowed and generation continues.
 # note to contributor: remove this comment above when it is completed (all the imports are used)
 
 from faker import Faker
-from random import randint, random
-from django.core.management.base import BaseCommand, CommandError
+from random import randint
+from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from recipes.models import User
+from recipes.models import Recipe
 
 
 user_fixtures = [
@@ -40,13 +41,15 @@ class Command(BaseCommand):
     """
 
     USER_COUNT = 200
+    RECIPES_PER_USER = 2
+    SEEDED_RECIPE_COUNT = USER_COUNT * RECIPES_PER_USER
     DEFAULT_PASSWORD = 'Password123'
     help = 'Seeds the database with sample data'
 
     def __init__(self, *args, **kwargs):
         """Initialize the command with a locale-specific Faker instance."""
         super().__init__(*args, **kwargs)
-        self.faker = Faker('en_GB')
+        self.faker = Faker("en_US")
 
     def handle(self, *args, **options):
         """
@@ -57,6 +60,79 @@ class Command(BaseCommand):
         """
         self.create_users()
         self.users = User.objects.all()
+
+        self.assign_recipes_to_users()
+
+    def assign_recipes_to_users(self):
+        """
+        For each user in the database, assign RECIPES_PER_USER recipes.
+        """
+        users = User.objects.all()
+        for user in users:
+            for _ in range(self.RECIPES_PER_USER):
+                recipe_count = Recipe.objects.count()
+                print(f"Seeding recipes {recipe_count}/{self.SEEDED_RECIPE_COUNT}", end='\r')
+
+                recipe_data = self.generate_recipe_data(user)
+                self.try_create_recipe(recipe_data)
+
+
+    def generate_recipe_data(self, user):
+        """
+        Generate random recipe data for a given user.
+        
+        Args:
+            user (User): The author of the recipe.
+
+        Returns:
+            dict: Mapping with recipe data | ``title``, ``description``, 
+            ``content``, ``author``, ``created_at``, ``updated_at``, ``views`` |.
+        """
+        
+        title = self.faker.sentence(nb_words=6)
+        description = self.faker.paragraph(nb_sentences=3)
+        content = self.faker.text(max_nb_chars=2000)
+        return {
+            'title': title,
+            'description': description,
+            'content': content,
+            'author': user,
+            'created_at': self.faker.date_time_this_year(),
+            'updated_at': self.faker.date_time_this_year(),
+            'views': randint(0, 1000),
+        }
+
+    def try_create_recipe(self, data):
+        """
+        Attempt to create a recipe and ignore any errors.
+        
+        Args:
+            data (dict): Mapping with recipe data | ``title``, ``description``, 
+            ``content``, ``author``, ``created_at``, ``updated_at``, ``views`` |.
+        """
+        try:
+            self.create_recipe(data)
+        except IntegrityError:
+            pass
+
+    def create_recipe(self, data):
+        """
+        Create a recipe with the given data.
+        Args:
+            data (dict): Mapping with recipe data | ``title``, ``description``, 
+            ``content``, ``author``, ``created_at``, ``updated_at``, ``views`` |.
+        """
+        
+        Recipe.objects.create(
+            title=data['title'],
+            description=data['description'],
+            content=data['content'],
+            author=data['author'],
+            created_at=data['created_at'],
+            updated_at=data['updated_at'],
+            views=data['views'],
+        )
+    
 
     def create_users(self):
         """
