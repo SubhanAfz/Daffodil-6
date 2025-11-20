@@ -5,6 +5,8 @@ services:
     restart: always
     volumes:
       - static_volume:/app/static
+    environment:
+      - DEBUG=False
   nginx:
     image: nginx
     ports:
