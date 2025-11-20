@@ -6,9 +6,13 @@ from recipes.models.report import Report
 def post_release(request, id):
     post = get_object_or_404(Recipe, id=id)
 
+    if not request.user.is_superuser:
+        return render(request, '403_error.html')
+
     if request.method == "POST":
 
         post.set_public()
+        post.set_reports(0)
         post.save()
         Report.objects.filter(recipe=post).delete()
         return redirect(request.META.get('HTTP_REFERER', '/'))

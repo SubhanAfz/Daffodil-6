@@ -19,7 +19,7 @@ class Recipe(models.Model):
 
     def report_info_str(self):
         if not self.is_reported:
-            return f'This recipe has not been reported.'
+            return f'This recipe "{self.title}" has not been reported.'
         else:
             return f'"{self.title}" by {self.author.username} has been reported {self.num_reports} times.'
 
@@ -30,6 +30,10 @@ class Recipe(models.Model):
     def set_public(self):
         self.is_hidden = False
         self.date_hidden = None
+
+    def set_reports(self, num):
+        self.num_reports = num
+        self.is_reported = False
 
             
         

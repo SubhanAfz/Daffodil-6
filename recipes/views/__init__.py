@@ -9,4 +9,5 @@ from .sign_up_view import *
 from .reports_list_view import *
 from .post_hide_view import *
 from .post_release_view import *
+from .post_delete_view import *
 from .mod_queue_view import *

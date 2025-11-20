@@ -11,7 +11,7 @@ def get_reports_list(request):
         list = Report.objects.all().exclude(recipe__is_hidden=True).order_by('report_time')
         num_unresolved_reports = len(list)
     elif order == "posts":
-        list = Recipe.objects.all().filter(is_hidden=False).order_by('-num_reports')
+        list = Recipe.objects.all().filter(is_hidden=False, is_reported=True).order_by('-num_reports')
         num_unresolved_reports = len(Report.objects.all().exclude(recipe__is_hidden=True))
     else:
         list = Report.objects.all().exclude(recipe__is_hidden=True).order_by('-report_time')
