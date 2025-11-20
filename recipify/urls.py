@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from recipes import views
-from recipes.views.recipe_detail_view import recipe_detail 
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
