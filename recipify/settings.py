@@ -32,6 +32,10 @@ ALLOWED_HOSTS = []
 
 if not DEBUG:
     ALLOWED_HOSTS.append("recipify.subhan.work") ## Production Hostname
+    CSRF_TRUSTED_ORIGINS = ["https://recipify.subhan.work"]
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Application definition
