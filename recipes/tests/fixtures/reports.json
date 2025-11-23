@@ -41,5 +41,79 @@
       "reason": "Ingredients list does not match description.",
       "report_time": "2025-01-16T12:10:00Z"
     }
+  },
+
+  {
+    "model": "recipes.report",
+    "pk": 10,
+    "fields": {
+      "recipe": 4,
+      "reporter": 1,
+      "reason": "Inappropriate content",
+      "report_time": "2025-01-13T12:10:00Z"
+    }
+  },
+
+  {
+    "model": "recipes.report",
+    "pk": 11,
+    "fields": {
+      "recipe": 4,
+      "reporter": 3,
+      "reason": "Misleading information",
+      "report_time": "2025-01-13T12:15:00Z"
+    }
+  },
+
+  {
+    "model": "recipes.report",
+    "pk": 12,
+    "fields": {
+      "recipe": 5,
+      "reporter": 1,
+      "reason": "Low quality content",
+      "report_time": "2025-01-14T10:00:00Z"
+    }
+  },
+  {
+    "model": "recipes.report",
+    "pk": 13,
+    "fields": {
+      "recipe": 5,
+      "reporter": 2,
+      "reason": "Spam",
+      "report_time": "2025-01-14T10:05:00Z"
+    }
+  },
+
+  {
+    "model": "recipes.report",
+    "pk": 14,
+    "fields": {
+      "recipe": 6,
+      "reporter": 1,
+      "reason": "Misleading instructions",
+      "report_time": "2025-01-14T10:20:00Z"
+    }
+  },
+  {
+    "model": "recipes.report",
+    "pk": 15,
+    "fields": {
+      "recipe": 6,
+      "reporter": 3,
+      "reason": "Off-topic content",
+      "report_time": "2025-01-14T10:25:00Z"
+    }
+  },
+  {
+    "model": "recipes.report",
+    "pk": 16,
+    "fields": {
+      "recipe": 6,
+      "reporter": 2,
+      "reason": "Incorrect information",
+      "report_time": "2025-01-14T10:30:00Z"
+    }
   }
 ]

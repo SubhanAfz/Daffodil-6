@@ -51,5 +51,59 @@
       "created_at": "2025-01-12T14:20:00Z",
       "updated_at": "2025-01-12T14:20:00Z"
     }
+  },
+
+  {
+  "model": "recipes.recipe",
+  "pk": 4,
+  "fields": {
+    "title": "Garlic Butter Shrimp",
+    "description": "Quick sautéed shrimp with garlic butter.",
+    "content": "Sauté shrimp in butter, garlic, and lemon.",
+    "author": 2,
+    "views": 55,
+    "is_reported": true,
+    "num_reports": 2,
+    "is_hidden": true,
+    "date_hidden": "2025-01-13T12:00:00Z",
+    "created_at": "2025-01-13T11:45:00Z",
+    "updated_at": "2025-01-13T11:45:00Z"
+  }
+ },
+
+ {
+    "model": "recipes.recipe",
+    "pk": 5,
+    "fields": {
+      "title": "Garlic Butter Pasta",
+      "description": "Simple pasta tossed in garlic butter.",
+      "content": "Boil pasta, melt butter with garlic, combine.",
+      "author": 2,
+      "views": 30,
+      "is_reported": true,
+      "num_reports": 2,
+      "is_hidden": true,
+      "date_hidden": "2025-01-14T08:00:00Z",
+      "created_at": "2025-01-13T16:50:00Z",
+      "updated_at": "2025-01-13T16:50:00Z"
+    }
+  },
+
+  {
+    "model": "recipes.recipe",
+    "pk": 6,
+    "fields": {
+      "title": "Coconut Curry Noodles",
+      "description": "Creamy curry noodles with coconut milk.",
+      "content": "Simmer broth with spices and coconut milk, add noodles.",
+      "author": 3,
+      "views": 55,
+      "is_reported": true,
+      "num_reports": 3,
+      "is_hidden": true,
+      "date_hidden": "2025-01-14T09:00:00Z",
+      "created_at": "2025-01-13T17:10:00Z",
+      "updated_at": "2025-01-13T17:10:00Z"
+    }
   }
 ]

@@ -17,7 +17,7 @@
         <form method="get" style="margin:0">
             <label for="order">List as:</label>
             <select name="order" id="order" onchange="this.form.submit()">
-                <option value="asc" {% if order == 'asc' %}selected{% endif %}>Waiting the Shortest</option>
+                <option value="asc" {% if order == 'asc' %}selected{% endif %}>Waiting the Longest</option>
                 <option value="desc" {% if order == 'desc' %}selected{% endif %}>Waiting the Shortest</option>
                 <option value="reports" {% if order == 'reports' %}selected{% endif %}>Most Reports</option>
             </select>

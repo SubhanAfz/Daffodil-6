@@ -18,7 +18,7 @@ def get_moderation_queue(request):
         list = Recipe.objects.all().filter(is_hidden=True, is_reported=True).order_by('-num_reports')
         num_unresolved_posts = len(list)
     else:
-        list = Recipe.objects.all().filter(is_hidden=True, is_reported=True).order_by('-date_hidden')
+        list = Recipe.objects.all().filter(is_hidden=True, is_reported=True).order_by('date_hidden')
         num_unresolved_posts = len(list)
 
     context = {
