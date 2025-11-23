@@ -1,6 +1,5 @@
 from django.forms import ValidationError
 from django.test import TestCase
-from django.utils import timezone
 from recipes.models.recipe import Recipe
 
 class RecipeModelTestCase(TestCase):

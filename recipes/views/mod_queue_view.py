@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from recipes.models.recipe import Recipe
-from recipes.models.report import Report
 
 def get_moderation_queue(request):
     """Get post and report information for mod queue page.

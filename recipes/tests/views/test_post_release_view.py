@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
 from recipes.models.recipe import Recipe
-from recipes.models.report import Report
 from recipes.models.user import User
 
 class PostDeleteViewTest(TestCase):
@@ -48,6 +47,7 @@ class PostDeleteViewTest(TestCase):
         self.assertTrue(is_hidden)
         
         response = self.client.post(self.url)
+        self.assertEqual(response.status_code, 302)
 
         is_hidden = Recipe.objects.get(pk=self.recipe.pk).is_hidden
         self.assertFalse(is_hidden)

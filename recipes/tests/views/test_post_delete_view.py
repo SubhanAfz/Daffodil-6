@@ -50,6 +50,7 @@ class PostDeleteViewTest(TestCase):
         self.assertTrue(reports_exist)
         
         response = self.client.post(self.url)
+        self.assertEqual(response.status_code, 302)
 
         recipe_exists = Recipe.objects.filter(pk=self.recipe.pk).exists()
         reports_exist = Report.objects.filter(recipe=self.recipe).exists()
