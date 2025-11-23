@@ -1,0 +1,55 @@
+[
+  {
+    "model": "recipes.recipe",
+    "pk": 1,
+    "fields": {
+      "title": "Herb Roasted Potatoes",
+      "description": "Simple roasted potatoes with herbs.",
+      "content": "Cut potatoes, mix with herbs and oil, roast at 425F.",
+      "author": 1,
+      "views": 12,
+      "is_reported": false,
+      "num_reports": 0,
+      "is_hidden": false,
+      "date_hidden": null,
+      "created_at": "2025-01-10T10:00:00Z",
+      "updated_at": "2025-01-10T10:00:00Z"
+    }
+  },
+
+  {
+    "model": "recipes.recipe",
+    "pk": 2,
+    "fields": {
+      "title": "Spicy Lentil Soup",
+      "description": "A warming lentil soup with spices.",
+      "content": "Simmer lentils with spices and vegetables.",
+      "author": 2,
+      "views": 42,
+      "is_reported": true,
+      "num_reports": 1,
+      "is_hidden": false,
+      "date_hidden": null,
+      "created_at": "2025-01-11T09:30:00Z",
+      "updated_at": "2025-01-11T09:30:00Z"
+    }
+  },
+
+  {
+    "model": "recipes.recipe",
+    "pk": 3,
+    "fields": {
+      "title": "Chocolate Layer Cake",
+      "description": "Rich and moist chocolate cake.",
+      "content": "Prepare batter, bake, and layer with frosting.",
+      "author": 3,
+      "views": 87,
+      "is_reported": true,
+      "num_reports": 3,
+      "is_hidden": false,
+      "date_hidden": null,
+      "created_at": "2025-01-12T14:20:00Z",
+      "updated_at": "2025-01-12T14:20:00Z"
+    }
+  }
+]

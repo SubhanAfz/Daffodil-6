@@ -4,6 +4,12 @@ from recipes.models.report import Report
 
 
 def get_reports_list(request):
+
+    """Get post and report information for Reports page.
+    
+    Gets the order tag of the page, if there isn't one then it takes the default of 'asc'.
+     It then makes the appropriate list based on the order and puts it in the context.  """
+    
     order = request.GET.get('order', 'asc')
 
     num_unresolved_reports = 0

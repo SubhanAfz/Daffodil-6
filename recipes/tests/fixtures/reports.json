@@ -1,0 +1,45 @@
+[
+ {
+    "model": "recipes.report",
+    "pk": 1,
+    "fields": {
+      "recipe": 2,
+      "reporter": 1,
+      "reason": "Inaccurate cooking time.",
+      "report_time": "2025-01-15T10:00:00Z"
+    }
+  },
+
+  {
+    "model": "recipes.report",
+    "pk": 2,
+    "fields": {
+      "recipe": 3,
+      "reporter": 2,
+      "reason": "Contains misleading nutritional claims.",
+      "report_time": "2025-01-16T12:00:00Z"
+    }
+  },
+
+  {
+    "model": "recipes.report",
+    "pk": 3,
+    "fields": {
+      "recipe": 3,
+      "reporter": 1,
+      "reason": "Steps are incomplete.",
+      "report_time": "2025-01-16T12:05:00Z"
+    }
+  },
+
+  {
+    "model": "recipes.report",
+    "pk": 4,
+    "fields": {
+      "recipe": 3,
+      "reporter": 3,
+      "reason": "Ingredients list does not match description.",
+      "report_time": "2025-01-16T12:10:00Z"
+    }
+  }
+]
