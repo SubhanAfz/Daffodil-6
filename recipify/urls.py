@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -22,14 +23,19 @@ from recipes import views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
-    path('dashboard/', views.dashboard, name='dashboard'),
-    path('log_in/', views.LogInView.as_view(), name='log_in'),
-    path('log_out/', views.log_out, name='log_out'),
-    path('password/', views.PasswordView.as_view(), name='password'),
-    path('profile/', views.ProfileUpdateView.as_view(), name='profile'),
-    path('sign_up/', views.SignUpView.as_view(), name='sign_up'),
-    path('recipe/<int:recipe_id>/', views.recipe_detail_view, name='recipe_detail'),
+    path("admin/", admin.site.urls),
+    path("reports/", views.get_reports_list, name="reports_list"),
+    path("moderation-queue/", views.get_moderation_queue, name="mod_queue"),
+    path("hide/<int:id>/", views.post_hide, name="post_hide"),
+    path("delete/<int:id>/", views.post_delete, name="post_delete"),
+    path("release/<int:id>/", views.post_release, name="post_release"),
+    path("", views.home, name="home"),
+    path("dashboard/", views.dashboard, name="dashboard"),
+    path("log_in/", views.LogInView.as_view(), name="log_in"),
+    path("log_out/", views.log_out, name="log_out"),
+    path("password/", views.PasswordView.as_view(), name="password"),
+    path("profile/", views.ProfileUpdateView.as_view(), name="profile"),
+    path("sign_up/", views.SignUpView.as_view(), name="sign_up"),
+    path("recipe/<int:recipe_id>/", views.recipe_detail_view, name="recipe_detail"),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

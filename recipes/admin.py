@@ -7,3 +7,4 @@ admin.site.register(Recipe)
 admin.site.register(User)
 admin.site.register(Like)
 admin.site.register(Favourite)
+

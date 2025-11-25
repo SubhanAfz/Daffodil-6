@@ -18,6 +18,12 @@ jobs:
               uses: astral-sh/ruff-action@v3
               with:
                   version: '0.14.5'
+            - name: Run Ruff Linter
+              run: |
+                  ruff check .
+            - name: Run Ruff Formatter (if this fails, please run uv run ruff format . --fix)
+              run: |
+                  ruff format --check .
     test:
         name: Run Tests
         runs-on: ubuntu-latest

@@ -1,0 +1,5 @@
+[format]
+exclude = ["recipes/migrations/*"]
+
+[lint]
+exclude = ["recipes/migrations/*"]

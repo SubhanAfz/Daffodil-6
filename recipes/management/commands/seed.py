@@ -7,9 +7,6 @@ are left untouched—if a create fails (e.g., due to duplicates), the error
 is swallowed and generation continues.
 """
 
-# ruff: noqa: F401
-# note to contributor: remove this comment above when it is completed (all the imports are used)
-
 from faker import Faker
 from random import randint
 from django.core.management.base import BaseCommand
@@ -19,9 +16,25 @@ from recipes.models import Recipe
 
 
 user_fixtures = [
-    {'username': '@johndoe', 'email': 'john.doe@example.org', 'first_name': 'John', 'last_name': 'Doe'},
-    {'username': '@janedoe', 'email': 'jane.doe@example.org', 'first_name': 'Jane', 'last_name': 'Doe'},
-    {'username': '@charlie', 'email': 'charlie.johnson@example.org', 'first_name': 'Charlie', 'last_name': 'Johnson'},
+    {
+        "username": "@johndoe",
+        "email": "john.doe@example.org",
+        "first_name": "John",
+        "last_name": "Doe",
+        "is_superuser": True,
+    },
+    {
+        "username": "@janedoe",
+        "email": "jane.doe@example.org",
+        "first_name": "Jane",
+        "last_name": "Doe",
+    },
+    {
+        "username": "@charlie",
+        "email": "charlie.johnson@example.org",
+        "first_name": "Charlie",
+        "last_name": "Johnson",
+    },
 ]
 
 
@@ -43,8 +56,8 @@ class Command(BaseCommand):
     USER_COUNT = 200
     RECIPES_PER_USER = 2
     SEEDED_RECIPE_COUNT = USER_COUNT * RECIPES_PER_USER
-    DEFAULT_PASSWORD = 'Password123'
-    help = 'Seeds the database with sample data'
+    DEFAULT_PASSWORD = "Password123"
+    help = "Seeds the database with sample data"
 
     def __init__(self, *args, **kwargs):
         """Initialize the command with a locale-specific Faker instance."""
@@ -71,43 +84,45 @@ class Command(BaseCommand):
         for user in users:
             for _ in range(self.RECIPES_PER_USER):
                 recipe_count = Recipe.objects.count()
-                print(f"Seeding recipes {recipe_count}/{self.SEEDED_RECIPE_COUNT}", end='\r')
+                print(
+                    f"Seeding recipes {recipe_count}/{self.SEEDED_RECIPE_COUNT}",
+                    end="\r",
+                )
 
                 recipe_data = self.generate_recipe_data(user)
                 self.try_create_recipe(recipe_data)
 
-
     def generate_recipe_data(self, user):
         """
         Generate random recipe data for a given user.
-        
+
         Args:
             user (User): The author of the recipe.
 
         Returns:
-            dict: Mapping with recipe data | ``title``, ``description``, 
+            dict: Mapping with recipe data | ``title``, ``description``,
             ``content``, ``author``, ``created_at``, ``updated_at``, ``views`` |.
         """
-        
+
         title = self.faker.sentence(nb_words=6)
         description = self.faker.paragraph(nb_sentences=3)
         content = self.faker.text(max_nb_chars=2000)
         return {
-            'title': title,
-            'description': description,
-            'content': content,
-            'author': user,
-            'created_at': self.faker.date_time_this_year(),
-            'updated_at': self.faker.date_time_this_year(),
-            'views': randint(0, 1000),
+            "title": title,
+            "description": description,
+            "content": content,
+            "author": user,
+            "created_at": self.faker.date_time_this_year(),
+            "updated_at": self.faker.date_time_this_year(),
+            "views": randint(0, 1000),
         }
 
     def try_create_recipe(self, data):
         """
         Attempt to create a recipe and ignore any errors.
-        
+
         Args:
-            data (dict): Mapping with recipe data | ``title``, ``description``, 
+            data (dict): Mapping with recipe data | ``title``, ``description``,
             ``content``, ``author``, ``created_at``, ``updated_at``, ``views`` |.
         """
         try:
@@ -119,20 +134,19 @@ class Command(BaseCommand):
         """
         Create a recipe with the given data.
         Args:
-            data (dict): Mapping with recipe data | ``title``, ``description``, 
+            data (dict): Mapping with recipe data | ``title``, ``description``,
             ``content``, ``author``, ``created_at``, ``updated_at``, ``views`` |.
         """
-        
+
         Recipe.objects.create(
-            title=data['title'],
-            description=data['description'],
-            content=data['content'],
-            author=data['author'],
-            created_at=data['created_at'],
-            updated_at=data['updated_at'],
-            views=data['views'],
+            title=data["title"],
+            description=data["description"],
+            content=data["content"],
+            author=data["author"],
+            created_at=data["created_at"],
+            updated_at=data["updated_at"],
+            views=data["views"],
         )
-    
 
     def create_users(self):
         """
@@ -156,8 +170,8 @@ class Command(BaseCommand):
         Prints a simple progress indicator to stdout during generation.
         """
         user_count = User.objects.count()
-        while  user_count < self.USER_COUNT:
-            print(f"Seeding user {user_count}/{self.USER_COUNT}", end='\r')
+        while user_count < self.USER_COUNT:
+            print(f"Seeding user {user_count}/{self.USER_COUNT}", end="\r")
             self.generate_user()
             user_count = User.objects.count()
         print("User seeding complete.      ")
@@ -172,8 +186,15 @@ class Command(BaseCommand):
         last_name = self.faker.last_name()
         email = create_email(first_name, last_name)
         username = create_username(first_name, last_name)
-        self.try_create_user({'username': username, 'email': email, 'first_name': first_name, 'last_name': last_name})
-       
+        self.try_create_user(
+            {
+                "username": username,
+                "email": email,
+                "first_name": first_name,
+                "last_name": last_name,
+            }
+        )
+
     def try_create_user(self, data):
         """
         Attempt to create a user and ignore any errors.
@@ -187,7 +208,7 @@ class Command(BaseCommand):
         except IntegrityError:
             pass
 
-    def create_user(self, data):
+    def create_user(self, data: dict):
         """
         Create a user with the default password.
 
@@ -195,13 +216,23 @@ class Command(BaseCommand):
             data (dict): Mapping with keys ``username``, ``email``,
                 ``first_name``, and ``last_name``.
         """
-        User.objects.create_user(
-            username=data['username'],
-            email=data['email'],
-            password=Command.DEFAULT_PASSWORD,
-            first_name=data['first_name'],
-            last_name=data['last_name'],
-        )
+        if data.get("is_superuser", False):
+            User.objects.create_superuser(
+                username=data["username"],
+                email=data["email"],
+                password=Command.DEFAULT_PASSWORD,
+                first_name=data["first_name"],
+                last_name=data["last_name"],
+            )
+        else:
+            User.objects.create_user(
+                username=data["username"],
+                email=data["email"],
+                password=Command.DEFAULT_PASSWORD,
+                first_name=data["first_name"],
+                last_name=data["last_name"],
+            )
+
 
 def create_username(first_name, last_name):
     """
@@ -214,7 +245,8 @@ def create_username(first_name, last_name):
     Returns:
         str: A username in the form ``@{firstname}{lastname}`` (lowercased).
     """
-    return '@' + first_name.lower() + last_name.lower()
+    return "@" + first_name.lower() + last_name.lower()
+
 
 def create_email(first_name, last_name):
     """
@@ -227,4 +259,4 @@ def create_email(first_name, last_name):
     Returns:
         str: An email in the form ``{firstname}.{lastname}@example.org``.
     """
-    return first_name + '.' + last_name + '@example.org'
+    return first_name + "." + last_name + "@example.org"
