@@ -7,8 +7,6 @@ are left untouched—if a create fails (e.g., due to duplicates), the error
 is swallowed and generation continues.
 """
 
-# ruff: noqa: F401
-# note to contributor: remove this comment above when it is completed (all the imports are used)
 
 from faker import Faker
 from random import randint
@@ -19,7 +17,7 @@ from recipes.models import Recipe
 
 
 user_fixtures = [
-    {'username': '@johndoe', 'email': 'john.doe@example.org', 'first_name': 'John', 'last_name': 'Doe'},
+    {'username': '@johndoe', 'email': 'john.doe@example.org', 'first_name': 'John', 'last_name': 'Doe', "is_superuser": True},
     {'username': '@janedoe', 'email': 'jane.doe@example.org', 'first_name': 'Jane', 'last_name': 'Doe'},
     {'username': '@charlie', 'email': 'charlie.johnson@example.org', 'first_name': 'Charlie', 'last_name': 'Johnson'},
 ]
@@ -187,7 +185,7 @@ class Command(BaseCommand):
         except IntegrityError:
             pass
 
-    def create_user(self, data):
+    def create_user(self, data: dict):
         """
         Create a user with the default password.
 
@@ -195,13 +193,22 @@ class Command(BaseCommand):
             data (dict): Mapping with keys ``username``, ``email``,
                 ``first_name``, and ``last_name``.
         """
-        User.objects.create_user(
-            username=data['username'],
-            email=data['email'],
-            password=Command.DEFAULT_PASSWORD,
-            first_name=data['first_name'],
-            last_name=data['last_name'],
-        )
+        if data.get("is_superuser", False):
+            User.objects.create_superuser(
+                username=data['username'],
+                email=data['email'],
+                password=Command.DEFAULT_PASSWORD,
+                first_name=data['first_name'],
+                last_name=data['last_name'],
+            )
+        else:
+            User.objects.create_user(
+                username=data['username'],
+                email=data['email'],
+                password=Command.DEFAULT_PASSWORD,
+                first_name=data['first_name'],
+                last_name=data['last_name'],
+            )
 
 def create_username(first_name, last_name):
     """

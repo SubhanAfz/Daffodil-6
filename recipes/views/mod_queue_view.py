@@ -12,13 +12,13 @@ def get_moderation_queue(request):
     num_unresolved_posts = 0
     if order == "desc":
         list = Recipe.objects.all().filter(is_hidden=True, is_reported=True).order_by('-date_hidden')
-        num_unresolved_posts = len(list)
+        num_unresolved_posts = list.count()
     elif order == "reports":
         list = Recipe.objects.all().filter(is_hidden=True, is_reported=True).order_by('-num_reports')
-        num_unresolved_posts = len(list)
+        num_unresolved_posts = list.count()
     else:
         list = Recipe.objects.all().filter(is_hidden=True, is_reported=True).order_by('date_hidden')
-        num_unresolved_posts = len(list)
+        num_unresolved_posts = list.count()
 
     context = {
         'num_posts' : num_unresolved_posts,
