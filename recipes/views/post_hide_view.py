@@ -1,7 +1,8 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth.decorators import login_required
 from recipes.models.recipe import Recipe
 
-
+@login_required
 def post_hide(request, id):
     """Hide a post from public view by users.
     

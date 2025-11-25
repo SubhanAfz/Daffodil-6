@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-class test_reports_lies_view(TestCase):
+class ReportsListViewTest(TestCase):
     fixtures = [
         "recipes/tests/fixtures/default_user.json",
         "recipes/tests/fixtures/other_users.json",

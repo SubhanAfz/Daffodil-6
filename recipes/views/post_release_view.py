@@ -1,8 +1,10 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth.decorators import login_required
 from recipes.models.recipe import Recipe
 from recipes.models.report import Report
 
 
+@login_required
 def post_release(request, id):
     """Release a post back to public view by users.
     

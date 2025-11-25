@@ -1,8 +1,9 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from recipes.models.recipe import Recipe
 from recipes.models.report import Report
 
-
+@login_required
 def get_reports_list(request):
 
     """Get post and report information for Reports page.

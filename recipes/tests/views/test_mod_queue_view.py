@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from recipes.models.recipe import Recipe
 
-class test_reports_lies_view(TestCase):
+class ModQueueViewTest(TestCase):
     fixtures = [
         "recipes/tests/fixtures/default_user.json",
         "recipes/tests/fixtures/other_users.json",

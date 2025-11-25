@@ -3,8 +3,8 @@ from django.urls import reverse
 from recipes.models.recipe import Recipe
 from recipes.models.user import User
 
-class PostDeleteViewTest(TestCase):
-    """ Test the delete post view. """
+class PostHideViewTest(TestCase):
+    """ Test the hide post view. """
 
     fixtures = [
         "recipes/tests/fixtures/default_user.json",
@@ -25,9 +25,9 @@ class PostDeleteViewTest(TestCase):
         self.url = reverse("post_hide", args=[self.recipe.pk])
 
     def test_non_staff_gets_403(self):
-        """Non-superusers get a 403 error page when attempting to delete a recipe."""
+        """Non-staff users get a 403 error page when attempting to hide a recipe."""
         
-        self.client.login(username="@johndoe", password="Password123")
+        self.client.login(username="@janedoe", password="Password123")
         response = self.client.get(self.url)
         self.assertTemplateUsed(response, "403_error.html")
 
@@ -38,19 +38,19 @@ class PostDeleteViewTest(TestCase):
         response = self.client.get(self.url)
         self.assertTemplateUsed(response, "405_error.html")
 
-    def test_deletes_hides_recipe(self):
+    def test_hides_recipe(self):
         """A staff user hiding a recipe leads to the recipe being hidden"""
 
         self.client.login(username="@superuser", password="Password123")
 
-        is_hidden = Recipe.objects.get(pk=self.recipe.pk).is_hidden
-        self.assertFalse(is_hidden)
+        recipe = Recipe.objects.get(pk=self.recipe.pk)
+        self.assertFalse(recipe.is_hidden)
         
         response = self.client.post(self.url)
         self.assertEqual(response.status_code, 302)
 
-        is_hidden = Recipe.objects.get(pk=self.recipe.pk).is_hidden
-        self.assertTrue(is_hidden)
+        recipe.refresh_from_db()
+        self.assertTrue(recipe.is_hidden)
 
 
     

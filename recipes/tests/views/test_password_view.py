@@ -1,7 +1,4 @@
 """Tests for the password view."""
-# ruff: noqa: F401
-# note to contributor: remove this comment above when it is completed (all the imports are used)
-from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from django.test import TestCase
 from django.urls import reverse
