@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from recipes.models.recipe import Recipe
 
+
 class ModQueueViewTest(TestCase):
     fixtures = [
         "recipes/tests/fixtures/default_user.json",
@@ -49,7 +50,7 @@ class ModQueueViewTest(TestCase):
             hide_times.append(recipe.date_hidden)
 
         self.assertEqual(hide_times, sorted(hide_times, reverse=True))
-            
+
     def test_order_reports(self):
         """Test list returned is posts in descending order of num_reports."""
 
@@ -58,26 +59,26 @@ class ModQueueViewTest(TestCase):
 
         list = response.context["list"]
 
-        num_reports =[]
+        num_reports = []
         for post in list:
             num_reports.append(post.num_reports)
 
         self.assertEqual(num_reports, sorted(num_reports, reverse=True))
 
     def test_returns_all_hidden_posts(self):
-        """Test all 3 key words return a list containing all hidden posts. """
+        """Test all 3 key words return a list containing all hidden posts."""
 
         self.client.login(username="@superuser", password="Password123")
         hidden_items_set = set(Recipe.objects.filter(is_hidden=True))
 
         response = self.client.get(self.url, {"order": "asc"})
         asclist = response.context["list"]
-        self.assertSetEqual(set(asclist),hidden_items_set)
+        self.assertSetEqual(set(asclist), hidden_items_set)
 
         response = self.client.get(self.url, {"order": "desc"})
         desclist = response.context["list"]
-        self.assertSetEqual(set(desclist),hidden_items_set)
+        self.assertSetEqual(set(desclist), hidden_items_set)
 
         response = self.client.get(self.url, {"order": "reports"})
         num_reportslist = response.context["list"]
-        self.assertSetEqual(set(num_reportslist),hidden_items_set)
+        self.assertSetEqual(set(num_reportslist), hidden_items_set)

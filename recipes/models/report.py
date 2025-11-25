@@ -3,10 +3,10 @@ import django.db.models as models
 from recipes.models.recipe import Recipe
 from recipes.models.user import User
 
-class Report (models.Model):
 
-    """Model for one report of a post/recipe.
-    """
+class Report(models.Model):
+    """Model for one report of a post/recipe."""
+
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     reporter = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     reason = models.CharField(max_length=1200)

@@ -4,8 +4,9 @@ from recipes.models.recipe import Recipe
 from recipes.models.report import Report
 from recipes.models.user import User
 
+
 class PostDeleteViewTest(TestCase):
-    """ Test the delete post view. """
+    """Test the delete post view."""
 
     fixtures = [
         "recipes/tests/fixtures/default_user.json",
@@ -13,7 +14,7 @@ class PostDeleteViewTest(TestCase):
         "recipes/tests/fixtures/recipes.json",
         "recipes/tests/fixtures/reports.json",
         "recipes/tests/fixtures/staff_user.json",
-        "recipes/tests/fixtures/superuser_user.json"
+        "recipes/tests/fixtures/superuser_user.json",
     ]
 
     def setUp(self):
@@ -27,7 +28,7 @@ class PostDeleteViewTest(TestCase):
 
     def test_non_super_gets_403(self):
         """Non-superusers get a 403 error page when attempting to delete a recipe."""
-        
+
         self.client.login(username="@johndoe", password="Password123")
         response = self.client.get(self.url)
         self.assertTemplateUsed(response, "403_error.html")
@@ -48,7 +49,7 @@ class PostDeleteViewTest(TestCase):
         reports_exist = Report.objects.filter(recipe=self.recipe).exists()
         self.assertTrue(recipe_exists)
         self.assertTrue(reports_exist)
-        
+
         response = self.client.post(self.url)
         self.assertEqual(response.status_code, 302)
 
@@ -56,8 +57,3 @@ class PostDeleteViewTest(TestCase):
         reports_exist = Report.objects.filter(recipe=self.recipe).exists()
         self.assertFalse(recipe_exists)
         self.assertFalse(reports_exist)
-
-
-    
-
-

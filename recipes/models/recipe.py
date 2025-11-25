@@ -34,6 +34,3 @@ class Recipe(models.Model):
     def set_reports(self, num):
         self.num_reports = num
         self.is_reported = num > 0
-
-            
-        

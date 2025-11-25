@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
+
 class ReportsListViewTest(TestCase):
     fixtures = [
         "recipes/tests/fixtures/default_user.json",
@@ -23,7 +24,7 @@ class ReportsListViewTest(TestCase):
 
     def test_order_asc(self):
         """Test the order of reports is correct when requesting order is asc."""
-        
+
         self.client.login(username="@superuser", password="Password123")
         response = self.client.get(self.url, {"order": "asc"})
 
@@ -48,7 +49,7 @@ class ReportsListViewTest(TestCase):
             report_times.append(report.report_time)
 
         self.assertEqual(report_times, sorted(report_times))
-            
+
     def test_order_post(self):
         """Test list returned is posts in descending order of num_reports."""
 
@@ -57,9 +58,8 @@ class ReportsListViewTest(TestCase):
 
         list = response.context["list"]
 
-        num_reports =[]
+        num_reports = []
         for post in list:
             num_reports.append(post.num_reports)
 
         self.assertEqual(num_reports, sorted(num_reports, reverse=True))
-

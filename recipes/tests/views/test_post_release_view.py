@@ -3,8 +3,9 @@ from django.urls import reverse
 from recipes.models.recipe import Recipe
 from recipes.models.user import User
 
+
 class PostReleaseViewTest(TestCase):
-    """ Test the release post view. """
+    """Test the release post view."""
 
     fixtures = [
         "recipes/tests/fixtures/default_user.json",
@@ -12,7 +13,7 @@ class PostReleaseViewTest(TestCase):
         "recipes/tests/fixtures/recipes.json",
         "recipes/tests/fixtures/reports.json",
         "recipes/tests/fixtures/staff_user.json",
-        "recipes/tests/fixtures/superuser_user.json"
+        "recipes/tests/fixtures/superuser_user.json",
     ]
 
     def setUp(self):
@@ -26,7 +27,7 @@ class PostReleaseViewTest(TestCase):
 
     def test_non_super_gets_403(self):
         """Non-superusers get a 403 error page when attempting to release a recipe."""
-        
+
         self.client.login(username="@janedoe", password="Password123")
         response = self.client.get(self.url)
         self.assertTemplateUsed(response, "403_error.html")
@@ -45,15 +46,10 @@ class PostReleaseViewTest(TestCase):
         recipe = Recipe.objects.get(pk=self.recipe.pk)
         recipe.set_hidden()
         self.assertTrue(recipe.is_hidden)
-        
+
         response = self.client.post(self.url)
         self.assertEqual(response.status_code, 302)
-        
+
         recipe.refresh_from_db()
-        
+
         self.assertFalse(recipe.is_hidden)
-
-
-    
-
-
