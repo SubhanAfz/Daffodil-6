@@ -1,0 +1,72 @@
+{% extends 'base_content.html' %}
+{% block content %}
+
+{% if request.user.is_staff %}
+    <h1>
+        Reported Posts
+    </h1>
+    <header>
+        <p>Welcome, {{ request.user.username }}</p>
+    </header>
+    <div style="display:flex; align-items:center; gap:50px">
+        {% if num_reports == 1 %}
+            <p style="margin:0">There is 1 report awaiting decision.</p>
+        {% else %}
+            <p style="margin:0">There are {{ num_reports }} reports awaiting decision.</p>
+        {% endif %}
+        <form method="get" style="margin:0">
+            <label for="order">List as:</label>
+            <select name="order" id="order" onchange="this.form.submit()">
+                <option value="asc" {% if order == 'asc' %}selected{% endif %}>Oldest Reports First</option>
+                <option value="desc" {% if order == 'desc' %}selected{% endif %}>Newest Reports First</option>
+                <option value="posts" {% if order == 'posts' %}selected{% endif %}>Posts</option>
+            </select>
+        </form>
+    </div>
+    {% if num_reports == 0 %}
+        <p>There are no reports!</p>
+    {% else %}
+        {% if order == 'posts' %}
+            {% for item in list %}
+                <li style="display:flex; align-items:center; gap:20px">
+                    {{ item.report_info_str }}
+                    <button>View Post</button>
+                    <form action="{% url 'post_hide' item.id %}" method="post"> <!-- Delete object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
+                        {% csrf_token %}
+                        <input type="submit" value="Hide post"> 
+                    </form>
+                    {% if request.user.is_superuser %}
+                    <form action="{% url 'post_delete' item.id %}" method="post"> <!-- Release object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
+                        {% csrf_token %}
+                        <input type="submit" value="Delete post"> 
+                    </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        {% else %}
+            {% for item in list %}
+                <li style="display:flex; align-items:center; gap:20px">
+                    {{ item.report_str }}
+                    <button>View Post</button>
+                    <form action="{% url 'post_hide' item.recipe.id %}" method="post"> <!-- Delete object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
+                        {% csrf_token %}
+                        <input type="submit" value="Hide post"> 
+                    </form>
+                    {% if request.user.is_superuser %}
+                        <form action="{% url 'post_delete' item.recipe.id %}" method="post"> <!-- Release object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
+                            {% csrf_token %}
+                            <input type="submit" value="Delete post"> 
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% else %}
+    <header>
+        Error 403: Forbidden
+    </header>
+    <p>You are not authorised to access this page!</p>
+{% endif %}
+
+{% endblock %}

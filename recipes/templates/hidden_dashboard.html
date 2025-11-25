@@ -1,0 +1,54 @@
+{% extends 'base_content.html' %}
+{% block content %}
+
+{% if request.user.is_staff %}
+    <h1>
+        Moderation Queue
+    </h1>
+    <header>
+        <p>Welcome, {{ request.user.username }}</p>
+    </header>
+    <div style="display:flex; align-items:center; gap:50px">
+        {% if num_posts == 1 %}
+            <p style="margin:0">There is 1 post awaiting decision.</p>
+        {% else %}
+            <p style="margin:0">There are {{ num_posts }} posts awaiting decision.</p>
+        {% endif %}
+        <form method="get" style="margin:0">
+            <label for="order">List as:</label>
+            <select name="order" id="order" onchange="this.form.submit()">
+                <option value="asc" {% if order == 'asc' %}selected{% endif %}>Waiting the Longest</option>
+                <option value="desc" {% if order == 'desc' %}selected{% endif %}>Waiting the Shortest</option>
+                <option value="reports" {% if order == 'reports' %}selected{% endif %}>Most Reports</option>
+            </select>
+        </form>
+    </div>
+
+    {% if num_posts == 0 %}
+        <p>There are no posts!</p>
+    {% else %}
+        {% for item in list %}
+            <li style="display:flex; align-items:center; gap:20px">
+                {{ item.report_info_str }}
+                <button>View Post</button>
+                {% if request.user.is_superuser %}
+                <form action="{% url 'post_release' item.id %}" method="post"> <!-- Release object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
+                    {% csrf_token %}
+                    <input type="submit" value="Release post"> 
+                </form>
+                <form action="{% url 'post_delete' item.id %}" method="post"> <!-- Release object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
+                    {% csrf_token %}
+                    <input type="submit" value="Delete post"> 
+                </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    {% endif %}
+{% else %}
+    <header>
+        Error 403: Forbidden
+    </header>
+    <p>You are not authorised to access this page!</p>
+{% endif %}
+
+{% endblock %}

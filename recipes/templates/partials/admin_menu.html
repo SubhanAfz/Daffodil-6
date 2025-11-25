@@ -1,0 +1,14 @@
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+    <li class="nav-item dropdown">
+      <a class="nav-link" href="#" id="user-account-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="bi-shield-shaded" style="color: rgb(201, 47, 47)"></span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-account-dropdown">
+        <li><a class="dropdown-item" href="{% url 'reports_list' %}">Reports</a></li>
+        <li><a class="dropdown-item" href="{% url 'mod_queue' %}">Moderation Queue</a></li>
+        <li><a class="dropdown-item" href="{% url 'dashboard' %}">Admin</a></li>
+      </ul>
+    </li>
+  </ul>
+</div> 
