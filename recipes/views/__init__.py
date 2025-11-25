@@ -6,6 +6,7 @@ from .log_out_view import *
 from .password_view import *
 from .profile_view import *
 from .sign_up_view import *
+from .recipe_detail_view import * 
 from .reports_list_view import *
 from .post_hide_view import *
 from .post_release_view import *
