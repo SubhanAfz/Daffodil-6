@@ -48,7 +48,7 @@ class ModQueueViewTest(TestCase):
         for recipe in list:
             hide_times.append(recipe.date_hidden)
 
-        self.assertEqual(hide_times, sorted(hide_times,reverse=True))
+        self.assertEqual(hide_times, sorted(hide_times, reverse=True))
             
     def test_order_reports(self):
         """Test list returned is posts in descending order of num_reports."""

@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from recipes.models.recipe import Recipe
 
+@login_required
 def get_moderation_queue(request):
     """Get post and report information for mod queue page.
     

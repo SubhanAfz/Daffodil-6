@@ -33,7 +33,7 @@ class ReportsListViewTest(TestCase):
         for report in list:
             report_times.append(report.report_time)
 
-        self.assertEqual(report_times, sorted(report_times,reverse=True))
+        self.assertEqual(report_times, sorted(report_times, reverse=True))
 
     def test_order_desc(self):
         """Test the order of reports is correct when requesting order is desc."""
