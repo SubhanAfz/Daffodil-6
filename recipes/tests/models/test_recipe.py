@@ -21,11 +21,11 @@ class RecipeModelTestCase(TestCase):
     def test_title_must_be_less_than_200_characters(self):
         """Test validity of title with 201 characters"""
 
-        self.recipe.title="kchraecniymklfdptacdzlqufcftqsoshhylxumlllmqqwdlnwqjqbbrghbaxsigfcoarmouobvlquvpkutxsmmfrfuhordwzmjomxcwziumjoqwqzuhkhimphwdtdixuisclusaghqfwpgxttfwxbkyheglrxnrwdgdzzhgmrngthjozwywbyhbazhmsnmobqvuaqhbr"
+        self.recipe.title="a" * 201
         self._assert_recipe_is_invalid()
 
         """Test validity of title with 200 characters"""
-        self.recipe.title="zreuzugjjiwksovvlhdwauqxcuvdomknpffsncvrkcxyafpndmxnsxqzaaapcrthteveypujovgabfhfqvxoiwgunqztruvivqnwbzqoohpcuxohpucgpkxibvxsnfzcgtevhuwclhexsovrvywabgmafpenidgcfmbzieebixlrjvprrmaoskvqulgaxikhzeztbgpe"
+        self.recipe.title="a" * 200
         self._assert_recipe_is_valid()
 
     def _assert_recipe_is_valid(self):
