@@ -37,7 +37,7 @@ class ModQueueViewTest(TestCase):
         self.assertEqual(hide_times, sorted(hide_times))
 
     def test_order_desc(self):
-        """Test the order of posts is correct when requesting order is asc."""
+        """Test the order of posts is correct when requesting order is desc."""
 
         self.client.login(username="@superuser", password="Password123")
         response = self.client.get(self.url, {"order": "desc"})
