@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseNotAllowed
+
+
 class HTTP405MethodNotAllowedMiddleware:
     """
     Middleware to handle HTTP 405 Method Not Allowed errors..
