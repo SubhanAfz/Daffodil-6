@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseNotAllowed
 from django.contrib.auth.decorators import login_required
 from recipes.models.recipe import Recipe
 
@@ -19,3 +20,5 @@ def post_hide(request, id):
         post.set_hidden()
         post.save()
         return redirect(request.META.get("HTTP_REFERER", "/"))
+    else:
+        return HttpResponseNotAllowed(["POST"])

@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseNotAllowed
 from recipes.models.recipe import Recipe
 from recipes.models.report import Report
 
@@ -22,3 +23,5 @@ def post_release(request, id):
         post.save()
         Report.objects.filter(recipe=post).delete()
         return redirect(request.META.get("HTTP_REFERER", "/"))
+    else:
+        return HttpResponseNotAllowed(["POST"])
