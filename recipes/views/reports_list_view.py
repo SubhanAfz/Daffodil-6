@@ -15,7 +15,7 @@ def get_reports_list(request: HttpRequest):
 
     if not request.user.is_staff:
         raise PermissionDenied
-    
+
     order = request.GET.get("order", "asc")
 
     num_unresolved_reports = 0

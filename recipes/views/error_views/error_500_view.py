@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 def error_500_view(request):
     """
     Custom 500 Internal Server Error handler.

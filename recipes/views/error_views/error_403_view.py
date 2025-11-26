@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 def error_403_view(request, exception=None):
     """
     Custom 403 Forbidden error handler.

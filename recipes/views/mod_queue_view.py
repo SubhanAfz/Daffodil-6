@@ -14,7 +14,7 @@ def get_moderation_queue(request: HttpRequest):
 
     if not request.user.is_staff:
         raise PermissionDenied
-    
+
     order = request.GET.get("order", "asc")
 
     num_unresolved_posts = 0

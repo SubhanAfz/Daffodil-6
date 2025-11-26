@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 def error_404_view(request, exception=None):
     """
     Custom 404 Not Found error handler.
