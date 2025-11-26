@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from recipes.models.recipe import Recipe
