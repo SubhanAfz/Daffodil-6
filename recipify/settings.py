@@ -27,17 +27,19 @@ SECRET_KEY = "django-insecure-n*%ityrpt9+wxz#e%i(&7_1e=w-dv1h33&$n(mg=$0&8m0k5f-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "True") == "True"
-
+PRODUCTION = os.getenv("PRODUCTION", "False") == "True"
 ALLOWED_HOSTS = []
 
-if not DEBUG:
+if not DEBUG and PRODUCTION:
     ALLOWED_HOSTS.append("recipify.subhan.work")  # Production Hostname
     CSRF_TRUSTED_ORIGINS = ["https://recipify.subhan.work"]
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+elif not DEBUG and not PRODUCTION:
+    ALLOWED_HOSTS.extend(["127.0.0.1", "localhost"])
 else:
-    ALLOWED_HOSTS.extend(["127.0.0.1", "localhost"])  # Development Hostnames
+    ALLOWED_HOSTS.extend(["127.0.0.1", "localhost"])
 
 INSTALLED_APPS = [
     "django.contrib.admin",
