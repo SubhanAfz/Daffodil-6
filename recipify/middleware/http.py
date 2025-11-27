@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseNotAllowed
-
+from recipes.views.error_views import error_405_view
 
 class HTTP405MethodNotAllowedMiddleware:
     """
@@ -13,5 +13,5 @@ class HTTP405MethodNotAllowedMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
         if isinstance(response, HttpResponseNotAllowed):
-            return render(request, "405_error.html", status=405)
+            return error_405_view(request)
         return response
