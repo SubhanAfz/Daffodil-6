@@ -1,10 +1,52 @@
 {% extends 'base_content.html' %}
+
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <h1>Welcome to your dashboard {{ user.username }}</h1>
+<div class="container mt-5">
+    <div class="row align-items-center mb-4">
+        <div class="col-md-6">
+            <h1 class="display-4 fw-bold">{{ user.username }}</h1>
+        </div>
+        <div class="col-md-6 text-md-end text-center">
+            <div class="d-inline-block me-4">
+                <span class="d-block fw-bold h4 mb-0">589</span>
+                <small class="text-muted">Followers</small>
+            </div>
+            <div class="d-inline-block">
+                <span class="d-block fw-bold h4 mb-0">589</span>
+                <small class="text-muted">Following</small>
+            </div>
+        </div>
     </div>
-  </div>
+
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="d-flex gap-3">
+                <a href="{% url 'profile' %}" class="btn btn-outline-dark px-4">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <hr class="mb-5">
+
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h2 class="fw-bold">Your Delicious Recipes</h2>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% for item in recipes %}
+        <div class="col">
+            <div class="card border-0 shadow-sm">
+                <!-- image will be here -->
+                <div style="height: 200px; width: 100%; background-color: #555;"></div>
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ item.title }}</h5>
+                    <p class="card-text text-muted">{{ item.author.username }}</p>
+                    <a href="{% url 'recipe_detail' item.id %}" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

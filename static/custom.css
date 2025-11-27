@@ -15,9 +15,22 @@
   padding-top: 10px;
 }
 
-.h-100 {
+.container.h-100,
+.row.h-100 {
   min-height: 100vh;
   height: 100vh;
+}
+
+/* ensure cards in grid don't stretch unnecessarily */
+.row .card {
+  height: auto;
+  max-height: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.row .card .card-body {
+  flex-grow: 0;
 }
 
 .vcenter-item{
