@@ -23,9 +23,10 @@ def recipe_detail_view(request, recipe_id):
     if request.user.is_authenticated:
         is_liked = recipe.liked_by.filter(user=request.user).exists()
         is_favourited = recipe.favourited_by.filter(user=request.user).exists()
-
+    likes = recipe.liked_by.count()
+    favourites = recipe.favourited_by.count()
     return render(
         request,
         "recipe_detail.html",
-        {"recipe": recipe, "is_liked": is_liked, "is_favourited": is_favourited},
+        {"recipe": recipe, "is_liked": is_liked, "is_favourited": is_favourited, "likes": likes, "favourites": favourites},
     )

@@ -8,7 +8,17 @@
                     <span class="me-3"
                         >By <strong>{{ recipe.author }}</strong></span
                     >
-                    <span>{{ recipe.views }} views</span>
+                    <span>{{ recipe.views }} views</span>,
+                    {% if likes == 1 %}
+                    <span>{{ likes }} like</span>,
+                    {% else %}
+                    <span>{{ likes }} likes</span>,
+                    {% endif %}
+                    {% if favourites == 1 %}
+                    <span>{{ favourites }} favourite</span>
+                    {% else %}
+                    <span>{{ favourites }} favourites</span>
+                    {% endif %}
                 </div>
             </div>
 
