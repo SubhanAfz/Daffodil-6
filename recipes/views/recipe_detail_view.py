@@ -28,5 +28,11 @@ def recipe_detail_view(request, recipe_id):
     return render(
         request,
         "recipe_detail.html",
-        {"recipe": recipe, "is_liked": is_liked, "is_favourited": is_favourited, "likes": likes, "favourites": favourites},
+        {
+            "recipe": recipe,
+            "is_liked": is_liked,
+            "is_favourited": is_favourited,
+            "likes": likes,
+            "favourites": favourites,
+        },
     )
