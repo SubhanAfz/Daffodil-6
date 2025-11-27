@@ -18,4 +18,14 @@ def recipe_detail_view(request, recipe_id):
     recipe.save(update_fields=["views"])
     recipe.refresh_from_db()
 
-    return render(request, "recipe_detail.html", {"recipe": recipe})
+    is_liked = False
+    is_favourited = False
+    if request.user.is_authenticated:
+        is_liked = recipe.liked_by.filter(user=request.user).exists()
+        is_favourited = recipe.favourited_by.filter(user=request.user).exists()
+
+    return render(
+        request,
+        "recipe_detail.html",
+        {"recipe": recipe, "is_liked": is_liked, "is_favourited": is_favourited},
+    )
