@@ -1,6 +1,4 @@
-{% extends 'base_content.html' %}
-
-{% block content %}
+{% extends 'base_content.html' %} {% block content %}
 <div class="container mt-5">
     <div class="row align-items-center mb-4">
         <div class="col-md-6">
@@ -21,14 +19,24 @@
     <div class="row mb-5">
         <div class="col-12">
             <div class="d-flex gap-3">
-                <a href="{% url 'profile' %}" class="btn btn-outline-dark px-4">Edit Profile</a>
-                <a href="{% url 'like_list' %}" class="btn btn-outline-dark px-4">My Likes</a>
-                <a href="{% url 'favourite_list' %}" class="btn btn-outline-dark px-4">My Favourites</a>
+                <a href="{% url 'profile' %}" class="btn btn-outline-dark px-4"
+                    >Edit Profile</a
+                >
+                <a
+                    href="{% url 'like_list' %}"
+                    class="btn btn-outline-dark px-4"
+                    >My Likes</a
+                >
+                <a
+                    href="{% url 'favourite_list' %}"
+                    class="btn btn-outline-dark px-4"
+                    >My Favourites</a
+                >
             </div>
         </div>
     </div>
 
-    <hr class="mb-5">
+    <hr class="mb-5" />
 
     <div class="row mb-4">
         <div class="col-12 text-center">
@@ -40,11 +48,18 @@
         <div class="col">
             <div class="card border-0 shadow-sm">
                 <!-- image will be here -->
-                <div style="height: 200px; width: 100%; background-color: #555;"></div>
+                <div
+                    style="height: 200px; width: 100%; background-color: #555"
+                ></div>
                 <div class="card-body">
                     <h5 class="card-title fw-bold">{{ item.title }}</h5>
-                    <p class="card-text text-muted">{{ item.author.username }}</p>
-                    <a href="{% url 'recipe_detail' item.id %}" class="stretched-link"></a>
+                    <p class="card-text text-muted">
+                        {{ item.author.username }}
+                    </p>
+                    <a
+                        href="{% url 'recipe_detail' item.id %}"
+                        class="stretched-link"
+                    ></a>
                 </div>
             </div>
         </div>

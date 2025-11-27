@@ -19,8 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from recipes import views
 
+from recipes import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -40,6 +40,10 @@ urlpatterns = [
     path("sign_up/", views.SignUpView.as_view(), name="sign_up"),
     path("recipe/<int:recipe_id>/", views.recipe_detail_view, name="recipe_detail"),
     path("recipe/<int:recipe_id>/like/", views.toggle_like, name="toggle_like"),
-    path("recipe/<int:recipe_id>/favourite/", views.toggle_favourite, name="toggle_favourite"),
+    path(
+        "recipe/<int:recipe_id>/favourite/",
+        views.toggle_favourite,
+        name="toggle_favourite",
+    ),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

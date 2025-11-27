@@ -1,6 +1,4 @@
-{% extends 'base_content.html' %}
-
-{% block content %}
+{% extends 'base_content.html' %} {% block content %}
 <div class="container mt-5">
     <div class="row mb-4">
         <div class="col-12 text-center">
@@ -12,11 +10,18 @@
         <div class="col">
             <div class="card border-0 shadow-sm">
                 <!-- image will be here -->
-                <div style="height: 200px; width: 100%; background-color: #555;"></div>
+                <div
+                    style="height: 200px; width: 100%; background-color: #555"
+                ></div>
                 <div class="card-body">
                     <h5 class="card-title fw-bold">{{ item.title }}</h5>
-                    <p class="card-text text-muted">{{ item.author.username }}</p>
-                    <a href="{% url 'recipe_detail' item.id %}" class="stretched-link"></a>
+                    <p class="card-text text-muted">
+                        {{ item.author.username }}
+                    </p>
+                    <a
+                        href="{% url 'recipe_detail' item.id %}"
+                        class="stretched-link"
+                    ></a>
                 </div>
             </div>
         </div>
@@ -28,4 +33,3 @@
     </div>
 </div>
 {% endblock %}
-

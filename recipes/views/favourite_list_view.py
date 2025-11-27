@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+
 from recipes.models import Recipe
 
 
@@ -11,4 +12,3 @@ def favourite_list(request):
     current_user = request.user
     recipes = Recipe.objects.filter(favourited_by__user=current_user)
     return render(request, "favourites.html", {"recipes": recipes})
-
