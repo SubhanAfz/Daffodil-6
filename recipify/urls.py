@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
+
 from recipes import views
 
 handler403 = views.error_403_view
@@ -34,10 +35,19 @@ urlpatterns = [
     path("release/<int:id>/", views.post_release, name="post_release"),
     path("", views.home, name="home"),
     path("dashboard/", views.dashboard, name="dashboard"),
+    path("likes/", views.like_list, name="like_list"),
+    path("favourites/", views.favourite_list, name="favourite_list"),
     path("log_in/", views.LogInView.as_view(), name="log_in"),
     path("log_out/", views.log_out, name="log_out"),
     path("password/", views.PasswordView.as_view(), name="password"),
     path("profile/", views.ProfileUpdateView.as_view(), name="profile"),
     path("sign_up/", views.SignUpView.as_view(), name="sign_up"),
+    path("recipe/<int:recipe_id>/", views.recipe_detail_view, name="recipe_detail"),
+    path("recipe/<int:recipe_id>/like/", views.toggle_like, name="toggle_like"),
+    path(
+        "recipe/<int:recipe_id>/favourite/",
+        views.toggle_favourite,
+        name="toggle_favourite",
+    ),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
