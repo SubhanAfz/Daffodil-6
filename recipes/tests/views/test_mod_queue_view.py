@@ -15,6 +15,14 @@ class ModQueueViewTest(TestCase):
     def setUp(self):
         self.url = reverse("mod_queue")
 
+    def test_non_staff_user_receives_403(self):
+        """Test that non-staff users receive a 403 error when accessing mod queue."""
+
+        self.client.login(username="@johndoe", password="Password123")
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 403)
+
     def test_default_order(self):
         """Test the default order when requesting without order is asc."""
 
