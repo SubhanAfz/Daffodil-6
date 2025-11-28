@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseNotAllowed
 from django.shortcuts import render
 
 from recipes.models import Recipe
@@ -11,7 +12,7 @@ def favourite_list(request):
     """
 
     if request.method != "GET":
-        return render(request, "405_error.html", status=405)
+        return HttpResponseNotAllowed(["GET"])
 
     current_user = request.user
     recipes = Recipe.objects.filter(favourited_by__user=current_user)

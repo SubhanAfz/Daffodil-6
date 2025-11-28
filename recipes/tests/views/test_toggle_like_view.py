@@ -38,3 +38,8 @@ class ToggleLikeViewTest(TestCase):
         self.assertRedirects(response, reverse("recipe_detail", args=[self.recipe.pk]))
         like_exists = Like.objects.filter(user=self.user, recipe=self.recipe).exists()
         self.assertTrue(like_exists)
+
+    def test_get_request_returns_405(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 405)
+        self.assertTemplateUsed(response, "405_error.html")

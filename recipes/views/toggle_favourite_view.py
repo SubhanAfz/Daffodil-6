@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, redirect, render
-
+from django.shortcuts import get_object_or_404, redirect
+from django.http import HttpResponseNotAllowed
 from recipes.models import Favourite, Recipe
 
 
@@ -10,7 +10,7 @@ def toggle_favourite(request, recipe_id):
     Toggle the favourite status for a specific recipe by the current user.
     """
     if request.method != "POST":
-        return render(request, "405_error.html")
+        return HttpResponseNotAllowed(["POST"])
 
     recipe = get_object_or_404(Recipe, id=recipe_id)
     favourite, created = Favourite.objects.get_or_create(

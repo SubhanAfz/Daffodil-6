@@ -1,5 +1,7 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseNotAllowed
 from recipes.models.recipe import Recipe
 from recipes.models.report import Report
 
@@ -13,7 +15,7 @@ def post_release(request, id):
     post = get_object_or_404(Recipe, id=id)
 
     if not request.user.is_superuser:
-        return render(request, "403_error.html")
+        raise PermissionDenied
 
     if request.method == "POST":
         post.set_public()
@@ -21,5 +23,5 @@ def post_release(request, id):
         post.save()
         Report.objects.filter(recipe=post).delete()
         return redirect(request.META.get("HTTP_REFERER", "/"))
-
-    return render(request, "405_error.html")
+    else:
+        return HttpResponseNotAllowed(["POST"])

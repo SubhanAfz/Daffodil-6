@@ -22,6 +22,10 @@ from django.urls import path
 
 from recipes import views
 
+handler403 = views.error_403_view
+handler404 = views.error_404_view
+handler500 = views.error_500_view
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("reports/", views.get_reports_list, name="reports_list"),

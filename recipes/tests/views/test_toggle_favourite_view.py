@@ -22,6 +22,11 @@ class ToggleFavouriteViewTest(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 302)  # Redirect to login
 
+    def test_get_toggle_favourite_renders_405_error(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 405)
+        self.assertTemplateUsed(response, "405_error.html")
+
     def test_toggle_favourite_removes_favourite_when_already_favourited(self):
         Favourite.objects.create(user=self.user, recipe=self.recipe)
         favourite_exists = Favourite.objects.filter(
