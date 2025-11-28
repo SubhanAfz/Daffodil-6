@@ -22,6 +22,7 @@ class ModQueueViewTest(TestCase):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 403)
+        self.assertTemplateUsed(response, "403_error.html")
 
     def test_default_order(self):
         """Test the default order when requesting without order is asc."""
