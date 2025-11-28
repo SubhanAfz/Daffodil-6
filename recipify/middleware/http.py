@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.http import HttpResponseNotAllowed
 from recipes.views.error_views import error_405_view
 
