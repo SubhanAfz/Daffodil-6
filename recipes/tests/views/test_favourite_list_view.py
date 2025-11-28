@@ -40,3 +40,8 @@ class FavouriteListViewTest(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'id="no-favourites-text"')
+
+    def test_get_gives_405(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 405)
+        self.assertTemplateUsed(response, "405_error.html")

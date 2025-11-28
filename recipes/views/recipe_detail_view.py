@@ -29,9 +29,7 @@ def recipe_detail_view(request, recipe_id):
     recipe = get_object_or_404(queryset, id=recipe_id)
 
     # Increment the view count each time the recipe detail is accessed
-    recipe.views = F("views") + 1
-    recipe.save(update_fields=["views"])
-    recipe.refresh_from_db()
+    Recipe.objects.filter(pk=recipe.pk).update(views=F("views") + 1)
 
     is_liked = getattr(recipe, "is_liked", False)
     is_favourited = getattr(recipe, "is_favourited", False)
