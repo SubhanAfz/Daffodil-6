@@ -36,8 +36,6 @@ if not DEBUG and PRODUCTION:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-elif not DEBUG and not PRODUCTION:
-    ALLOWED_HOSTS.extend(["127.0.0.1", "localhost"])
 else:
     ALLOWED_HOSTS.extend(["127.0.0.1", "localhost"])
 
