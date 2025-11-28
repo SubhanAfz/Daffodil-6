@@ -43,6 +43,7 @@
                     {% csrf_token %}
                     <button
                         type="submit"
+                        id="like-button"
                         class="btn {% if is_liked %}btn-dark{% else %}btn-outline-dark{% endif %} rounded-pill px-4"
                     >
                         {% if is_liked %}Liked{% else %}Like{% endif %}
@@ -56,6 +57,7 @@
                     {% csrf_token %}
                     <button
                         type="submit"
+                        id="favourite-button"
                         class="btn {% if is_favourited %}btn-dark{% else %}btn-outline-dark{% endif %} rounded-pill px-4"
                     >
                         {% if is_favourited %}Favourited{% else %}Favourite{%endif %}
