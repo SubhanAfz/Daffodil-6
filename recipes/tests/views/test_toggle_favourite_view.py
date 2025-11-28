@@ -1,7 +1,7 @@
-
 from django.test import TestCase
 from django.urls import reverse
 from recipes.models import User, Recipe, Favourite
+
 
 class ToggleFavouriteViewTest(TestCase):
     fixtures = [
@@ -10,15 +10,21 @@ class ToggleFavouriteViewTest(TestCase):
         "recipes/tests/fixtures/recipes.json",
         "recipes/tests/fixtures/superuser_user.json",
     ]
+
     def setUp(self):
         self.user = User.objects.get(username="@johndoe")
         self.client.force_login(self.user)
         self.recipe = Recipe.objects.get(pk=1)
-        self.url = reverse('toggle_favourite', args=[self.recipe.pk])
+        self.url = reverse("toggle_favourite", args=[self.recipe.pk])
+
     def test_toggle_favourite_adds_favourite_when_not_favourited(self):
-        favourite_exists = Favourite.objects.filter(user=self.user, recipe=self.recipe).exists()
+        favourite_exists = Favourite.objects.filter(
+            user=self.user, recipe=self.recipe
+        ).exists()
         self.assertFalse(favourite_exists)
         response = self.client.post(self.url)
-        self.assertRedirects(response, reverse('recipe_detail', args=[self.recipe.pk]))
-        favourite_exists = Favourite.objects.filter(user=self.user, recipe=self.recipe).exists()
+        self.assertRedirects(response, reverse("recipe_detail", args=[self.recipe.pk]))
+        favourite_exists = Favourite.objects.filter(
+            user=self.user, recipe=self.recipe
+        ).exists()
         self.assertTrue(favourite_exists)
