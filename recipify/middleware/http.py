@@ -1,6 +1,7 @@
 from django.http import HttpResponseNotAllowed
 from recipes.views.error_views import error_405_view
 
+
 class HTTP405MethodNotAllowedMiddleware:
     """
     Middleware to handle HTTP 405 Method Not Allowed errors.
