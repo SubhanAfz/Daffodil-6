@@ -11,18 +11,21 @@ def recipe_detail_view(request, recipe_id):
     If the recipe does not exist, a 404 error is raised.
     """
 
-
     queryset = Recipe.objects.annotate(
-        likes_count=Count('liked_by', distinct=True),
-        favourites_count=Count('favourited_by', distinct=True)
+        likes_count=Count("liked_by", distinct=True),
+        favourites_count=Count("favourited_by", distinct=True),
     )
-    
+
     if request.user.is_authenticated:
         queryset = queryset.annotate(
-            is_liked=Exists(Like.objects.filter(recipe=OuterRef('pk'), user=request.user)),
-            is_favourited=Exists(Favourite.objects.filter(recipe=OuterRef('pk'), user=request.user))
+            is_liked=Exists(
+                Like.objects.filter(recipe=OuterRef("pk"), user=request.user)
+            ),
+            is_favourited=Exists(
+                Favourite.objects.filter(recipe=OuterRef("pk"), user=request.user)
+            ),
         )
-    
+
     recipe = get_object_or_404(queryset, id=recipe_id)
 
     # Increment the view count each time the recipe detail is accessed
@@ -30,8 +33,8 @@ def recipe_detail_view(request, recipe_id):
     recipe.save(update_fields=["views"])
     recipe.refresh_from_db()
 
-    is_liked = getattr(recipe, 'is_liked', False)
-    is_favourited = getattr(recipe, 'is_favourited', False)
+    is_liked = getattr(recipe, "is_liked", False)
+    is_favourited = getattr(recipe, "is_favourited", False)
     likes = recipe.likes_count
     favourites = recipe.favourites_count
     return render(

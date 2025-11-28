@@ -16,7 +16,7 @@ class ToggleFavouriteViewTest(TestCase):
         self.client.force_login(self.user)
         self.recipe = Recipe.objects.get(pk=1)
         self.url = reverse("toggle_favourite", args=[self.recipe.pk])
-    
+
     def test_unauthenticated_access(self):
         self.client.logout()
         response = self.client.get(self.url)

@@ -11,7 +11,7 @@ def toggle_like(request, recipe_id):
     """
     if request.method != "POST":
         return render(request, "405_error.html")
-    
+
     recipe = get_object_or_404(Recipe, id=recipe_id)
     like, created = Like.objects.get_or_create(user=request.user, recipe=recipe)
 

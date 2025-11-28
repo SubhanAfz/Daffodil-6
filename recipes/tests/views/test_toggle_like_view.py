@@ -24,15 +24,11 @@ class ToggleLikeViewTest(TestCase):
 
     def test_toggle_like_removes_like_when_already_liked(self):
         Like.objects.create(user=self.user, recipe=self.recipe)
-        like_exists = Like.objects.filter(
-            user=self.user, recipe=self.recipe
-        ).exists()
+        like_exists = Like.objects.filter(user=self.user, recipe=self.recipe).exists()
         self.assertTrue(like_exists)
         response = self.client.post(self.url)
         self.assertRedirects(response, reverse("recipe_detail", args=[self.recipe.pk]))
-        like_exists = Like.objects.filter(
-            user=self.user, recipe=self.recipe
-        ).exists()
+        like_exists = Like.objects.filter(user=self.user, recipe=self.recipe).exists()
         self.assertFalse(like_exists)
 
     def test_toggle_like_adds_like_when_not_liked(self):
