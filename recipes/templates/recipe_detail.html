@@ -1,0 +1,89 @@
+{% extends 'base_content.html' %} {% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold mb-3">{{ recipe.title }}</h1>
+                <div class="text-muted">
+                    <span class="me-3"
+                        >By <strong>{{ recipe.author }}</strong></span
+                    >
+                    <span>{{ recipe.views }} views</span>,
+                    {% if likes == 1 %}
+                    <span>{{ likes }} like</span>,
+                    {% else %}
+                    <span>{{ likes }} likes</span>,
+                    {% endif %}
+                    {% if favourites == 1 %}
+                    <span>{{ favourites }} favourite</span>
+                    {% else %}
+                    <span>{{ favourites }} favourites</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <p class="lead text-center fst-italic text-muted mb-4">
+                    "{{ recipe.description }}"
+                </p>
+                <div class="py-4 border-top border-bottom">
+                    <p class="mb-0" style="white-space: pre-wrap">
+                        {{ recipe.content }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center gap-2 mb-5">
+                {% if user.is_authenticated %}
+                <form
+                    action="{% url 'toggle_like' recipe.id %}"
+                    method="post"
+                    class="d-inline"
+                >
+                    {% csrf_token %}
+                    <button
+                        type="submit"
+                        id="like-button"
+                        class="btn {% if is_liked %}btn-dark{% else %}btn-outline-dark{% endif %} rounded-pill px-4"
+                    >
+                        {% if is_liked %}Liked{% else %}Like{% endif %}
+                    </button>
+                </form>
+                <form
+                    action="{% url 'toggle_favourite' recipe.id %}"
+                    method="post"
+                    class="d-inline"
+                >
+                    {% csrf_token %}
+                    <button
+                        type="submit"
+                        id="favourite-button"
+                        class="btn {% if is_favourited %}btn-dark{% else %}btn-outline-dark{% endif %} rounded-pill px-4"
+                    >
+                        {% if is_favourited %}Favourited{% else %}Favourite{% endif %}
+                    </button>
+                </form>
+                {% else %}
+                <a
+                    href="{% url 'log_in' %}?next={{ request.path }}"
+                    class="btn btn-outline-dark rounded-pill px-4"
+                >
+                    Like
+                </a>
+                <a
+                    href="{% url 'log_in' %}?next={{ request.path }}"
+                    class="btn btn-outline-dark rounded-pill px-4"
+                >
+                    Favourite
+                </a>
+                {% endif %}
+                <button
+                    class="btn btn-link text-muted text-decoration-none px-4"
+                >
+                    Report
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
