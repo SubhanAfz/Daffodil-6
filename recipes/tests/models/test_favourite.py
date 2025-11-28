@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.db import IntegrityError
 from recipes.models import Favourite, Recipe, User
 
 
@@ -26,7 +27,7 @@ class FavouriteModelTest(TestCase):
     def test_unique_favourite_constraint(self):
         """Test that a user cannot favourite the same recipe more than once."""
         Favourite.objects.create(user=self.user, recipe=self.recipe)
-        with self.assertRaises(Exception):
+        with self.assertRaises(IntegrityError):
             Favourite.objects.create(user=self.user, recipe=self.recipe)
 
     def test_cascade_delete_on_user(self):

@@ -17,6 +17,11 @@ class LikeListViewTest(TestCase):
         self.recipe = Recipe.objects.get(pk=1)
         self.url = reverse("like_list")
 
+    def test_unauthenticated_access(self):
+        self.client.logout()
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)  # Redirect to login
+
     def test_like_list_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)

@@ -16,6 +16,24 @@ class ToggleFavouriteViewTest(TestCase):
         self.client.force_login(self.user)
         self.recipe = Recipe.objects.get(pk=1)
         self.url = reverse("toggle_favourite", args=[self.recipe.pk])
+    
+    def test_unauthenticated_access(self):
+        self.client.logout()
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)  # Redirect to login
+
+    def test_toggle_favourite_removes_favourite_when_already_favourited(self):
+        Favourite.objects.create(user=self.user, recipe=self.recipe)
+        favourite_exists = Favourite.objects.filter(
+            user=self.user, recipe=self.recipe
+        ).exists()
+        self.assertTrue(favourite_exists)
+        response = self.client.post(self.url)
+        self.assertRedirects(response, reverse("recipe_detail", args=[self.recipe.pk]))
+        favourite_exists = Favourite.objects.filter(
+            user=self.user, recipe=self.recipe
+        ).exists()
+        self.assertFalse(favourite_exists)
 
     def test_toggle_favourite_adds_favourite_when_not_favourited(self):
         favourite_exists = Favourite.objects.filter(

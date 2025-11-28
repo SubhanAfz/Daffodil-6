@@ -16,7 +16,7 @@ class RecipeDetailViewTest(TestCase):
         self.recipe = Recipe.objects.get(pk=1)
         self.url = reverse("recipe_detail", args=[self.recipe.pk])
 
-    def get_recipe_response(self):
+    def test_get_recipe_response(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 

@@ -21,6 +21,11 @@ class FavouriteListViewTest(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "favourites.html")
+        
+    def test_unauthenticated_access(self):
+        self.client.logout()
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)  # Redirect to login
 
     def test_empty_favourite_list(self):
         response = self.client.get(self.url)

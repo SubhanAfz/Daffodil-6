@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.db import IntegrityError
 from recipes.models import Like, Recipe, User
 
 
@@ -26,7 +27,7 @@ class LikeModelTest(TestCase):
     def test_unique_like_constraint(self):
         """Test that a user cannot like the same recipe more than once."""
         Like.objects.create(user=self.user, recipe=self.recipe)
-        with self.assertRaises(Exception):
+        with self.assertRaises(IntegrityError):
             Like.objects.create(user=self.user, recipe=self.recipe)
 
     def test_cascade_delete_on_user(self):
