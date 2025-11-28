@@ -4,7 +4,7 @@ from recipes.views.error_views import error_405_view
 
 class HTTP405MethodNotAllowedMiddleware:
     """
-    Middleware to handle HTTP 405 Method Not Allowed errors..
+    Middleware to handle HTTP 405 Method Not Allowed errors.
     """
 
     def __init__(self, get_response):
