@@ -6,8 +6,14 @@ from .log_out_view import *
 from .password_view import *
 from .profile_view import *
 from .sign_up_view import *
+from .recipe_detail_view import *
 from .reports_list_view import *
 from .post_hide_view import *
 from .post_release_view import *
 from .post_delete_view import *
 from .mod_queue_view import *
+from .recipe_detail_view import *
+from .like_list_view import *
+from .favourite_list_view import *
+from .toggle_like_view import *
+from .toggle_favourite_view import *
