@@ -10,10 +10,10 @@ def like_list(request):
     """
     Display the list of recipes liked by the current user.
     """
-    
+
     if request.method != "GET":
         return render(request, "405_error.html", status=405)
-    
+
     current_user = request.user
     recipes = Recipe.objects.filter(liked_by__user=current_user)
     return render(request, "likes.html", {"recipes": recipes})
