@@ -30,7 +30,7 @@
         {% for item in list %}
             <li style="display:flex; align-items:center; gap:20px">
                 {{ item.report_info_str }}
-                <button>View Post</button>
+                <a href="{% url 'recipe_detail' item.id %}">View Post</a>
                 {% if request.user.is_superuser %}
                 <form action="{% url 'post_release' item.id %}" method="post"> <!-- Release object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
                     {% csrf_token %}

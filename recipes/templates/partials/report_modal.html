@@ -1,0 +1,26 @@
+<div class="modal fade" id="reportRecipeModal-{{ id }}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" action="{% url 'report_recipe' recipe_id=id %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Report this recipe</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="reportText-{{ id }}" class="form-label">Why are you reporting this recipe?</label>
+            <textarea class="form-control"
+                      id="reportText-{{ id }}"
+                      name="report_text"
+                      rows="4"
+                      required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">Submit report</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

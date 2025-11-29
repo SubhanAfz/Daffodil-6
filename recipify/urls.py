@@ -49,5 +49,10 @@ urlpatterns = [
         views.toggle_favourite,
         name="toggle_favourite",
     ),
+    path(
+        "recipe/<int:recipe_id>/report/",
+        views.report_recipe,
+        name="report_recipe",
+    ),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
