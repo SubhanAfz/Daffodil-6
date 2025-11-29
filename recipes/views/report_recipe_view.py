@@ -16,10 +16,9 @@ def report_recipe(request: HttpRequest, recipe_id):
     report_text = request.POST.get("report_text", "").strip()
     if report_text == "":
         report_text = "No reason provided."
-    try:
-        report = Report.objects.get(reporter=request.user, recipe=recipe)
-        report.reason = report_text
-        report.save()
-    except Report.DoesNotExist:
-        Report.objects.create(reporter=request.user, recipe=recipe, reason=report_text)
+    Report.objects.update_or_create(
+        reporter=request.user,
+        recipe=recipe,
+        defaults={'reason': report_text}
+    )
     return redirect("recipe_detail", recipe_id=recipe.id)
