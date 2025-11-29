@@ -16,6 +16,8 @@ class Recipe(models.Model):
     num_reports = models.IntegerField(default=0)
     is_hidden = models.BooleanField(default=False)
     date_hidden = models.DateTimeField(null=True, default=None)
+    thumbnail = models.ImageField(upload_to='thumbnails/', default=None)
+    has_thumbnail = models.BooleanField(default=False)
 
     def report_info_str(self):
         if not self.is_reported:
