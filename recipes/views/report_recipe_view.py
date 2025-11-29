@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
-from django.http import HttpResponseNotAllowed, HttpResponse
+from django.http import HttpResponseNotAllowed, HttpRequest
 from recipes.models import Recipe, Report
 
 
 @login_required
-def report_recipe(request: HttpResponse, recipe_id):
+def report_recipe(request: HttpRequest, recipe_id):
     """
     Report a specific recipe for review.
     """
@@ -14,8 +14,8 @@ def report_recipe(request: HttpResponse, recipe_id):
 
     recipe = get_object_or_404(Recipe, id=recipe_id)
     report_text = request.POST.get("report_text", "").strip()
-    if not report_text:
-        return redirect("recipe_detail", recipe_id=recipe.id)
+    if report_text == "":
+        report_text = "No reason provided."
     try:
         report = Report.objects.get(reporter=request.user, recipe=recipe)
         report.reason = report_text

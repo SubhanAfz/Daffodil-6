@@ -64,6 +64,12 @@
                         {% if is_favourited %}Favourited{% else %}Favourite{% endif %}
                     </button>
                 </form>
+                <button
+                    class="btn btn-link text-muted text-decoration-none px-4"
+                    data-bs-toggle="modal"
+                    data-bs-target="#reportRecipeModal-{{ recipe.id }}">
+                    Report
+                </button>
                 {% else %}
                 <a
                     href="{% url 'log_in' %}?next={{ request.path }}"
@@ -77,14 +83,13 @@
                 >
                     Favourite
                 </a>
-                {% endif %}
                 <button
                     class="btn btn-link text-muted text-decoration-none px-4"
-                    data-bs-toggle="modal"
-                    data-bs-target="#reportRecipeModal-{{ recipe.id }}">
+                    onclick="window.location.href=`{% url 'log_in' %}?next={{ request.path }}`"
                 >
                     Report
                 </button>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -39,6 +39,16 @@ class ReportRecipeViewTest(TestCase):
         ).exists()
         self.assertTrue(report_exists)
 
+    def test_report_recipe_with_empty_reason(self):
+        report_exists = Report.objects.filter(
+            reporter=self.user, recipe=self.recipe
+        ).exists()
+        self.assertFalse(report_exists)
+        response = self.client.post(self.url, {"report_text": ""})
+        self.assertRedirects(response, reverse("recipe_detail", args=[self.recipe.pk]))
+        report = Report.objects.get(reporter=self.user, recipe=self.recipe)
+        self.assertEqual(report.reason, "No reason provided.")
+
     def test_report_recipe_overwrites_reason_when_already_reported(self):
         Report.objects.create(
             reporter=self.user, recipe=self.recipe, reason="Original reason"
