@@ -1,7 +1,7 @@
 from django.forms import ValidationError
 from django.test import TestCase
 
-from recipes.models.report import Report
+from recipes.models import Report
 
 
 class ReportModelTestCase(TestCase):

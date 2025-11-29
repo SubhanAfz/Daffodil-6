@@ -35,6 +35,7 @@
 
             <div class="d-flex justify-content-center gap-2 mb-5">
                 {% if user.is_authenticated %}
+                {% include "partials/report_modal.html" with id=recipe.id %}
                 <form
                     action="{% url 'toggle_like' recipe.id %}"
                     method="post"
@@ -79,6 +80,8 @@
                 {% endif %}
                 <button
                     class="btn btn-link text-muted text-decoration-none px-4"
+                    data-bs-toggle="modal"
+                    data-bs-target="#reportRecipeModal-{{ recipe.id }}">
                 >
                     Report
                 </button>

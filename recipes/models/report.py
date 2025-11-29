@@ -10,7 +10,7 @@ class Report(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     reporter = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     reason = models.CharField(max_length=1200)
-    report_time = models.DateTimeField()
+    report_time = models.DateTimeField(auto_now_add=True)
 
     def report_str(self):
         """Return a string describing info of the report."""
