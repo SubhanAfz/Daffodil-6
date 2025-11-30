@@ -4,3 +4,4 @@ from .user import *
 from .recipe import *
 from .like import *
 from .favourite import *
+from .report import *

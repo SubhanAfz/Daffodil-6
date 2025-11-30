@@ -30,7 +30,7 @@
             {% for item in list %}
                 <li style="display:flex; align-items:center; gap:20px">
                     {{ item.report_info_str }}
-                    <button>View Post</button>
+                    <a href="{% url 'recipe_detail' item.id %}">View Post</a>
                     <form action="{% url 'post_hide' item.id %}" method="post"> <!-- Delete object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
                         {% csrf_token %}
                         <input type="submit" value="Hide post"> 
@@ -47,7 +47,7 @@
             {% for item in list %}
                 <li style="display:flex; align-items:center; gap:20px">
                     {{ item.report_str }}
-                    <button>View Post</button>
+                    <a href="{% url 'recipe_detail' item.recipe.id %}">View Post</a>
                     <form action="{% url 'post_hide' item.recipe.id %}" method="post"> <!-- Delete object methodology inspired by user wencakisa on Stack Overflow: https://stackoverflow.com/questions/46003056/how-to-make-delete-button-in-django -->
                         {% csrf_token %}
                         <input type="submit" value="Hide post"> 
