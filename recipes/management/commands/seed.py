@@ -76,7 +76,7 @@ class Command(BaseCommand):
         """
 
         self.create_users()
-        #self.users = User.objects.all()
+        # self.users = User.objects.all()
         self.assign_recipes_to_users()
 
     def assign_recipes_to_users(self):
