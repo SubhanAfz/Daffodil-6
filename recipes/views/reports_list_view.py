@@ -1,15 +1,20 @@
 from django.shortcuts import render
+from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from recipes.models.recipe import Recipe
 from recipes.models.report import Report
 
 
 @login_required
-def get_reports_list(request):
+def get_reports_list(request: HttpRequest):
     """Get post and report information for Reports page.
 
     Gets the order tag of the page, if there isn't one then it takes the default of 'asc'.
      It then makes the appropriate list based on the order and puts it in the context."""
+
+    if not request.user.is_staff:
+        raise PermissionDenied
 
     order = request.GET.get("order", "asc")
 
