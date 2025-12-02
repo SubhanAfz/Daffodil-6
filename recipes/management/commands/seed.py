@@ -9,10 +9,12 @@ is swallowed and generation continues.
 
 from faker import Faker
 from random import randint
+
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from recipes.models import User
 from recipes.models import Recipe
+from recipes.management.recipeDataGen import recipeDataGen
 
 
 user_fixtures = [
@@ -58,6 +60,7 @@ class Command(BaseCommand):
     SEEDED_RECIPE_COUNT = USER_COUNT * RECIPES_PER_USER
     DEFAULT_PASSWORD = "Password123"
     help = "Seeds the database with sample data"
+    recipeDataGen = recipeDataGen()
 
     def __init__(self, *args, **kwargs):
         """Initialize the command with a locale-specific Faker instance."""
@@ -71,9 +74,9 @@ class Command(BaseCommand):
         Runs the full seeding workflow and stores ``self.users`` for any
         post-processing or debugging (not required for operation).
         """
-        self.create_users()
-        self.users = User.objects.all()
 
+        self.create_users()
+        #self.users = User.objects.all()
         self.assign_recipes_to_users()
 
     def assign_recipes_to_users(self):
@@ -89,7 +92,7 @@ class Command(BaseCommand):
                     end="\r",
                 )
 
-                recipe_data = self.generate_recipe_data(user)
+                recipe_data = self.recipeDataGen.get_next_recipe_data(user)
                 self.try_create_recipe(recipe_data)
 
     def generate_recipe_data(self, user):
@@ -115,6 +118,10 @@ class Command(BaseCommand):
             "created_at": self.faker.date_time_this_year(),
             "updated_at": self.faker.date_time_this_year(),
             "views": randint(0, 1000),
+            "is_reported": False,
+            "num_reports": 0,
+            "is_hidden": False,
+            "date_hidden": None,
         }
 
     def try_create_recipe(self, data):
@@ -146,6 +153,10 @@ class Command(BaseCommand):
             created_at=data["created_at"],
             updated_at=data["updated_at"],
             views=data["views"],
+            is_reported=data["is_reported"],
+            num_reports=data["num_reports"],
+            is_hidden=data["is_hidden"],
+            date_hidden=data["date_hidden"],
         )
 
     def create_users(self):
