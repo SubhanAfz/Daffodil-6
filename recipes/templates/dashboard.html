@@ -47,10 +47,18 @@
         {% for item in recipes %}
         <div class="col">
             <div class="card border-0 shadow-sm">
-                <!-- image will be here -->
-                <div
-                    style="height: 200px; width: 100%; background-color: #555"
-                ></div>
+                {% if item.has_thumbnail %}
+                    <img
+                        src="{{ item.thumbnail.url }}"
+                        class="card-img-top"
+                        alt="{{ item.title }}"
+                        style="height: 200px; object-fit: cover; width: 100%"
+                    />
+                {% else %}
+                    <div
+                        style="height: 200px; width: 100%; background-color: #555"
+                    ></div>
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title fw-bold">{{ item.title }}</h5>
                     <p class="card-text text-muted">
