@@ -25,6 +25,7 @@ class RecipeFormTest(TestCase):
         self.assertIn("title", form.fields)
         self.assertIn("description", form.fields)
         self.assertIn("content", form.fields)
+        self.assertIn("thumbnail", form.fields)
 
     def test_valid_form(self):
         form = RecipeForm(data=self.form_input)

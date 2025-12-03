@@ -19,7 +19,6 @@ class Recipe(models.Model):
     thumbnail = models.ImageField(
         upload_to="thumbnails/", null=True, blank=True, default=None
     )
-    has_thumbnail = models.BooleanField(default=False)
 
     def report_info_str(self):
         if not self.is_reported:

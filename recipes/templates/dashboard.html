@@ -47,7 +47,7 @@
         {% for item in recipes %}
         <div class="col">
             <div class="card border-0 shadow-sm">
-                {% if item.has_thumbnail %}
+                {% if item.thumbnail %}
                     <img
                         src="{{ item.thumbnail.url }}"
                         class="card-img-top"

@@ -5,6 +5,7 @@ from recipes.models import Recipe
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
 
+
 @login_required
 def create_recipe(request: HttpRequest):
     """Create a recipe.
@@ -20,8 +21,6 @@ def create_recipe(request: HttpRequest):
         if form.is_valid():
             recipe: Recipe = form.save(commit=False)
             recipe.author = request.user
-            if "thumbnail" in request.FILES:
-                recipe.has_thumbnail = True
             try:
                 recipe.save()
                 return redirect("recipe_detail", recipe_id=recipe.pk)
