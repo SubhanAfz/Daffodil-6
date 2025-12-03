@@ -17,11 +17,8 @@ def report_recipe(request: HttpRequest, recipe_id):
     form = ReportForm(request.POST)
 
     if form.is_valid():
-        report_text = form.cleaned_data["reason"].strip()
-        if report_text == "":
-            report_text = "No reason provided."
         Report.objects.update_or_create(
-            reporter=request.user, recipe=recipe, defaults={"reason": report_text}
+            reporter=request.user, recipe=recipe, defaults={"reason": form.cleaned_data["reason"]}
         )
     else:
         Report.objects.update_or_create(
