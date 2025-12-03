@@ -32,7 +32,7 @@ class ReportRecipeViewTest(TestCase):
             reporter=self.user, recipe=self.recipe
         ).exists()
         self.assertFalse(report_exists)
-        response = self.client.post(self.url, {"report_text": "Inappropriate content"})
+        response = self.client.post(self.url, {"reason": "Inappropriate content"})
         self.assertRedirects(response, reverse("recipe_detail", args=[self.recipe.pk]))
         report_exists = Report.objects.filter(
             reporter=self.user, recipe=self.recipe
@@ -44,7 +44,7 @@ class ReportRecipeViewTest(TestCase):
             reporter=self.user, recipe=self.recipe
         ).exists()
         self.assertFalse(report_exists)
-        response = self.client.post(self.url, {"report_text": ""})
+        response = self.client.post(self.url, {"reason": ""})
         self.assertRedirects(response, reverse("recipe_detail", args=[self.recipe.pk]))
         report = Report.objects.get(reporter=self.user, recipe=self.recipe)
         self.assertEqual(report.reason, "No reason provided.")
@@ -58,7 +58,7 @@ class ReportRecipeViewTest(TestCase):
         ).exists()
         self.assertTrue(report_exists)
         new_reason = "Updated reason for reporting"
-        response = self.client.post(self.url, {"report_text": new_reason})
+        response = self.client.post(self.url, {"reason": new_reason})
         self.assertRedirects(response, reverse("recipe_detail", args=[self.recipe.pk]))
         report = Report.objects.get(reporter=self.user, recipe=self.recipe)
         self.assertEqual(report.reason, new_reason)

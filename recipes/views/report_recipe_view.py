@@ -23,5 +23,11 @@ def report_recipe(request: HttpRequest, recipe_id):
         Report.objects.update_or_create(
             reporter=request.user, recipe=recipe, defaults={"reason": report_text}
         )
+    else:
+        Report.objects.update_or_create(
+            reporter=request.user,
+            recipe=recipe,
+            defaults={"reason": "No reason provided."},
+        )
 
     return redirect("recipe_detail", recipe_id=recipe.id)
