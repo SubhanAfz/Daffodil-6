@@ -29,7 +29,7 @@ class CreateRecipeViewTest(TestCase):
         self.assertTemplateUsed(response, "create_recipe.html")
 
     def test_POST_gives_200_OK(self):
-        response = self.client.get(self.url)
+        response = self.client.post(self.url, data=self.form_data)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "create_recipe.html")
 
@@ -49,7 +49,7 @@ class CreateRecipeViewTest(TestCase):
 
     def test_redirect(self):
         response = self.client.post(self.url, data=self.form_data, follow=True)
-        recipe = recipe = Recipe.objects.latest("pk")
+        recipe = Recipe.objects.latest("pk")
 
         self.assertRedirects(
             response, reverse("recipe_detail", kwargs={"recipe_id": recipe.pk})
