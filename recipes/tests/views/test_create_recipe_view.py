@@ -1,5 +1,4 @@
-from django.test import TestCase, Client
-from django.contrib.auth.models import User
+from django.test import TestCase
 from django.urls import reverse
 from recipes.models import Recipe
 from django.contrib.auth import get_user_model
