@@ -1,0 +1,19 @@
+{% extends 'base_content.html' %}
+{% block content %}
+
+<h1>New Post</h1>
+
+<form action="{% url 'create_recipe' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if form.errors %}
+        <div class="errorlist">
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Post</button>
+</form>
+
+{% endblock %}
