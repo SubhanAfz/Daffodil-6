@@ -21,6 +21,9 @@
         {% include 'partials/admin_menu.html' %}
       {% endif %}
       {% if user.is_authenticated %}
+        {% include 'partials/create_post_button.html' %}
+      {% endif %}
+      {% if user.is_authenticated %}
         {% include 'partials/menu.html' %}
       {% endif %}
     </div>

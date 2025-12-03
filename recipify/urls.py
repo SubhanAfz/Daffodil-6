@@ -42,6 +42,7 @@ urlpatterns = [
     path("password/", views.PasswordView.as_view(), name="password"),
     path("profile/", views.ProfileUpdateView.as_view(), name="profile"),
     path("sign_up/", views.SignUpView.as_view(), name="sign_up"),
+    path("post/", views.create_recipe, name="create_recipe"),
     path("recipe/<int:recipe_id>/", views.recipe_detail_view, name="recipe_detail"),
     path("recipe/<int:recipe_id>/like/", views.toggle_like, name="toggle_like"),
     path(
@@ -55,4 +56,7 @@ urlpatterns = [
         name="report_recipe",
     ),
 ]
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if not settings.PRODUCTION:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
