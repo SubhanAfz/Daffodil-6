@@ -9,12 +9,10 @@
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label for="reportText-{{ id }}" class="form-label">Why are you reporting this recipe?</label>
-            <textarea class="form-control"
-                      id="reportText-{{ id }}"
-                      name="report_text"
-                      rows="4"
-                      required></textarea>
+            <label for="{{ report_form.reason.id_for_label }}" class="form-label">
+              {{ report_form.reason.label }}
+            </label>
+            {{ report_form.reason }}
           </div>
         </div>
         <div class="modal-footer">

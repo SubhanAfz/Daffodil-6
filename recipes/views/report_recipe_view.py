@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseNotAllowed, HttpRequest
 from recipes.models import Recipe, Report
+from recipes.forms import ReportForm
 
 
 @login_required
@@ -13,10 +14,14 @@ def report_recipe(request: HttpRequest, recipe_id):
         return HttpResponseNotAllowed(["POST"])
 
     recipe = get_object_or_404(Recipe, id=recipe_id)
-    report_text = request.POST.get("report_text", "").strip()
-    if report_text == "":
-        report_text = "No reason provided."
-    Report.objects.update_or_create(
-        reporter=request.user, recipe=recipe, defaults={"reason": report_text}
-    )
+    form = ReportForm(request.POST)
+
+    if form.is_valid():
+        report_text = form.cleaned_data["reason"].strip()
+        if report_text == "":
+            report_text = "No reason provided."
+        Report.objects.update_or_create(
+            reporter=request.user, recipe=recipe, defaults={"reason": report_text}
+        )
+
     return redirect("recipe_detail", recipe_id=recipe.id)
