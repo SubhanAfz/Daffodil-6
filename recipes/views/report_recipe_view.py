@@ -18,7 +18,9 @@ def report_recipe(request: HttpRequest, recipe_id):
 
     if form.is_valid():
         Report.objects.update_or_create(
-            reporter=request.user, recipe=recipe, defaults={"reason": form.cleaned_data["reason"]}
+            reporter=request.user,
+            recipe=recipe,
+            defaults={"reason": form.cleaned_data["reason"]},
         )
     else:
         Report.objects.update_or_create(
