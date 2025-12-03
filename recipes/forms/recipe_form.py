@@ -5,7 +5,7 @@ from recipes.models import Recipe
 class RecipeForm(forms.ModelForm):
     """Recipe form.
 
-    Describes fields that the user can effect and declares that the widgets of "description and "content" can
+    Describes fields that the user can effect and declares that the widgets of "description" and "content" can
     be resized both vertically and horizontally.
 
     """
