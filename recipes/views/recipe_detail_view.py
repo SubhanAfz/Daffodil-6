@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import F, Count, Exists, OuterRef
 from recipes.models import Recipe, Like, Favourite
+from recipes.forms import ReportForm
 
 
 def recipe_detail_view(request, recipe_id):
@@ -44,5 +45,6 @@ def recipe_detail_view(request, recipe_id):
             "is_favourited": is_favourited,
             "likes": likes,
             "favourites": favourites,
+            "report_form": ReportForm(),
         },
     )
