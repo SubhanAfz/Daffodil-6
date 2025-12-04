@@ -16,4 +16,18 @@ def dashboard(request):
 
     current_user = request.user
     recipes = Recipe.objects.filter(author=current_user)
-    return render(request, "dashboard.html", {"user": current_user, "recipes": recipes})
+
+    # Get follower and following counts
+    followers = current_user.followers.count()
+    following = current_user.followers_of.count()
+
+    return render(
+        request,
+        "dashboard.html",
+        {
+            "user": current_user,
+            "recipes": recipes,
+            "following": following,
+            "followers": followers,
+        },
+    )

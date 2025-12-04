@@ -1,0 +1,38 @@
+{% extends 'base_content.html' %}
+{% block content %}
+<div class="container mt-5">  
+    <div class="row mb-4">    
+        <div class="col-12">      
+            <h1 class="display-4 fw-bold">{{ profile_user.full_name }}</h1>      
+            <p class="text-muted">{{ profile_user.username }}</p>
+        </div>
+        <div class="col-md-6 text-md-end text-center">
+            <div class="d-inline-block me-4">
+                <span class="d-block fw-bold h4 mb-0">{{ followers }}</span>
+                <small class="text-muted">Followers</small>
+            </div>
+            <div class="d-inline-block">
+                <span class="d-block fw-bold h4 mb-0">{{ following }}</span>
+                <small class="text-muted">Following</small>
+            </div>
+        </div>
+    </div>
+    {% if user.is_authenticated and user != profile_user %}
+    <form
+        action="{% url 'toggle_follow' profile_user.id %}"
+        method="post"
+        class="d-inline"
+    >
+    {% csrf_token %}
+    <button
+        type="submit"
+        id="follow-button"
+        class="btn {% if is_followed %}btn-dark{% else %}btn-outline-dark{% endif %} rounded-pill px-4"
+    >
+    {% if is_followed %}Following{% else %}Follow{% endif %}
+    </button>
+    </form>
+    {% endif %}
+    <hr class="mb-5" />  
+    {% include "partials/recipe_feed.html" with recipes=recipes %}
+</div>{% endblock %}
