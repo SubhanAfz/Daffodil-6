@@ -6,7 +6,7 @@
                 <h1 class="display-4 fw-bold mb-3">{{ recipe.title }}</h1>
                 <div class="text-muted">
                     <span class="me-3"
-                        >By <strong>{{ recipe.author }}</strong></span
+                        >By <strong><a href="{% url 'user_profile' recipe.author %}">{{ recipe.author }}</a></strong></span
                     >
                     <span>{{ recipe.views }} views</span>,
                     {% if likes == 1 %}

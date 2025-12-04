@@ -20,4 +20,4 @@ from .toggle_like_view import *
 from .toggle_favourite_view import *
 from .report_recipe_view import *
 from .create_recipe_view import *
-from .user_profile_view import user_profile
+from .user_profile_view import *
