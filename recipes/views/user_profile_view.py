@@ -17,14 +17,14 @@ def user_profile(request, username: str):
             alt = f"@{username}"
             # redirect usernames without '@' to the correct profile
             return redirect(reverse("user_profile", args=[alt]))
-    
+
     # Filter recipes by author
     recipes = Recipe.objects.filter(author=profile_user).select_related("author")
-    
+
     # Hide hidden recipes if viewing someone else's profile
     if request.user != profile_user:
         recipes = recipes.filter(is_hidden=False)
-    
+
     recipes = recipes.order_by("-created_at")
 
     is_followed = False
