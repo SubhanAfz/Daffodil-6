@@ -21,9 +21,17 @@
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title fw-bold">{{ item.title }}</h5>
-                    <p class="card-text text-muted">
+                    <p class="card-text text-muted mb-2">
                         {{ item.author.username }}
                     </p>
+                    <div class="d-flex gap-3 text-muted small">
+                        <span>
+                            <span class="bi-heart-fill text-secondary"></span> {{ item.liked_by.count }}
+                        </span>
+                        <span>
+                            <span class="bi-star-fill text-secondary"></span> {{ item.favourited_by.count }}
+                        </span>
+                    </div>
                     <a
                         href="{% url 'recipe_detail' item.id %}"
                         class="stretched-link"
