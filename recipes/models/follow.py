@@ -3,8 +3,8 @@ from django.conf import settings
 from .recipe import User
 
 
-class Followers(models.Model):
-    """Model representing a user's followers."""
+class Follow(models.Model):
+    """Model representing a user following another user."""
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="followers"

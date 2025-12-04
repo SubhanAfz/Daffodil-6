@@ -5,4 +5,4 @@ from .recipe import *
 from .like import *
 from .favourite import *
 from .report import *
-from .followers import *
+from .follow import *

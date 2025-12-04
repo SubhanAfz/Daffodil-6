@@ -2,7 +2,7 @@
 
 from django.test import TestCase
 from django.urls import reverse
-from recipes.models import Followers, User, Recipe
+from recipes.models import Follow, User, Recipe
 
 
 class DashboardViewTestCase(TestCase):
@@ -63,11 +63,11 @@ class DashboardViewTestCase(TestCase):
         user4 = User.objects.create(username="@sarahjones", email="sarah@example.com")
 
         # Make the current user follow user2 and user3
-        Followers.objects.create(user=user2, follower=self.user)
-        Followers.objects.create(user=user3, follower=self.user)
+        Follow.objects.create(user=user2, follower=self.user)
+        Follow.objects.create(user=user3, follower=self.user)
 
         # Make user4 follow the current user (should not affect following count)
-        Followers.objects.create(user=self.user, follower=user4)
+        Follow.objects.create(user=self.user, follower=user4)
 
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
@@ -83,11 +83,11 @@ class DashboardViewTestCase(TestCase):
         user4 = User.objects.create(username="@sarahjones", email="sarah@example.com")
 
         # Make user2 and user3 follow the current user
-        Followers.objects.create(user=self.user, follower=user2)
-        Followers.objects.create(user=self.user, follower=user3)
+        Follow.objects.create(user=self.user, follower=user2)
+        Follow.objects.create(user=self.user, follower=user3)
 
         # Make the current user follow user4 (should not affect followers count)
-        Followers.objects.create(user=user4, follower=self.user)
+        Follow.objects.create(user=user4, follower=self.user)
 
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)

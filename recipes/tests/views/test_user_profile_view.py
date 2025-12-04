@@ -2,7 +2,7 @@
 
 from django.test import TestCase, override_settings
 from django.urls import reverse
-from recipes.models import User, Recipe, Followers
+from recipes.models import User, Recipe, Follow
 
 
 class UserProfileViewTestCase(TestCase):
@@ -82,8 +82,8 @@ class UserProfileViewTestCase(TestCase):
         user3 = User.objects.create(username="@jimsmith", email="jim@example.com")
 
         # Create follow relationships
-        Followers.objects.create(user=profile_user, follower=user2)
-        Followers.objects.create(user=profile_user, follower=user3)
+        Follow.objects.create(user=profile_user, follower=user2)
+        Follow.objects.create(user=profile_user, follower=user3)
 
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
@@ -102,9 +102,9 @@ class UserProfileViewTestCase(TestCase):
         user4 = User.objects.create(username="@sarahjones", email="sarah@example.com")
 
         # Create follow relationships
-        Followers.objects.create(user=user2, follower=profile_user)
-        Followers.objects.create(user=user3, follower=profile_user)
-        Followers.objects.create(user=user4, follower=profile_user)
+        Follow.objects.create(user=user2, follower=profile_user)
+        Follow.objects.create(user=user3, follower=profile_user)
+        Follow.objects.create(user=user4, follower=profile_user)
 
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
@@ -152,7 +152,7 @@ class UserProfileViewTestCase(TestCase):
         self.client.force_login(other_user)
 
         # Create follow relationship
-        Followers.objects.create(user=profile_user, follower=other_user)
+        Follow.objects.create(user=profile_user, follower=other_user)
 
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)

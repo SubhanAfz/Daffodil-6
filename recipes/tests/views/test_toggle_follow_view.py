@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from recipes.models import User, Followers
+from recipes.models import User, Follow
 
 
 class ToggleFollowViewTest(TestCase):
@@ -25,8 +25,8 @@ class ToggleFollowViewTest(TestCase):
     def test_toggle_follow_unfollows_when_already_following(self):
         """Test that following a user you already follow will unfollow them."""
         # Create the follow relationship first
-        Followers.objects.create(user=self.other_user, follower=self.user)
-        follow_exists = Followers.objects.filter(
+        Follow.objects.create(user=self.other_user, follower=self.user)
+        follow_exists = Follow.objects.filter(
             user=self.other_user, follower=self.user
         ).exists()
         self.assertTrue(follow_exists)
@@ -36,7 +36,7 @@ class ToggleFollowViewTest(TestCase):
         self.assertEqual(response.status_code, 302)  # Redirect
 
         # Verify the follow relationship was removed
-        follow_exists = Followers.objects.filter(
+        follow_exists = Follow.objects.filter(
             user=self.other_user, follower=self.user
         ).exists()
         self.assertFalse(follow_exists)
@@ -44,7 +44,7 @@ class ToggleFollowViewTest(TestCase):
     def test_toggle_follow_follows_when_not_following(self):
         """Test that following a user you don't follow will create the relationship."""
         # Verify no follow relationship exists
-        follow_exists = Followers.objects.filter(
+        follow_exists = Follow.objects.filter(
             user=self.other_user, follower=self.user
         ).exists()
         self.assertFalse(follow_exists)
@@ -54,7 +54,7 @@ class ToggleFollowViewTest(TestCase):
         self.assertEqual(response.status_code, 302)  # Redirect
 
         # Verify the follow relationship was created
-        follow_exists = Followers.objects.filter(
+        follow_exists = Follow.objects.filter(
             user=self.other_user, follower=self.user
         ).exists()
         self.assertTrue(follow_exists)
@@ -66,7 +66,7 @@ class ToggleFollowViewTest(TestCase):
         self.assertEqual(response.status_code, 302)  # Redirect
 
         # Verify no self-follow relationship was created
-        self_follow_exists = Followers.objects.filter(
+        self_follow_exists = Follow.objects.filter(
             user=self.user, follower=self.user
         ).exists()
         self.assertFalse(self_follow_exists)

@@ -17,13 +17,13 @@
             </div>
         </div>
     </div>
+    {% if user.is_authenticated and user != profile_user %}
     <form
         action="{% url 'toggle_follow' profile_user.id %}"
         method="post"
         class="d-inline"
     >
     {% csrf_token %}
-    {%if user.is_authenticated and user != profile_user %}
     <button
         type="submit"
         id="follow-button"

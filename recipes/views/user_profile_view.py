@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from recipes.models import User, Recipe, Followers
+from recipes.models import User, Recipe, Follow
 from django.http import Http404
 
 
@@ -17,11 +17,19 @@ def user_profile(request, username: str):
             alt = f"@{username}"
             # redirect usernames without '@' to the correct profile
             return redirect(reverse("user_profile", args=[alt]))
-    recipes = Recipe.objects.filter(author=profile_user).order_by("-created_at")
+    
+    # Filter recipes by author
+    recipes = Recipe.objects.filter(author=profile_user).select_related("author")
+    
+    # Hide hidden recipes if viewing someone else's profile
+    if request.user != profile_user:
+        recipes = recipes.filter(is_hidden=False)
+    
+    recipes = recipes.order_by("-created_at")
 
     is_followed = False
-    if request.user and request.user.is_authenticated:
-        is_followed = Followers.objects.filter(
+    if request.user.is_authenticated:
+        is_followed = Follow.objects.filter(
             follower=request.user, user=profile_user
         ).exists()
 

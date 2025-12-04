@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import redirect, get_object_or_404
-from recipes.models import User, Followers
+from recipes.models import User, Follow
 
 
 @login_required
@@ -16,7 +16,7 @@ def toggle_follow(request, user_id):
         # cannot follow oneself
         return redirect(request.META.get("HTTP_REFERER", "dashboard"))
 
-    follow, created = Followers.objects.get_or_create(
+    follow, created = Follow.objects.get_or_create(
         follower=request.user, user=user_to_follow
     )
 
