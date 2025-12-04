@@ -1,16 +1,25 @@
 {% extends 'base_content.html' %}
 {% block content %}
 
-<h1>New Post</h1>
+<h1 class="display-4 text-center fw-bold mb-3">New Post</h1>
 
-<form action="{% url 'create_recipe' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %} {% include 'partials/bootstrap_form.html' with form=form %}
-    {% if form.errors %}
-        <div class="errorlist">
+<div class="container pb-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-9 col-lg-7">
+      <form action="{% url 'create_recipe' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% include 'partials/bootstrap_form.html' with form=form %}
+        {% if form.errors %}
+          <div class="errorlist">
             {{ form.errors }}
-        </div>
-    {% endif %}
-    <button type="submit">Post</button>
-</form>
+          </div>
+        {% endif %}
 
+        <div class="d-grid mt-4 mb-4">
+          <button type="submit" class="btn btn-primary">Post</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}

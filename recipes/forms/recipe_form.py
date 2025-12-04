@@ -15,7 +15,7 @@ class RecipeForm(forms.ModelForm):
         fields = ["title", "description", "ingredients", "content", "thumbnail"]
 
         widgets = {
-            "description": forms.Textarea(attrs={"style": "resize:both;"}),
-            "ingredients": forms.Textarea(attrs={"style": "resize:both;"}),
-            "content": forms.Textarea(attrs={"style": "resize:both;"}),
+            "description": forms.Textarea(attrs={"style": "form-control", "rows": 3}),
+            "ingredients": forms.Textarea(attrs={"style": "form-control", "rows": 6}),
+            "content": forms.Textarea(attrs={"style": "form-control", "rows": 8}),
         }
