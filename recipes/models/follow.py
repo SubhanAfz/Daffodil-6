@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from .recipe import User
 
 
 class Follow(models.Model):
@@ -10,7 +9,7 @@ class Follow(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="followers"
     )
     follower = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="followers_of"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="followers_of"
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
