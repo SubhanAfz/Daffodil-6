@@ -35,6 +35,7 @@ urlpatterns = [
     path("release/<int:id>/", views.post_release, name="post_release"),
     path("", views.home, name="home"),
     path("dashboard/", views.dashboard, name="dashboard"),
+    path("feed/", views.feed, name="feed"),
     path("likes/", views.like_list, name="like_list"),
     path("favourites/", views.favourite_list, name="favourite_list"),
     path("log_in/", views.LogInView.as_view(), name="log_in"),

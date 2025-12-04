@@ -1,31 +1,37 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-3 sticky-top shadow-sm">
   <div class="container">
-    <a class="navbar-brand" href="{% url 'dashboard' %}">
+    <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">
       Recipify
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="ms-auto d-flex align-items-center">
-      {% if user.is_superuser %} 
-        <p style="color:white; margin-top:0; margin-bottom:0; margin-left:10px; margin-right:10px;"> Super User </p>
-      {% elif user.is_staff %}
-        <p style="color:white; margin-top:0; margin-bottom:0; margin-left:10px; margin-right:10px;"> Admin </p>
-      {% else %}
-        <p style="color:white; margin-top:0; margin-bottom:0; margin-left:10px; margin-right:10px;"> User </p>
-      {% endif %}
-
-      <p style="color:white; margin-top:0; margin-bottom:0; margin-left:10px; margin-right:10px;"> {{ request.user.username }}</p>
-
-      {% if user.is_staff %}
-        {% include 'partials/admin_menu.html' %}
-      {% endif %}
-      {% if user.is_authenticated %}
-        {% include 'partials/create_post_button.html' %}
-      {% endif %}
+    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       {% if user.is_authenticated %}
         {% include 'partials/menu.html' %}
       {% endif %}
+
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center text-muted small">
+          {% if user.is_superuser %} 
+            <span class="badge bg-dark me-2">Super User</span>
+          {% elif user.is_staff %}
+            <span class="badge bg-secondary me-2">Admin</span>
+          {% endif %}
+          
+          <span class="fw-semibold text-dark">{{ request.user.username }}</span>
+        </div>
+
+        {% if user.is_staff %}
+          {% include 'partials/admin_menu.html' %}
+        {% endif %}
+        
+        {% if user.is_authenticated %}
+          {% include 'partials/create_post_button.html' %}
+          {% include 'partials/profile_dropdown.html' %}
+        {% endif %}
+      </div>
     </div>
   </div>
 </nav>

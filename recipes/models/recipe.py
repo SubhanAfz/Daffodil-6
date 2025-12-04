@@ -1,7 +1,7 @@
 import django.db.models as models
+from django.utils import timezone
 
 from recipes.models.user import User
-from django.utils import timezone
 
 
 class Recipe(models.Model):

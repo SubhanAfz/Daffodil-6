@@ -1,0 +1,16 @@
+{% extends 'base_content.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold">Recipe Feed</h1>
+            <p class="text-muted">Discover recipes from our community</p>
+        </div>
+    </div>
+
+    <hr class="mb-5" />
+
+    {% include "partials/recipe_feed.html" with recipes=recipes %}
+</div>
+{% endblock %}
