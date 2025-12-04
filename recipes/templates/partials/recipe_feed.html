@@ -1,5 +1,10 @@
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-        {% for item in recipes %}
+    {% if recipes|length == 0 %}
+        <div class="col">
+            <p class="text-center text-muted">No recipes found.</p>
+        </div>
+    {% endif %}
+    {% for item in recipes %}
         <div class="col">
             <div class="card border-0 shadow-sm">
                 {% if item.thumbnail %}
@@ -26,5 +31,6 @@
                 </div>
             </div>
         </div>
-        {% endfor %}
+    {% endfor %}
+
 </div>

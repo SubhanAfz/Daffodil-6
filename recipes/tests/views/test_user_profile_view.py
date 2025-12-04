@@ -1,4 +1,4 @@
-"""Tests of the home view."""
+"""Tests of the user profile view."""
 
 from django.test import TestCase, override_settings
 from django.urls import reverse
@@ -68,3 +68,8 @@ class UserProfileViewTestCase(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "User2 Recipe")
+
+    def test_user_profile_no_recipes(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No recipes found.")
