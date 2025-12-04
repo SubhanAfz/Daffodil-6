@@ -12,9 +12,10 @@ class RecipeForm(forms.ModelForm):
 
     class Meta:
         model = Recipe
-        fields = ["title", "description", "content", "thumbnail"]
+        fields = ["title", "description", "ingredients", "content", "thumbnail"]
 
         widgets = {
-            "description": forms.Textarea(attrs={"style": "resize:both;"}),
-            "content": forms.Textarea(attrs={"style": "resize:both;"}),
+            "description": forms.Textarea(attrs={"style": "form-control", "rows": 3}),
+            "ingredients": forms.Textarea(attrs={"style": "form-control", "rows": 6}),
+            "content": forms.Textarea(attrs={"style": "form-control", "rows": 8}),
         }
