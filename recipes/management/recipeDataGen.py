@@ -34,12 +34,13 @@ class recipeDataGen:
         self.index += 1
 
         title = str(row["title"])
-        desc = self.series_to_string(row["ingredients"])
+        ingredients = self.series_to_string(row["ingredients"])
         content = self.series_to_string(row["directions"])
 
         return {
             "title": title,
-            "description": desc,
+            "description": title,
+            "ingredients": ingredients,
             "content": content,
             "author": user,
             "created_at": self.fake.date_time_this_year(),
