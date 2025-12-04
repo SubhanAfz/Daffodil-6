@@ -12,8 +12,12 @@ def user_profile(request, username):
     if not profile_user:
         alt = f"@{username}"
         profile_user = get_object_or_404(User, username=alt)
-    recipes = Recipe.objects.filter(author=profile_user).order_by('-created_at')
-    return render(request, "user_profile.html", {
-        "profile_user": profile_user,
-        "recipes": recipes,
-    })
+    recipes = Recipe.objects.filter(author=profile_user).order_by("-created_at")
+    return render(
+        request,
+        "user_profile.html",
+        {
+            "profile_user": profile_user,
+            "recipes": recipes,
+        },
+    )
