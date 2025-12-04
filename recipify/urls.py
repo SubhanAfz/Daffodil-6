@@ -55,6 +55,7 @@ urlpatterns = [
         views.report_recipe,
         name="report_recipe",
     ),
+    path("users/<str:username>/", views.user_profile, name="user_profile"),
 ]
 
 if not settings.PRODUCTION:
