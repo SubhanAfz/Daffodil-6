@@ -2,8 +2,7 @@
 
 from django.test import TestCase
 from django.urls import reverse
-from recipes.models.recipe import Recipe
-from recipes.models.user import User
+from recipes.models import Followers, User, Recipe
 
 
 class DashboardViewTestCase(TestCase):
@@ -55,3 +54,43 @@ class DashboardViewTestCase(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "No recipes found.")
+
+    def test_dashboard_following_count(self):
+        """Test that the dashboard displays the correct following count."""
+        # Create additional users
+        user2 = User.objects.create(username="@janedoe", email="jane@example.com")
+        user3 = User.objects.create(username="@jimsmith", email="jim@example.com")
+        user4 = User.objects.create(username="@sarahjones", email="sarah@example.com")
+
+        # Make the current user follow user2 and user3
+        Followers.objects.create(user=user2, follower=self.user)
+        Followers.objects.create(user=user3, follower=self.user)
+
+        # Make user4 follow the current user (should not affect following count)
+        Followers.objects.create(user=self.user, follower=user4)
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+        # Check that the following count is 2
+        self.assertEqual(response.context["following"], 2)
+
+    def test_dashboard_followers_count(self):
+        """Test that the dashboard displays the correct followers count."""
+        # Create additional users
+        user2 = User.objects.create(username="@janedoe", email="jane@example.com")
+        user3 = User.objects.create(username="@jimsmith", email="jim@example.com")
+        user4 = User.objects.create(username="@sarahjones", email="sarah@example.com")
+
+        # Make user2 and user3 follow the current user
+        Followers.objects.create(user=self.user, follower=user2)
+        Followers.objects.create(user=self.user, follower=user3)
+
+        # Make the current user follow user4 (should not affect followers count)
+        Followers.objects.create(user=user4, follower=self.user)
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+        # Check that the followers count is 2
+        self.assertEqual(response.context["followers"], 2)

@@ -30,16 +30,16 @@ class FavouriteListViewTest(TestCase):
     def test_empty_favourite_list(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'id="no-favourites-text"')
+        self.assertContains(response, 'id="no-recipes-text"')
 
     def test_favourite_list_with_favourites(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'id="no-favourites-text"')
+        self.assertContains(response, 'id="no-recipes-text"')
         Favourite.objects.create(user=self.user, recipe=self.recipe)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertNotContains(response, 'id="no-favourites-text"')
+        self.assertNotContains(response, 'id="no-recipes-text"')
 
     def test_post_gives_405(self):
         response = self.client.post(self.url)

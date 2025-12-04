@@ -1,7 +1,7 @@
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
     {% if recipes|length == 0 %}
         <div class="col">
-            <p class="text-center text-muted">No recipes found.</p>
+            <p class="text-center text-muted" id="no-recipes-text">No recipes found.</p>
         </div>
     {% endif %}
     {% for item in recipes %}
