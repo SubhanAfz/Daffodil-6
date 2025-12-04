@@ -8,7 +8,6 @@ is swallowed and generation continues.
 """
 
 from faker import Faker
-from random import randint
 
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
