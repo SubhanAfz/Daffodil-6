@@ -137,7 +137,6 @@ class Command(BaseCommand):
         self.assign_tags_to_recipes()
         self.assign_likes_to_recipes()
         self.assign_followers_to_users()
-    
 
     def assign_followers_to_users(self):
         """
@@ -151,7 +150,7 @@ class Command(BaseCommand):
             self.add_followers(toFollow, count)
             possible_followers.exclude(id=toFollow.id)
             print("Adding followers to users...", end="\r")
-            
+
         print("Follower assignment complete.      ")
 
     def add_followers(self, toFollow, count):
