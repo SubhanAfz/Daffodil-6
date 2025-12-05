@@ -13,6 +13,7 @@ from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from recipes.models import User
 from recipes.models import Recipe
+from recipes.models.tag import Tag
 from recipes.management.recipeDataGen import recipeDataGen
 
 
@@ -38,6 +39,19 @@ user_fixtures = [
     },
 ]
 
+tag_fixtures = [
+    "Chinese",
+    "Italian",
+    "Mexican",
+    "Indian",
+    "Mediterranean",
+    "Spicy",
+    "Vegan",
+    "Gluten-Free",
+    "Comfort Food",
+    "BBQ",
+]
+
 
 class Command(BaseCommand):
     """
@@ -57,14 +71,15 @@ class Command(BaseCommand):
     USER_COUNT = 200
     RECIPES_PER_USER = 2
     SEEDED_RECIPE_COUNT = USER_COUNT * RECIPES_PER_USER
+
     DEFAULT_PASSWORD = "Password123"
     help = "Seeds the database with sample data"
-    recipeDataGen = recipeDataGen()
 
     def __init__(self, *args, **kwargs):
         """Initialize the command with a locale-specific Faker instance."""
         super().__init__(*args, **kwargs)
         self.faker = Faker("en_US")
+        self.recipeDataGen = recipeDataGen()
 
     def handle(self, *args, **options):
         """
@@ -77,6 +92,28 @@ class Command(BaseCommand):
         self.create_users()
         # self.users = User.objects.all()
         self.assign_recipes_to_users()
+        self.assign_tags_to_recipes()
+
+    def assign_tags_to_recipes(self):
+        """
+        Assign predefined tags to recipes in the database.
+        """
+        # Create tag objects
+        for tag_name in tag_fixtures:
+            tag = Tag.objects.get_or_create(name=tag_name)
+
+        tags = Tag.objects.all()
+
+        # Assign tags to recipes
+        recipes = Recipe.objects.all()
+        for recipe in recipes:
+            # For simplicity, assign 2 random tags to each recipe
+            assigned_tags = self.faker.random_elements(
+                elements=list(tags), length=2, unique=True
+            )
+            for tag in assigned_tags:
+                tag.recipes.add(recipe)
+                tag.save()
 
     def assign_recipes_to_users(self):
         """
