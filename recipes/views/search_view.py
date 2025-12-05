@@ -14,9 +14,19 @@ def search_view(request):
     - sort: Sorting option (most_liked, most_viewed, newest, oldest)
     """
 
+    MAX_KEYWORD_LENGTH = 100
+    MAX_TAGS_LENGTH = 200
+    MAX_INGREDIENTS_LENGTH = 100
+
     keyword = request.GET.get("q", "").strip()
+    if len(keyword) > MAX_KEYWORD_LENGTH:
+        keyword = keyword[:MAX_KEYWORD_LENGTH]
     tags_query = request.GET.get("tags", "").strip()
+    if len(tags_query) > MAX_TAGS_LENGTH:
+        tags_query = tags_query[:MAX_TAGS_LENGTH]
     ingredients_query = request.GET.get("ingredients", "").strip()
+    if len(ingredients_query) > MAX_INGREDIENTS_LENGTH:
+        ingredients_query = ingredients_query[:MAX_INGREDIENTS_LENGTH]
     sort_by = request.GET.get("sort", "newest")
 
     recipes = Recipe.objects.filter(is_hidden=False)

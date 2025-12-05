@@ -33,15 +33,15 @@ def create_recipe(request: HttpRequest):
                         tag, _ = Tag.objects.get_or_create(name=lower_tag_name)
                         tag.recipes.add(recipe)
                 return redirect("recipe_detail", recipe_id=recipe.pk)
-            except DatabaseError:
-                form.add_error(
-                    None,
-                    "An error occurred when posting your recipe. Please try again later.",
-                )
             except IntegrityError:
                 form.add_error(
                     None,
                     "A database integrity error occurred. Please ensure all fields are valid.",
+                )
+            except DatabaseError:
+                form.add_error(
+                    None,
+                    "An error occurred when posting your recipe. Please try again later.",
                 )
     else:
         form = RecipeForm()
