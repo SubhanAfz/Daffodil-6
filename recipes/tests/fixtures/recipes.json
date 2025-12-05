@@ -5,6 +5,7 @@
     "fields": {
       "title": "Herb Roasted Potatoes",
       "description": "Simple roasted potatoes with herbs.",
+      "ingredients": "potatoes, herbs, oil",
       "content": "Cut potatoes, mix with herbs and oil, roast at 425F.",
       "author": 1,
       "views": 12,
@@ -23,6 +24,7 @@
     "fields": {
       "title": "Spicy Lentil Soup",
       "description": "A warming lentil soup with spices.",
+      "ingredients": "lentils, tomatoes, onions, garlic, spices",
       "content": "Simmer lentils with spices and vegetables.",
       "author": 2,
       "views": 42,
@@ -41,6 +43,7 @@
     "fields": {
       "title": "Chocolate Layer Cake",
       "description": "Rich and moist chocolate cake.",
+      "ingredients": "flour, sugar, cocoa powder, eggs, butter, frosting",
       "content": "Prepare batter, bake, and layer with frosting.",
       "author": 3,
       "views": 87,
@@ -59,6 +62,7 @@
   "fields": {
     "title": "Garlic Butter Shrimp",
     "description": "Quick sautéed shrimp with garlic butter.",
+    "ingredients": "shrimp, butter, garlic, lemon",
     "content": "Sauté shrimp in butter, garlic, and lemon.",
     "author": 2,
     "views": 55,
@@ -77,6 +81,7 @@
     "fields": {
       "title": "Garlic Butter Pasta",
       "description": "Simple pasta tossed in garlic butter.",
+      "ingredients": "pasta, butter, garlic, parsley",
       "content": "Boil pasta, melt butter with garlic, combine.",
       "author": 2,
       "views": 30,
@@ -95,6 +100,7 @@
     "fields": {
       "title": "Coconut Curry Noodles",
       "description": "Creamy curry noodles with coconut milk.",
+      "ingredients": "noodles, coconut milk, curry powder, spices",
       "content": "Simmer broth with spices and coconut milk, add noodles.",
       "author": 3,
       "views": 55,

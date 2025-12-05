@@ -22,3 +22,4 @@ from .report_recipe_view import *
 from .create_recipe_view import *
 from .user_profile_view import *
 from .toggle_follow_view import *
+from .search_view import *

@@ -34,6 +34,7 @@ urlpatterns = [
     path("delete/<int:id>/", views.post_delete, name="post_delete"),
     path("release/<int:id>/", views.post_release, name="post_release"),
     path("", views.home, name="home"),
+    path("search/", views.search_view, name="search"),
     path("dashboard/", views.dashboard, name="dashboard"),
     path("likes/", views.like_list, name="like_list"),
     path("favourites/", views.favourite_list, name="favourite_list"),
