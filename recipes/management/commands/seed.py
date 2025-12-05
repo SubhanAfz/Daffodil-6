@@ -52,6 +52,10 @@ tag_fixtures = [
     "BBQ",
 ]
 
+like_number_fixtures = [0, 13, 19, 21, 29, 32, 39, 39, 43, 47, 50, 51, 52, 56, 62, 66, 70, 73, 75, 99]
+
+follower_number_fixtures = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 100]
+
 
 class Command(BaseCommand):
     """
