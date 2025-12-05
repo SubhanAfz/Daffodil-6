@@ -150,9 +150,9 @@ class CreateRecipeViewTest(TestCase):
 
         recipe = Recipe.objects.latest("pk")
         tags = [tag.name for tag in recipe.tags.all()]
-        self.assertIn("Vegan", tags)
-        self.assertIn("Gluten-Free", tags)
-        self.assertIn("Dessert", tags)
+        self.assertIn("vegan", tags)
+        self.assertIn("gluten-free", tags)
+        self.assertIn("dessert", tags)
 
     def test_create_recipe_without_thumbnail(self):
         """Test that a recipe without thumbnail has has_thumbnail set to False."""

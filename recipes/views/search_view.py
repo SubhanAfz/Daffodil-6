@@ -30,7 +30,9 @@ def search_view(request):
 
     # Apply tags filter
     if tags_query:
-        tag_names = [tag.strip() for tag in tags_query.split(",") if tag.strip()]
+        tag_names = [
+            tag.strip().lower() for tag in tags_query.split(",") if tag.strip()
+        ]
         if tag_names:
             recipes = recipes.filter(tags__name__in=tag_names).distinct()
 

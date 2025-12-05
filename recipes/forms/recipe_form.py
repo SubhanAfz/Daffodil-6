@@ -14,7 +14,7 @@ class RecipeForm(forms.ModelForm):
         required=False,
         widget=forms.Textarea(
             attrs={
-                "style": "form-control",
+                "class": "form-control",
                 "rows": 2,
                 "placeholder": "for example: dessert, chocolate, easy",
             }

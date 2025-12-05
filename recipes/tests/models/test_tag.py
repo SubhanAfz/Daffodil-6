@@ -123,3 +123,10 @@ class TagModelTestCase(TestCase):
 
         self.assertFalse(Tag.objects.filter(id=tag_id).exists())
         self.assertTrue(Recipe.objects.filter(id=recipe_id).exists())
+
+    def test_unique_recipes_in_tag(self):
+        """Test that a recipe cannot be added multiple times to the same tag."""
+        self.tag.recipes.add(self.recipe)
+        self.tag.recipes.add(self.recipe)  # Attempt to add again
+
+        self.assertEqual(self.tag.recipes.count(), 1)

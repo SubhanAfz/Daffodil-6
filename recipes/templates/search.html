@@ -9,7 +9,6 @@
         <div class="card-body">
             <form method="get" action="{% url 'search' %}">
                 <div class="row g-3">
-                    <!-- Keyword Search -->
                     <div class="col-md-6">
                         <label for="keyword" class="form-label">Keyword</label>
                         <input 
@@ -22,7 +21,6 @@
                         >
                     </div>
                     
-                    <!-- Tags -->
                     <div class="col-md-6">
                         <label for="tags" class="form-label">Tags</label>
                         <input 
@@ -36,7 +34,6 @@
                         <small class="text-muted">Separate multiple tags with commas</small>
                     </div>
                     
-                    <!-- Ingredients -->
                     <div class="col-md-6">
                         <label for="ingredients" class="form-label">Ingredients</label>
                         <input 
@@ -49,7 +46,6 @@
                         >
                     </div>
                     
-                    <!-- Sort By -->
                     <div class="col-md-6">
                         <label for="sort" class="form-label">Sort By</label>
                         <select class="form-select" id="sort" name="sort">
@@ -60,7 +56,6 @@
                         </select>
                     </div>
                     
-                    <!-- Buttons -->
                     <div class="col-12">
                         <button type="submit" class="btn btn-dark px-4">Search</button>
                         <a href="{% url 'search' %}" class="btn btn-outline-secondary px-4">Clear</a>
@@ -82,16 +77,13 @@
         </div>
     {% endif %}
     
-    <!-- Available Tags -->
     {% if all_tags %}
         <div class="card mt-4">
             <div class="card-body">
                 <h6 class="card-title">Popular Tags</h6>
                 <div class="d-flex flex-wrap gap-2">
                     {% for tag in all_tags %}
-                        <a href="?tags={{ tag.name }}" class="badge bg-light text-dark text-decoration-none border">
-                            {{ tag.name }}
-                        </a>
+                        {% include "partials/tag.html" with tag=tag %}
                     {% endfor %}
                 </div>
             </div>
