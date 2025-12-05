@@ -23,13 +23,34 @@
             </div>
 
             <div class="mb-5">
-                <p class="lead text-center fst-italic text-muted mb-4">
-                    "{{ recipe.description }}"
-                </p>
-                <div class="py-4 border-top border-bottom">
-                    <p class="mb-0" style="white-space: pre-wrap">
-                        {{ recipe.content }}
+                <div>
+                    <p class="lead text-center fst-italic text-muted mb-4">
+                        "{{ recipe.description }}"
                     </p>
+                    <!-- Tags Section -->
+                    <div class="d-flex justify-content-center flex-wrap gap-2 mb-4">
+                        {% for tag in tags %}
+                            {% include "partials/tag.html" with tag=tag %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-center"> Ingredients </h1>
+                    <div class="py-4 border-top">
+                        <p class="mb-0" style="white-space: pre-line">
+                            {{ recipe.ingredients }}
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-center"> Recipe </h1>
+                    <div class="py-4 border-top border-bottom">
+                        <p class="mb-0" style="white-space: pre-line">
+                            {{ recipe.content }}
+                        </p>
+                    </div>
                 </div>
             </div>
 

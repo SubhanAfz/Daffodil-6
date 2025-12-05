@@ -8,7 +8,6 @@ is swallowed and generation continues.
 """
 
 from faker import Faker
-from random import randint
 
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
@@ -95,35 +94,6 @@ class Command(BaseCommand):
                 recipe_data = self.recipeDataGen.get_next_recipe_data(user)
                 self.try_create_recipe(recipe_data)
 
-    def generate_recipe_data(self, user):
-        """
-        Generate random recipe data for a given user.
-
-        Args:
-            user (User): The author of the recipe.
-
-        Returns:
-            dict: Mapping with recipe data | ``title``, ``description``,
-            ``content``, ``author``, ``created_at``, ``updated_at``, ``views`` |.
-        """
-
-        title = self.faker.sentence(nb_words=6)
-        description = self.faker.paragraph(nb_sentences=3)
-        content = self.faker.text(max_nb_chars=2000)
-        return {
-            "title": title,
-            "description": description,
-            "content": content,
-            "author": user,
-            "created_at": self.faker.date_time_this_year(),
-            "updated_at": self.faker.date_time_this_year(),
-            "views": randint(0, 1000),
-            "is_reported": False,
-            "num_reports": 0,
-            "is_hidden": False,
-            "date_hidden": None,
-        }
-
     def try_create_recipe(self, data):
         """
         Attempt to create a recipe and ignore any errors.
@@ -148,6 +118,7 @@ class Command(BaseCommand):
         Recipe.objects.create(
             title=data["title"],
             description=data["description"],
+            ingredients=data["ingredients"],
             content=data["content"],
             author=data["author"],
             created_at=data["created_at"],

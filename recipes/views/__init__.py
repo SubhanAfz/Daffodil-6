@@ -22,3 +22,4 @@ from .toggle_favourite_view import *
 from .toggle_follow_view import *
 from .toggle_like_view import *
 from .user_profile_view import *
+from .search_view import *
