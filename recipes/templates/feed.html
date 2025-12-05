@@ -1,0 +1,50 @@
+{% extends 'base_content.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-9">
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <h1 class="display-4 fw-bold">Discover & Cook</h1>
+                    <p class="lead text-muted">Explore the community's latest culinary creations</p>
+                </div>
+            </div>
+
+            <hr class="mb-5" />
+
+            {% if popular_chefs %}
+            <div class="mb-5">
+                <h3 class="fw-bold mb-4">Popular Chefs</h3>
+                <div class="d-flex overflow-auto pb-3" style="gap: 20px;">
+                    {% for chef in popular_chefs %}
+                    <div class="text-center" style="min-width: 100px;">
+                        <a href="{% url 'user_profile' chef.username %}" class="text-decoration-none text-dark">
+                            <img src="{{ chef.gravatar }}" alt="{{ chef.username }}" class="rounded-circle mb-2 shadow-sm" style="width: 80px; height: 80px; object-fit: cover;">
+                            <p class="small fw-bold mb-0 text-truncate">{{ chef.username }}</p>
+                            <p class="small text-muted mb-0">{{ chef.num_followers }} followers</p>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr class="mb-5" />
+            {% endif %}
+
+            {% if trending_recipes %}
+            <div class="mb-5">
+                <h3 class="fw-bold mb-4">Trending Recipes</h3>
+                {% include "partials/recipe_feed.html" with recipes=trending_recipes %}
+            </div>
+            <hr class="mb-5" />
+            {% endif %}
+
+            <div class="mb-5">
+                <h3 class="fw-bold mb-2">Explore</h3>
+                <p class="text-muted mb-4">Recipes tailored to your tastes</p>
+                {% include "partials/recipe_feed.html" with recipes=explore_recipes %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
