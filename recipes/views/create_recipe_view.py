@@ -27,7 +27,9 @@ def create_recipe(request: HttpRequest):
                     tags_input = form.cleaned_data.get("tags_input", "")
                     if tags_input:
                         tag_names = [
-                            name.strip() for name in tags_input.split(",") if name.strip()
+                            name.strip()
+                            for name in tags_input.split(",")
+                            if name.strip()
                         ]
                         for tag_name in tag_names:
                             lower_tag_name = tag_name.lower()
