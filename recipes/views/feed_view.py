@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q
+from django.http import HttpResponseNotAllowed
 from django.shortcuts import render
 
 from recipes.models import Recipe, User
@@ -13,6 +14,9 @@ def feed(request):
     - Trending recipes (recipes with most likes)
     - Explore (recipes tailored to the user's following and likes)
     """
+    if request.method != "GET":
+        return HttpResponseNotAllowed(["GET"])
+
     current_user = request.user
 
     popular_chefs = User.objects.annotate(num_followers=Count("followers")).order_by(
