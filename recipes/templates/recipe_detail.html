@@ -27,6 +27,14 @@
                     <p class="lead text-center fst-italic text-muted mb-4">
                         "{{ recipe.description }}"
                     </p>
+                    <!-- Tags Section -->
+                    <div class="d-flex justify-content-center flex-wrap gap-2 mb-4">
+                        {% for tag in tags %}
+                        <a href="" class="badge bg-secondary text-decoration-none">
+                            {{ tag.name }}
+                        </a>
+                        {% endfor %}
+                    </div>
                 </div>
 
                 <div>

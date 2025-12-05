@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db import DatabaseError
 from recipes.forms import RecipeForm
-from recipes.models import Recipe
+from recipes.models import Recipe, Tag
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
 
@@ -23,6 +23,13 @@ def create_recipe(request: HttpRequest):
             recipe.author = request.user
             try:
                 recipe.save()
+                tags_input = form.cleaned_data.get('tags_input', '')
+                if tags_input:
+                    recipe.tags.clear()
+                    tag_names = [name.strip() for name in tags_input.split(',') if name.strip()]
+                    for tag_name in tag_names:
+                        tag, _ = Tag.objects.get_or_create(name=tag_name)
+                        tag.recipes.add(recipe)
                 return redirect("recipe_detail", recipe_id=recipe.pk)
             except DatabaseError:
                 form.add_error(
