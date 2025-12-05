@@ -1,0 +1,93 @@
+{% extends 'base_content.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="display-4 fw-bold mb-4">Search Recipes</h1>
+    
+    <!-- Search Form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" action="{% url 'search' %}">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="keyword" class="form-label">Keyword</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="keyword" 
+                            name="q" 
+                            placeholder="Search in title, description, content..."
+                            value="{{ search_params.keyword }}"
+                        >
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label for="tags" class="form-label">Tags</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="tags" 
+                            name="tags" 
+                            placeholder="e.g., italian, spicy, vegetarian"
+                            value="{{ search_params.tags }}"
+                        >
+                        <small class="text-muted">Separate multiple tags with commas</small>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label for="ingredients" class="form-label">Ingredients</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="ingredients" 
+                            name="ingredients" 
+                            placeholder="Search by ingredient..."
+                            value="{{ search_params.ingredients }}"
+                        >
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label for="sort" class="form-label">Sort By</label>
+                        <select class="form-select" id="sort" name="sort">
+                            <option value="newest" {% if search_params.sort_by == 'newest' %}selected{% endif %}>Newest First</option>
+                            <option value="oldest" {% if search_params.sort_by == 'oldest' %}selected{% endif %}>Oldest First</option>
+                            <option value="most_liked" {% if search_params.sort_by == 'most_liked' %}selected{% endif %}>Most Liked</option>
+                            <option value="most_viewed" {% if search_params.sort_by == 'most_viewed' %}selected{% endif %}>Most Viewed</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-dark px-4">Search</button>
+                        <a href="{% url 'search' %}" class="btn btn-outline-secondary px-4">Clear</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="mb-3">
+        <h5>Found {{ result_count }} recipe{{ result_count|pluralize }}</h5>
+    </div>
+    
+    {% if recipes %}
+        {% include "partials/recipe_feed.html" with recipes=recipes %}
+    {% else %}
+        <div class="alert alert-info">
+            No recipes found. Try adjusting your search criteria.
+        </div>
+    {% endif %}
+    
+    {% if all_tags %}
+        <div class="card mt-4">
+            <div class="card-body">
+                <h6 class="card-title">Popular Tags</h6>
+                <div class="d-flex flex-wrap gap-2">
+                    {% for tag in all_tags %}
+                        {% include "partials/tag.html" with tag=tag %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

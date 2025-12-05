@@ -1,5 +1,5 @@
 from django.test import TestCase
-from recipes.models import User, Recipe, Favourite, Like
+from recipes.models import User, Recipe, Favourite, Like, Tag
 from django.urls import reverse
 
 
@@ -14,6 +14,7 @@ class RecipeDetailViewTest(TestCase):
     def setUp(self):
         self.user = User.objects.get(username="@johndoe")
         self.recipe = Recipe.objects.get(pk=1)
+        self.tag = Tag.objects.create(name="dessert")
         self.url = reverse("recipe_detail", args=[self.recipe.pk])
 
     def test_get_recipe_response(self):
@@ -75,3 +76,16 @@ class RecipeDetailViewTest(TestCase):
         response = self.client.get(self.url)
 
         self.assertEqual(response.context["likes"], initial_likes + 1)
+
+    def test_tags_showing(self):
+        self.tag.recipes.add(self.recipe)
+        response = self.client.get(self.url)
+        tags = self.recipe.tags.all()
+        for tag in tags:
+            self.assertContains(response, tag.name)
+
+    def test_tags_not_showing_when_none(self):
+        response = self.client.get(self.url)
+        tags = self.recipe.tags.all()
+        self.assertEqual(tags.count(), 0)
+        self.assertNotContains(response, self.tag.name)

@@ -10,6 +10,19 @@ class RecipeForm(forms.ModelForm):
 
     """
 
+    tags_input = forms.CharField(
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "rows": 2,
+                "placeholder": "for example: dessert, chocolate, easy",
+            }
+        ),
+        label="Tags",
+        help_text="Enter tags separated by commas.",
+    )
+
     class Meta:
         model = Recipe
         fields = ["title", "description", "ingredients", "content", "thumbnail"]

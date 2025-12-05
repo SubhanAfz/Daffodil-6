@@ -6,3 +6,4 @@ from .like import *
 from .favourite import *
 from .report import *
 from .follow import *
+from .tag import *

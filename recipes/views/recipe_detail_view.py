@@ -36,6 +36,7 @@ def recipe_detail_view(request, recipe_id):
     is_favourited = getattr(recipe, "is_favourited", False)
     likes = recipe.likes_count
     favourites = recipe.favourites_count
+    tags = recipe.tags.all()
     return render(
         request,
         "recipe_detail.html",
@@ -45,6 +46,7 @@ def recipe_detail_view(request, recipe_id):
             "is_favourited": is_favourited,
             "likes": likes,
             "favourites": favourites,
+            "tags": tags,
             "report_form": ReportForm(),
         },
     )

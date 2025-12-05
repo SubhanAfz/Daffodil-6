@@ -136,6 +136,24 @@ class CreateRecipeViewTest(TestCase):
             self.assertIsNotNone(recipe.thumbnail)
             self.assertIn("thumbnails/", recipe.thumbnail.name)
 
+    def test_create_recipe_with_tags(self):
+        """Test that a recipe with tags is created successfully."""
+        num_recipes_before = Recipe.objects.count()
+
+        post_data = self.form_data.copy()
+        post_data["tags_input"] = "Vegan, Gluten-Free, Dessert"
+
+        self.client.post(self.url, data=post_data)
+
+        num_recipes_after = Recipe.objects.count()
+        self.assertEqual(num_recipes_before + 1, num_recipes_after)
+
+        recipe = Recipe.objects.latest("pk")
+        tags = [tag.name for tag in recipe.tags.all()]
+        self.assertIn("vegan", tags)
+        self.assertIn("gluten-free", tags)
+        self.assertIn("dessert", tags)
+
     def test_create_recipe_without_thumbnail(self):
         """Test that a recipe without thumbnail has has_thumbnail set to False."""
         num_recipes_before = Recipe.objects.count()
