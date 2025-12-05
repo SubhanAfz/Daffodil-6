@@ -107,6 +107,7 @@ class Command(BaseCommand):
         # Assign tags to recipes
         recipes = Recipe.objects.all()
         for recipe in recipes:
+            print("Adding tags to recipes...", end="\r")
             # For simplicity, assign 2 random tags to each recipe
             assigned_tags = self.faker.random_elements(
                 elements=list(tags), length=2, unique=True
@@ -114,6 +115,7 @@ class Command(BaseCommand):
             for tag in assigned_tags:
                 tag.recipes.add(recipe)
                 tag.save()
+        print("Tag assignment complete.      ")
 
     def assign_recipes_to_users(self):
         """
@@ -130,6 +132,7 @@ class Command(BaseCommand):
 
                 recipe_data = self.recipeDataGen.get_next_recipe_data(user)
                 self.try_create_recipe(recipe_data)
+        print("Seeding recipes complete.      ")
 
     def try_create_recipe(self, data):
         """
@@ -192,7 +195,7 @@ class Command(BaseCommand):
         while user_count < self.USER_COUNT:
             print(f"Seeding user {user_count}/{self.USER_COUNT}", end="\r")
             self.generate_user()
-            user_count = User.objects.count()
+            user_count += 1
         print("User seeding complete.      ")
 
     def generate_user(self):
