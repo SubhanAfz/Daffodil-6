@@ -7,15 +7,12 @@ are left untouched—if a create fails (e.g., due to duplicates), the error
 is swallowed and generation continues.
 """
 
+import random
 from faker import Faker
-
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
-from recipes.models import User
-from recipes.models import Recipe
-from recipes.models.tag import Tag
+from recipes.models import User, Recipe, Tag, Follow, Like
 from recipes.management.recipeDataGen import recipeDataGen
-
 
 user_fixtures = [
     {
@@ -50,6 +47,52 @@ tag_fixtures = [
     "Gluten-Free",
     "Comfort Food",
     "BBQ",
+]
+
+like_number_fixtures = [
+    0,
+    13,
+    19,
+    21,
+    29,
+    32,
+    39,
+    39,
+    43,
+    47,
+    50,
+    51,
+    52,
+    56,
+    62,
+    66,
+    70,
+    73,
+    75,
+    99,
+]
+
+follower_number_fixtures = [
+    0,
+    1,
+    2,
+    2,
+    2,
+    2,
+    4,
+    7,
+    8,
+    8,
+    9,
+    11,
+    14,
+    16,
+    16,
+    17,
+    21,
+    24,
+    27,
+    29,
 ]
 
 
@@ -90,9 +133,57 @@ class Command(BaseCommand):
         """
 
         self.create_users()
-        # self.users = User.objects.all()
         self.assign_recipes_to_users()
         self.assign_tags_to_recipes()
+        self.assign_likes_to_recipes()
+        self.assign_followers_to_users()
+
+    def assign_followers_to_users(self):
+        """
+        Assign predefined follower numbers to users in the database.
+        """
+        users = User.objects.all()
+        possible_followers = User.objects.all()
+
+        for count in follower_number_fixtures:
+            toFollow = random.choice(users)
+            self.add_followers(toFollow, count)
+            possible_followers.exclude(id=toFollow.id)
+            print("Adding followers to users...", end="\r")
+
+        print("Follower assignment complete.      ")
+
+    def add_followers(self, toFollow, count):
+        for _ in range(count):
+            follower = random.choice(User.objects.exclude(id=toFollow.id))
+
+            # Ensure no duplicate follows
+            while Follow.objects.filter(user=toFollow, follower=follower).exists():
+                follower = random.choice(User.objects.exclude(id=toFollow.id))
+
+            Follow.objects.create(user=toFollow, follower=follower)
+
+    def assign_likes_to_recipes(self):
+        """
+        Assign predefined like numbers to recipes in the database.
+        """
+        recipes = Recipe.objects.all()
+        for num in like_number_fixtures:
+            recipe = random.choice(recipes)
+            recipes = recipes.exclude(id=recipe.id)
+            print("Adding likes to recipes...", end="\r")
+            self.add_likes(recipe, num)
+        print("Like assignment complete.      ")
+
+    def add_likes(self, recipe, count):
+        for _ in range(count):
+            liker = random.choice(User.objects.all())
+
+            # Ensure no duplicate likes
+            while Like.objects.filter(user=liker, recipe=recipe).exists():
+                liker = random.choice(User.objects.all())
+
+            Like.objects.create(user=liker, recipe=recipe)
 
     def assign_tags_to_recipes(self):
         """
