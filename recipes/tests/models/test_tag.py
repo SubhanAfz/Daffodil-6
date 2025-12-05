@@ -6,19 +6,21 @@ from recipes.models import Tag, Recipe, User
 
 class TagModelTestCase(TestCase):
     """Unit tests for the Tag model."""
+
     fixtures = ["recipes/tests/fixtures/default_user.json"]
+
     def setUp(self):
         """Set up test data for tag tests."""
         self.user = User.objects.get(username="@johndoe")
-        
+
         self.recipe = Recipe.objects.create(
             title="Test Recipe",
             description="A test recipe",
             ingredients="Test ingredients",
             content="Test content",
-            author=self.user
+            author=self.user,
         )
-        
+
         self.tag = Tag.objects.create(name="italian")
 
     def test_tag_creation(self):
@@ -43,7 +45,7 @@ class TagModelTestCase(TestCase):
             description="Another test recipe",
             ingredients="More ingredients",
             content="More content",
-            author=self.user
+            author=self.user,
         )
         self.tag.recipes.add(self.recipe, recipe2)
         self.assertEqual(self.tag.recipes.count(), 2)
@@ -60,11 +62,11 @@ class TagModelTestCase(TestCase):
         """Test adding multiple tags to a single recipe."""
         tag2 = Tag.objects.create(name="spicy")
         tag3 = Tag.objects.create(name="vegetarian")
-        
+
         tag2.recipes.add(self.recipe)
         tag3.recipes.add(self.recipe)
         self.tag.recipes.add(self.recipe)
-        
+
         self.assertEqual(self.recipe.tags.count(), 3)
         self.assertIn(self.tag, self.recipe.tags.all())
         self.assertIn(tag2, self.recipe.tags.all())
@@ -74,7 +76,7 @@ class TagModelTestCase(TestCase):
         """Test removing a recipe from a tag."""
         self.tag.recipes.add(self.recipe)
         self.assertEqual(self.tag.recipes.count(), 1)
-        
+
         self.tag.recipes.remove(self.recipe)
         self.assertEqual(self.tag.recipes.count(), 0)
         self.assertNotIn(self.recipe, self.tag.recipes.all())
@@ -86,12 +88,12 @@ class TagModelTestCase(TestCase):
             description="Another test recipe",
             ingredients="More ingredients",
             content="More content",
-            author=self.user
+            author=self.user,
         )
-        
+
         self.tag.recipes.add(self.recipe, recipe2)
         self.assertEqual(self.tag.recipes.count(), 2)
-        
+
         self.tag.recipes.clear()
         self.assertEqual(self.tag.recipes.count(), 0)
 
@@ -100,7 +102,7 @@ class TagModelTestCase(TestCase):
         tag, created = Tag.objects.get_or_create(name="italian")
         self.assertFalse(created)
         self.assertEqual(tag, self.tag)
-        
+
         new_tag, created = Tag.objects.get_or_create(name="chinese")
         self.assertTrue(created)
         self.assertEqual(new_tag.name, "chinese")
@@ -116,8 +118,8 @@ class TagModelTestCase(TestCase):
         self.tag.recipes.add(self.recipe)
         tag_id = self.tag.id
         recipe_id = self.recipe.id
-        
+
         self.tag.delete()
-        
+
         self.assertFalse(Tag.objects.filter(id=tag_id).exists())
         self.assertTrue(Recipe.objects.filter(id=recipe_id).exists())

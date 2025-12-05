@@ -83,7 +83,7 @@ class RecipeDetailViewTest(TestCase):
         tags = self.recipe.tags.all()
         for tag in tags:
             self.assertContains(response, tag.name)
-    
+
     def test_tags_not_showing_when_none(self):
         response = self.client.get(self.url)
         tags = self.recipe.tags.all()

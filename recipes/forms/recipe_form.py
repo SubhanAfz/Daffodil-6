@@ -1,5 +1,5 @@
 from django import forms
-from recipes.models import Recipe, Tag
+from recipes.models import Recipe
 
 
 class RecipeForm(forms.ModelForm):
@@ -12,9 +12,15 @@ class RecipeForm(forms.ModelForm):
 
     tags_input = forms.CharField(
         required=False,
-        widget=forms.Textarea(attrs={"style": "form-control", "rows": 2, "placeholder": "for example: dessert, chocolate, easy"}),
+        widget=forms.Textarea(
+            attrs={
+                "style": "form-control",
+                "rows": 2,
+                "placeholder": "for example: dessert, chocolate, easy",
+            }
+        ),
         label="Tags",
-        help_text="Enter tags separated by commas."
+        help_text="Enter tags separated by commas.",
     )
 
     class Meta:

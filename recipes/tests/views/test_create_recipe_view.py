@@ -135,7 +135,7 @@ class CreateRecipeViewTest(TestCase):
             recipe = Recipe.objects.latest("pk")
             self.assertIsNotNone(recipe.thumbnail)
             self.assertIn("thumbnails/", recipe.thumbnail.name)
-            
+
     def test_create_recipe_with_tags(self):
         """Test that a recipe with tags is created successfully."""
         num_recipes_before = Recipe.objects.count()
