@@ -313,8 +313,14 @@ class Command(BaseCommand):
 
         # Add thumbnail if path is available
         thumbnail_path = data.get("thumbnail_path")
-        if not thumbnail_path:
-            return
+        if thumbnail_path:
+            self.attach_thumbnail(recipe, thumbnail_path)
+
+
+    def attach_thumbnail(self, recipe, thumbnail_path):
+        """
+        Attach a thumbnail image to the recipe.
+        """
         with open(thumbnail_path, "rb") as img_file:
             recipe.thumbnail.save(
                 thumbnail_path.split("/")[-1], File(img_file), save=True
