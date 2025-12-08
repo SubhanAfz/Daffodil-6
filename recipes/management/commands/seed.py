@@ -265,14 +265,14 @@ class Command(BaseCommand):
         Args:
             user (User): The author of the recipes.
         """
-        recipe_count = Recipe.objects.count()
         for _ in range(self.RECIPES_PER_USER):
+            recipe_data = self.recipeDataGen.get_next_recipe_data(user)
+            self.try_create_recipe(recipe_data)
+            recipe_count = Recipe.objects.count()
             print(
                 f"Seeding recipes {recipe_count}/{self.SEEDED_RECIPE_COUNT}",
                 end="\r",
             )
-            recipe_data = self.recipeDataGen.get_next_recipe_data(user)
-            self.try_create_recipe(recipe_data)
 
     def try_create_recipe(self, data):
         """
