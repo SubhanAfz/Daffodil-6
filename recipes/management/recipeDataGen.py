@@ -5,22 +5,7 @@ import os
 import pandas as pd
 from faker import Faker
 from random import randint
-
-
-def slugify(text: str) -> str:
-    """Turn a title into a filesystem-friendly slug."""
-    text = text.strip().lower()
-    allowed = "abcdefghijklmnopqrstuvwxyz0123456789-"
-    slug = []
-    for ch in text.replace(" ", "-"):
-        slug.append(ch if ch in allowed else "-")
-    # collapse multiple dashes
-    s = "".join(slug)
-    while "--" in s:
-        s = s.replace("--", "-")
-    return s.strip("-") or "recipe"
-
-
+from django.utils.text import slugify
 class recipeDataGen:
     fake = Faker()
     df = pd.read_csv("recipes/management/recipes_data_sample_1.csv")
