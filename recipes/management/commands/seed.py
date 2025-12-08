@@ -316,7 +316,6 @@ class Command(BaseCommand):
         if thumbnail_path:
             self.attach_thumbnail(recipe, thumbnail_path)
 
-
     def attach_thumbnail(self, recipe, thumbnail_path):
         """
         Attach a thumbnail image to the recipe.

@@ -6,6 +6,8 @@ import pandas as pd
 from faker import Faker
 from random import randint
 from django.utils.text import slugify
+
+
 class recipeDataGen:
     fake = Faker()
     df = pd.read_csv("recipes/management/recipes_data_sample_1.csv")
