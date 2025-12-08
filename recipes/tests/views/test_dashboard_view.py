@@ -2,7 +2,8 @@
 
 from django.test import TestCase
 from django.urls import reverse
-from recipes.models import Follow, User, Recipe
+from recipes.models import Follow, User
+from recipes.tests.helpers import create_test_recipe
 
 
 class DashboardViewTestCase(TestCase):
@@ -25,7 +26,7 @@ class DashboardViewTestCase(TestCase):
 
     def test_dashboard_showing_users_recipes(self):
         user = User.objects.get(username="@johndoe")
-        Recipe.objects.create(
+        create_test_recipe(
             title="Test Recipe",
             description="Test Description",
             content="Test Content",
@@ -39,7 +40,7 @@ class DashboardViewTestCase(TestCase):
     def test_dashboard_not_showing_other_users_recipes(self):
         user2 = User.objects.create(username="@janedoe")
 
-        Recipe.objects.create(
+        create_test_recipe(
             title="User2 Recipe",
             description="Test Description",
             content="Test Content",

@@ -2,7 +2,8 @@
 
 from django.test import TestCase, override_settings
 from django.urls import reverse
-from recipes.models import User, Recipe, Follow
+from recipes.models import User, Follow
+from recipes.tests.helpers import create_test_recipe
 
 
 class UserProfileViewTestCase(TestCase):
@@ -43,7 +44,7 @@ class UserProfileViewTestCase(TestCase):
 
     def test_user_profile_showing_users_recipes(self):
         user = User.objects.get(username="@johndoe")
-        Recipe.objects.create(
+        create_test_recipe(
             title="Test Recipe",
             description="Test Description",
             content="Test Content",
@@ -57,7 +58,7 @@ class UserProfileViewTestCase(TestCase):
     def test_user_profile_not_showing_other_users_recipes(self):
         user2 = User.objects.create(username="@janedoe")
 
-        Recipe.objects.create(
+        create_test_recipe(
             title="User2 Recipe",
             description="Test Description",
             content="Test Content",

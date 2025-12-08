@@ -2,19 +2,13 @@ from django.test import TestCase
 from django.urls import reverse
 from recipes.models.recipe import Recipe
 from recipes.models.user import User
+from recipes.tests.helpers import MODERATION_FIXTURES, CommonTestMixin
 
 
-class PostHideViewTest(TestCase):
+class PostHideViewTest(TestCase, CommonTestMixin):
     """Test the hide post view."""
 
-    fixtures = [
-        "recipes/tests/fixtures/default_user.json",
-        "recipes/tests/fixtures/other_users.json",
-        "recipes/tests/fixtures/recipes.json",
-        "recipes/tests/fixtures/reports.json",
-        "recipes/tests/fixtures/staff_user.json",
-        "recipes/tests/fixtures/superuser_user.json",
-    ]
+    fixtures = MODERATION_FIXTURES
 
     def setUp(self):
         self.user = User.objects.get(pk=1)
@@ -36,8 +30,7 @@ class PostHideViewTest(TestCase):
         """Staff get a 405 error page when using a get request on the URL."""
 
         self.client.login(username="@superuser", password="Password123")
-        response = self.client.get(self.url)
-        self.assertTemplateUsed(response, "405_error.html")
+        self.assert_405_on_get(self.url)
 
     def test_hides_recipe(self):
         """A staff user hiding a recipe leads to the recipe being hidden"""

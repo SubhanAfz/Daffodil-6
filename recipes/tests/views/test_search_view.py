@@ -3,17 +3,13 @@
 from django.test import TestCase
 from django.urls import reverse
 from recipes.models import User, Recipe, Tag, Like
+from recipes.tests.helpers import STANDARD_FIXTURES
 
 
 class SearchViewTestCase(TestCase):
     """Tests for the search view."""
 
-    fixtures = [
-        "recipes/tests/fixtures/default_user.json",
-        "recipes/tests/fixtures/other_users.json",
-        "recipes/tests/fixtures/recipes.json",
-        "recipes/tests/fixtures/superuser_user.json",
-    ]
+    fixtures = STANDARD_FIXTURES
 
     def setUp(self):
         """Set up test data for search tests."""

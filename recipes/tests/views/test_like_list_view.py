@@ -1,15 +1,11 @@
 from django.test import TestCase
 from django.urls import reverse
 from recipes.models import User, Recipe, Like
+from recipes.tests.helpers import STANDARD_FIXTURES, CommonTestMixin
 
 
-class LikeListViewTest(TestCase):
-    fixtures = [
-        "recipes/tests/fixtures/default_user.json",
-        "recipes/tests/fixtures/other_users.json",
-        "recipes/tests/fixtures/recipes.json",
-        "recipes/tests/fixtures/superuser_user.json",
-    ]
+class LikeListViewTest(TestCase, CommonTestMixin):
+    fixtures = STANDARD_FIXTURES
 
     def setUp(self):
         self.user = User.objects.get(username="@johndoe")
@@ -18,9 +14,7 @@ class LikeListViewTest(TestCase):
         self.url = reverse("like_list")
 
     def test_unauthenticated_access(self):
-        self.client.logout()
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 302)  # Redirect to login
+        self.assert_unauthenticated_redirect(self.url)
 
     def test_like_list_view(self):
         response = self.client.get(self.url)
@@ -28,20 +22,12 @@ class LikeListViewTest(TestCase):
         self.assertTemplateUsed(response, "likes.html")
 
     def test_empty_like_list(self):
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'id="no-recipes-text"')
+        self.assert_no_recipes_text(self.client.get(self.url))
 
     def test_like_list_with_likes(self):
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'id="no-recipes-text"')
+        self.assert_no_recipes_text(self.client.get(self.url))
         Like.objects.create(user=self.user, recipe=self.recipe)
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 200)
-        self.assertNotContains(response, 'id="no-recipes-text"')
+        self.assert_has_recipes(self.client.get(self.url))
 
     def test_post_gives_405(self):
-        response = self.client.post(self.url)
-        self.assertEqual(response.status_code, 405)
-        self.assertTemplateUsed(response, "405_error.html")
+        self.assert_405_on_post(self.url)
