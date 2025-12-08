@@ -1,3 +1,4 @@
+# ruff: noqa: PLR6301, PLR0917, PLR0913
 """
 Management command to seed the database with demo data.
 
@@ -155,7 +156,12 @@ class Command(BaseCommand):
 
     @staticmethod
     def _bulk_create_relations(
-        model_class, filter_kwargs, available_queryset, create_data_func, count, relation_field
+        model_class,
+        filter_kwargs,
+        available_queryset,
+        create_data_func,
+        count,
+        relation_field,
     ):
         """
         Generic method to bulk create relations avoiding duplicates.

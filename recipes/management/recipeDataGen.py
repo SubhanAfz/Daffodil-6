@@ -1,3 +1,4 @@
+# ruff: noqa: PLR6301
 import ast
 
 import pandas as pd
