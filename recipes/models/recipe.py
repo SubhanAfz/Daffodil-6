@@ -1,4 +1,4 @@
-import django.db.models as models
+from django.db import models
 from django.utils import timezone
 
 from recipes.models.user import User

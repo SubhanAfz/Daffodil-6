@@ -1,8 +1,9 @@
 from django.test import TestCase
 from django.urls import reverse
+from recipes.tests.helpers import CommonTestMixin
 
 
-class ReportsListViewTest(TestCase):
+class ReportsListViewTest(TestCase, CommonTestMixin):
     fixtures = [
         "recipes/tests/fixtures/default_user.json",
         "recipes/tests/fixtures/other_users.json",

@@ -10,8 +10,12 @@ from recipes.models.report import Report
 def get_reports_list(request: HttpRequest):
     """Get post and report information for Reports page.
 
-    Gets the order tag of the page, if there isn't one then it takes the default of 'asc'.
-     It then makes the appropriate list based on the order and puts it in the context."""
+    Gets the order tag of the page.
+
+    If there isn't an order tag then it takes the default of 'asc'.
+
+    It then makes the appropriate list based on the order and puts it in the context.
+    """
 
     if not request.user.is_staff:
         raise PermissionDenied

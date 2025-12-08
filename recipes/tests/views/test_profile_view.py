@@ -5,10 +5,10 @@ from django.test import TestCase
 from django.urls import reverse
 from recipes.forms import UserForm
 from recipes.models import User
-from recipes.tests.helpers import reverse_with_next
+from recipes.tests.helpers import reverse_with_next, CommonTestMixin
 
 
-class ProfileViewTest(TestCase):
+class ProfileViewTest(TestCase, CommonTestMixin):
     """Test suite for the profile view."""
 
     fixtures = [
@@ -85,13 +85,8 @@ class ProfileViewTest(TestCase):
         self.client.login(username=self.user.username, password="Password123")
         before_count = User.objects.count()
         response = self.client.post(self.url, self.form_input, follow=True)
-        after_count = User.objects.count()
-        self.assertEqual(after_count, before_count)
-        response_url = reverse("dashboard")
-        self.assertRedirects(
-            response, response_url, status_code=302, target_status_code=200
-        )
-        self.assertTemplateUsed(response, "dashboard.html")
+        self.assert_user_count_unchanged(before_count, User.objects.count())
+        self.assert_redirect_to_dashboard(response)
         messages_list = list(response.context["messages"])
         self.assertEqual(len(messages_list), 1)
         self.assertEqual(messages_list[0].level, messages.SUCCESS)

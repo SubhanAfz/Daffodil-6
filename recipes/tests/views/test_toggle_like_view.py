@@ -1,15 +1,11 @@
 from django.test import TestCase
 from django.urls import reverse
 from recipes.models import User, Recipe, Like
+from recipes.tests.helpers import STANDARD_FIXTURES, CommonTestMixin
 
 
-class ToggleLikeViewTest(TestCase):
-    fixtures = [
-        "recipes/tests/fixtures/default_user.json",
-        "recipes/tests/fixtures/other_users.json",
-        "recipes/tests/fixtures/recipes.json",
-        "recipes/tests/fixtures/superuser_user.json",
-    ]
+class ToggleLikeViewTest(TestCase, CommonTestMixin):
+    fixtures = STANDARD_FIXTURES
 
     def setUp(self):
         self.user = User.objects.get(username="@johndoe")

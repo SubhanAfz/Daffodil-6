@@ -1,9 +1,10 @@
 from django.test import TestCase
 from django.urls import reverse
 from recipes.models.recipe import Recipe
+from recipes.tests.helpers import CommonTestMixin
 
 
-class ModQueueViewTest(TestCase):
+class ModQueueViewTest(TestCase, CommonTestMixin):
     fixtures = [
         "recipes/tests/fixtures/default_user.json",
         "recipes/tests/fixtures/other_users.json",

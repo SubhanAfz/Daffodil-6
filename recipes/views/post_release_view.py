@@ -10,8 +10,9 @@ from recipes.models.report import Report
 def post_release(request, id):
     """Release a post back to public view by users.
 
-    Retrieves the appropriate post by ID and gives 404 if no post found. It gives error 403 if the user
-    does not have permission to release posts. Then sets thepsot to public and deletes all it's reports."""
+    Retrieves the appropriate post by ID.
+    Then sets the post to public and deletes all its reports.
+    """
     post = get_object_or_404(Recipe, id=id)
 
     if not request.user.is_superuser:

@@ -4,16 +4,13 @@ from django import forms
 from django.test import TestCase
 from recipes.forms import ReportForm
 from recipes.models import User, Recipe, Report
+from recipes.tests.helpers import RECIPE_FIXTURES
 
 
 class ReportFormTestCase(TestCase):
     """Unit tests of the report form."""
 
-    fixtures = [
-        "recipes/tests/fixtures/default_user.json",
-        "recipes/tests/fixtures/other_users.json",
-        "recipes/tests/fixtures/recipes.json",
-    ]
+    fixtures = RECIPE_FIXTURES
 
     def setUp(self):
         self.user = User.objects.get(username="@johndoe")

@@ -141,7 +141,7 @@ class UserModelTestCase(TestCase):
         self.assertEqual(actual_gravatar_url, expected_gravatar_url)
 
     def _gravatar_url(self, size):
-        gravatar_url = f"{UserModelTestCase.GRAVATAR_URL}?size={size}&default=mp"
+        gravatar_url = f"{self.GRAVATAR_URL}?size={size}&default=mp"
         return gravatar_url
 
     def _assert_user_is_valid(self):

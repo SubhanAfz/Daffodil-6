@@ -1,17 +1,13 @@
 from django.test import TestCase
 from django.db import IntegrityError
 from recipes.models import Like, Recipe, User
+from recipes.tests.helpers import STANDARD_FIXTURES
 
 
 class LikeModelTest(TestCase):
     """Unit tests for Like model."""
 
-    fixtures = [
-        "recipes/tests/fixtures/default_user.json",
-        "recipes/tests/fixtures/other_users.json",
-        "recipes/tests/fixtures/recipes.json",
-        "recipes/tests/fixtures/superuser_user.json",
-    ]
+    fixtures = STANDARD_FIXTURES
 
     def setUp(self):
         self.recipe = Recipe.objects.get(pk=1)

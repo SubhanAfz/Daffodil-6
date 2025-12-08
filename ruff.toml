@@ -2,4 +2,11 @@
 exclude = ["recipes/migrations/*"]
 
 [lint]
-exclude = ["recipes/migrations/*"]
+exclude = ["recipes/migrations/*", "recipify/*"]
+select = ["F", "PLR", "W"]
+ignore = ["E501"]
+preview = true
+
+[lint.pylint]
+max-statements = 15
+max-nested-blocks = 1

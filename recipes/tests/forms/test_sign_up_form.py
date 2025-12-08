@@ -5,20 +5,14 @@ from django import forms
 from django.test import TestCase
 from recipes.forms import SignUpForm
 from recipes.models import User
+from recipes.tests.helpers import get_sign_up_form_input
 
 
 class SignUpFormTestCase(TestCase):
     """Unit tests of the sign up form."""
 
     def setUp(self):
-        self.form_input = {
-            "first_name": "Jane",
-            "last_name": "Doe",
-            "username": "@janedoe",
-            "email": "janedoe@example.org",
-            "new_password": "Password123",
-            "password_confirmation": "Password123",
-        }
+        self.form_input = get_sign_up_form_input()
 
     def test_valid_sign_up_form(self):
         form = SignUpForm(data=self.form_input)

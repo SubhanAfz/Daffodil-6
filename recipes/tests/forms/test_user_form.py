@@ -4,6 +4,7 @@ from django import forms
 from django.test import TestCase
 from recipes.forms import UserForm
 from recipes.models import User
+from recipes.tests.helpers import get_sign_up_form_input
 
 
 class UserFormTestCase(TestCase):
@@ -12,11 +13,13 @@ class UserFormTestCase(TestCase):
     fixtures = ["recipes/tests/fixtures/default_user.json"]
 
     def setUp(self):
+        # Get base form input and remove password fields since UserForm doesn't use them
+        base_input = get_sign_up_form_input()
         self.form_input = {
-            "first_name": "Jane",
-            "last_name": "Doe",
-            "username": "@janedoe",
-            "email": "janedoe@example.org",
+            "first_name": base_input["first_name"],
+            "last_name": base_input["last_name"],
+            "username": base_input["username"],
+            "email": base_input["email"],
         }
 
     def test_form_has_necessary_fields(self):

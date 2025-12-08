@@ -1,0 +1,9 @@
+
+extend = "../../ruff.toml"
+
+[lint]
+ignore = ["PLR0904"]
+
+[lint.pylint]
+max-statements = 25
+max-nested-blocks = 2

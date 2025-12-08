@@ -41,7 +41,7 @@ def feed(request):
         .order_by("-created_at")[:50]
     )
 
-    # fallback: just show random recipes if the user doesn't follow anyone and hasn't liked anything
+    # show random recipes if the user doesn't follow anyone and hasn't liked anything
     if not explore_recipes:
         explore_recipes = (
             Recipe.objects.exclude(author=current_user)

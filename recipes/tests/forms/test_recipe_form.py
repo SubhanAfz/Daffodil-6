@@ -2,7 +2,7 @@ from django.test import TestCase
 from recipes.forms import RecipeForm
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
-import os
+from recipes.tests.helpers import get_test_image_file
 
 User = get_user_model()
 
@@ -62,17 +62,9 @@ class RecipeFormTest(TestCase):
         self.assertTrue(form.is_valid())
 
     def test_form_accepts_valid_image_file(self):
-        fixtures_dir = os.path.join(os.path.dirname(__file__), "..", "fixtures")
-        image_path = os.path.join(fixtures_dir, "burger.png")
-
-        with open(image_path, "rb") as img_file:
-            thumbnail = SimpleUploadedFile(
-                name="burger.png",
-                content=img_file.read(),
-                content_type="image/png",
-            )
-            form = RecipeForm(data=self.form_input, files={"thumbnail": thumbnail})
-            self.assertTrue(form.is_valid())
+        thumbnail = get_test_image_file(fixtures_relative_path="fixtures/")
+        form = RecipeForm(data=self.form_input, files={"thumbnail": thumbnail})
+        self.assertTrue(form.is_valid())
 
     def test_form_rejects_non_image_file(self):
         # Create a fake text file pretending to be an image

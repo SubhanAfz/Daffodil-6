@@ -2,13 +2,11 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from recipes.models import Recipe
 from django.contrib.auth import get_user_model
-from recipes.tests.helpers import reverse_with_next
+from recipes.tests.helpers import reverse_with_next, get_test_image_file
 from unittest.mock import patch
 from django.db import DatabaseError
-from django.core.files.uploadedfile import SimpleUploadedFile
 import shutil
 import tempfile
-import os
 
 
 MEDIA_ROOT = tempfile.mkdtemp()
@@ -111,30 +109,21 @@ class CreateRecipeViewTest(TestCase):
 
     def test_create_recipe_with_thumbnail(self):
         """Test that a recipe with thumbnail is created successfully."""
-        # Load the test image file
-        fixtures_dir = os.path.join(os.path.dirname(__file__), "..", "fixtures")
-        image_path = os.path.join(fixtures_dir, "burger.png")
+        thumbnail = get_test_image_file(fixtures_relative_path="fixtures/")
 
-        with open(image_path, "rb") as img_file:
-            thumbnail = SimpleUploadedFile(
-                name="burger.png",
-                content=img_file.read(),
-                content_type="image/png",
-            )
+        num_recipes_before = Recipe.objects.count()
 
-            num_recipes_before = Recipe.objects.count()
+        post_data = self.form_data.copy()
+        post_data["thumbnail"] = thumbnail
 
-            post_data = self.form_data.copy()
-            post_data["thumbnail"] = thumbnail
+        self.client.post(self.url, data=post_data)
 
-            self.client.post(self.url, data=post_data)
+        num_recipes_after = Recipe.objects.count()
+        self.assertEqual(num_recipes_before + 1, num_recipes_after)
 
-            num_recipes_after = Recipe.objects.count()
-            self.assertEqual(num_recipes_before + 1, num_recipes_after)
-
-            recipe = Recipe.objects.latest("pk")
-            self.assertIsNotNone(recipe.thumbnail)
-            self.assertIn("thumbnails/", recipe.thumbnail.name)
+        recipe = Recipe.objects.latest("pk")
+        self.assertIsNotNone(recipe.thumbnail)
+        self.assertIn("thumbnails/", recipe.thumbnail.name)
 
     def test_create_recipe_with_tags(self):
         """Test that a recipe with tags is created successfully."""

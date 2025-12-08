@@ -1,4 +1,4 @@
-import django.db.models as models
+from django.db import models
 
 from recipes.models.recipe import Recipe
 from recipes.models.user import User
