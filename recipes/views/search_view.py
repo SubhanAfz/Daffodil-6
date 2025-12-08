@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Q, Count
 from recipes.models import Recipe, Tag
+
 MAX_KEYWORD_LENGTH = 100
 MAX_TAGS_LENGTH = 200
 MAX_INGREDIENTS_LENGTH = 100
@@ -19,7 +20,8 @@ def search_view(request):
     keyword = _process_url_variable(request, "q", MAX_KEYWORD_LENGTH)
     tags_query = _process_url_variable(request, "tags", MAX_TAGS_LENGTH)
     ingredients_query = _process_url_variable(
-        request, "ingredients", MAX_INGREDIENTS_LENGTH)
+        request, "ingredients", MAX_INGREDIENTS_LENGTH
+    )
 
     sort_by = request.GET.get("sort", "newest")
 
@@ -42,17 +44,21 @@ def search_view(request):
     # Apply sorting, with newest as default
     recipes = _apply_sorting(recipes, sort_by)
 
-    return render(request, "search.html", {
-        "recipes": recipes,
-        "all_tags": Tag.objects.all().order_by("name"),
-        "search_params": {
-            "keyword": keyword,
-            "tags": tags_query,
-            "ingredients": ingredients_query,
-            "sort_by": sort_by,
+    return render(
+        request,
+        "search.html",
+        {
+            "recipes": recipes,
+            "all_tags": Tag.objects.all().order_by("name"),
+            "search_params": {
+                "keyword": keyword,
+                "tags": tags_query,
+                "ingredients": ingredients_query,
+                "sort_by": sort_by,
+            },
+            "result_count": recipes.count(),
         },
-        "result_count": recipes.count(),
-    })
+    )
 
 
 def _filter(recipes, keyword):

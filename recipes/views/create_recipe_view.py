@@ -61,11 +61,7 @@ def _add_tags_to_recipe(recipe: Recipe, tags_input: str):
     """
     if not tags_input:
         return
-    tag_names = [
-        name.strip()
-        for name in tags_input.split(",")
-        if name.strip()
-    ]
+    tag_names = [name.strip() for name in tags_input.split(",") if name.strip()]
     for tag_name in tag_names:
         lower_tag_name = tag_name.lower()
         tag, _ = Tag.objects.get_or_create(name=lower_tag_name)

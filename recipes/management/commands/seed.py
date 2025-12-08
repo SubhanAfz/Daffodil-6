@@ -154,7 +154,9 @@ class Command(BaseCommand):
         print("Follower assignment complete.      ")
 
     @staticmethod
-    def _bulk_create_relations(model_class, filter_kwargs, available_queryset, create_data_func, count):
+    def _bulk_create_relations(
+        model_class, filter_kwargs, available_queryset, create_data_func, count
+    ):
         """
         Generic method to bulk create relations avoiding duplicates.
         Args:
@@ -165,26 +167,25 @@ class Command(BaseCommand):
             count: Number of relations to create
         """
         existing_ids = model_class.objects.filter(**filter_kwargs).values_list(
-            list(create_data_func(None).keys())[0] + '_id', flat=True
+            list(create_data_func(None).keys())[0] + "_id", flat=True
         )
         available_objects = available_queryset.exclude(id__in=existing_ids)
 
         objects_to_use = random.sample(
-            list(available_objects),
-            min(count, available_objects.count())
+            list(available_objects), min(count, available_objects.count())
         )
-        model_class.objects.bulk_create([
-            model_class(**create_data_func(obj)) for obj in objects_to_use
-        ])
+        model_class.objects.bulk_create(
+            [model_class(**create_data_func(obj)) for obj in objects_to_use]
+        )
 
     def add_followers(self, toFollow, count):
         """Add followers to the given user."""
         self._bulk_create_relations(
             model_class=Follow,
-            filter_kwargs={'user': toFollow},
+            filter_kwargs={"user": toFollow},
             available_queryset=User.objects.exclude(id=toFollow.id),
-            create_data_func=lambda follower: {'user': toFollow, 'follower': follower},
-            count=count
+            create_data_func=lambda follower: {"user": toFollow, "follower": follower},
+            count=count,
         )
 
     def assign_likes_to_recipes(self):
@@ -203,10 +204,10 @@ class Command(BaseCommand):
         """Add likes to the given recipe."""
         self._bulk_create_relations(
             model_class=Like,
-            filter_kwargs={'recipe': recipe},
+            filter_kwargs={"recipe": recipe},
             available_queryset=User.objects.all(),
-            create_data_func=lambda user: {'user': user, 'recipe': recipe},
-            count=count
+            create_data_func=lambda user: {"user": user, "recipe": recipe},
+            count=count,
         )
 
     def assign_tags_to_recipes(self):
@@ -276,6 +277,7 @@ class Command(BaseCommand):
             self.create_recipe(data)
         except IntegrityError:
             pass
+
     @staticmethod
     def create_recipe(self, data):
         """
