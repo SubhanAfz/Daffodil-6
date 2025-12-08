@@ -27,7 +27,6 @@ jobs:
     duplication_check:
         name: Check for Code Duplication
         runs-on: ubuntu-latest
-        needs: lint
         steps:
             - name: Checkout repository
               uses: actions/checkout@v5

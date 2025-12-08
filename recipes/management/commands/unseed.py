@@ -19,7 +19,6 @@ class Command(BaseCommand):
 
     help = "Seeds the database with sample data"
 
-    @staticmethod
     def handle(self, *args, **options):
         """
         Execute the unseeding process.

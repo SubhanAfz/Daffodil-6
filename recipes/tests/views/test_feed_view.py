@@ -53,7 +53,7 @@ class FeedViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
         popular_chefs = response.context["popular_chefs"]
-        self.assertTrue(len(popular_chefs) <= MAX_NUMBER_POPULAR_CHEFS)
+        self.assertLessEqual(len(popular_chefs), MAX_NUMBER_POPULAR_CHEFS)
 
         self.assertEqual(popular_chefs[0], user2)
 
@@ -96,7 +96,7 @@ class FeedViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
         trending_recipes = response.context["trending_recipes"]
-        self.assertTrue(len(trending_recipes) <= MAX_NUMBER_TRENDING)
+        self.assertLessEqual(len(trending_recipes), MAX_NUMBER_TRENDING)
 
         self.assertEqual(trending_recipes[0], recipe1)
 
