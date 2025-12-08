@@ -12,6 +12,7 @@ import random
 from faker import Faker
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
+from django.core.files import File
 from recipes.models import User, Recipe, Tag, Follow, Like
 from recipes.management.recipeDataGen import recipeDataGen
 
@@ -295,7 +296,7 @@ class Command(BaseCommand):
             ``content``, ``author``, ``created_at``, ``updated_at``, ``views`` |.
         """
 
-        Recipe.objects.create(
+        recipe = Recipe.objects.create(
             title=data["title"],
             description=data["description"],
             ingredients=data["ingredients"],
@@ -309,6 +310,20 @@ class Command(BaseCommand):
             is_hidden=data["is_hidden"],
             date_hidden=data["date_hidden"],
         )
+
+        # Add thumbnail if path is available
+        thumbnail_path = data.get("thumbnail_path")
+        if thumbnail_path:
+            self.attach_thumbnail(recipe, thumbnail_path)
+
+    def attach_thumbnail(self, recipe, thumbnail_path):
+        """
+        Attach a thumbnail image to the recipe.
+        """
+        with open(thumbnail_path, "rb") as img_file:
+            recipe.thumbnail.save(
+                thumbnail_path.split("/")[-1], File(img_file), save=True
+            )
 
     def create_users(self):
         """

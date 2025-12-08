@@ -1,9 +1,11 @@
 # ruff: noqa: PLR6301
 import ast
+import os
 
 import pandas as pd
 from faker import Faker
 from random import randint
+from django.utils.text import slugify
 
 
 class recipeDataGen:
@@ -38,6 +40,14 @@ class recipeDataGen:
         ingredients = self.series_to_string(row["ingredients"])
         content = self.series_to_string(row["directions"])
 
+        # Try to find matching thumbnail image
+        thumbnail_path = None
+        slug = slugify(title)
+        image_path = f"recipes/management/sample_images/{slug}.jpg"
+
+        if os.path.exists(image_path):
+            thumbnail_path = image_path
+
         return {
             "title": title,
             "description": title,
@@ -51,4 +61,5 @@ class recipeDataGen:
             "num_reports": 0,
             "is_hidden": False,
             "date_hidden": None,
+            "thumbnail_path": thumbnail_path,
         }
