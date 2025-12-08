@@ -1,3 +1,4 @@
+# ruff: noqa: PLR6301
 from django.conf import settings
 from django.contrib.auth import login
 from django.views.generic.edit import FormView
@@ -32,8 +33,7 @@ class SignUpView(LoginProhibitedMixin, FormView):
         login(self.request, self.object)
         return super().form_valid(form)
 
-    @staticmethod
-    def get_success_url():
+    def get_success_url(self):
         """
         Determine the redirect URL after successful registration.
         """

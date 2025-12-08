@@ -127,22 +127,21 @@ class UserModelTestCase(TestCase):
 
     def test_default_gravatar(self):
         actual_gravatar_url = self.user.gravatar()
-        expected_gravatar_url = UserModelTestCase._gravatar_url(size=120)
+        expected_gravatar_url = self._gravatar_url(size=120)
         self.assertEqual(actual_gravatar_url, expected_gravatar_url)
 
     def test_custom_gravatar(self):
         actual_gravatar_url = self.user.gravatar(size=100)
-        expected_gravatar_url = UserModelTestCase._gravatar_url(size=100)
+        expected_gravatar_url = self._gravatar_url(size=100)
         self.assertEqual(actual_gravatar_url, expected_gravatar_url)
 
     def test_mini_gravatar(self):
         actual_gravatar_url = self.user.mini_gravatar()
-        expected_gravatar_url = UserModelTestCase._gravatar_url(size=60)
+        expected_gravatar_url = self._gravatar_url(size=60)
         self.assertEqual(actual_gravatar_url, expected_gravatar_url)
 
-    @staticmethod
-    def _gravatar_url(size):
-        gravatar_url = f"{UserModelTestCase.GRAVATAR_URL}?size={size}&default=mp"
+    def _gravatar_url(self, size):
+        gravatar_url = f"{self.GRAVATAR_URL}?size={size}&default=mp"
         return gravatar_url
 
     def _assert_user_is_valid(self):

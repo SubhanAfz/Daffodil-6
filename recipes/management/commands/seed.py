@@ -155,7 +155,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def _bulk_create_relations(
-        model_class, filter_kwargs, available_queryset, create_data_func, count
+        model_class, filter_kwargs, available_queryset, create_data_func, count, relation_field
     ):
         """
         Generic method to bulk create relations avoiding duplicates.
@@ -165,9 +165,10 @@ class Command(BaseCommand):
             available_queryset: QuerySet of available objects to select from
             create_data_func: Function that takes a selected object and returns dict for model creation
             count: Number of relations to create
+            relation_field: Name of the field to check for existing relations (e.g., 'follower', 'user')
         """
         existing_ids = model_class.objects.filter(**filter_kwargs).values_list(
-            list(create_data_func(None).keys())[0] + "_id", flat=True
+            relation_field + "_id", flat=True
         )
         available_objects = available_queryset.exclude(id__in=existing_ids)
 
@@ -186,6 +187,7 @@ class Command(BaseCommand):
             available_queryset=User.objects.exclude(id=toFollow.id),
             create_data_func=lambda follower: {"user": toFollow, "follower": follower},
             count=count,
+            relation_field="follower",
         )
 
     def assign_likes_to_recipes(self):
@@ -208,6 +210,7 @@ class Command(BaseCommand):
             available_queryset=User.objects.all(),
             create_data_func=lambda user: {"user": user, "recipe": recipe},
             count=count,
+            relation_field="user",
         )
 
     def assign_tags_to_recipes(self):
