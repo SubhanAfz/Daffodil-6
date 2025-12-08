@@ -74,7 +74,7 @@ def get_test_image_file(fixtures_relative_path="../fixtures", filename="burger.p
 
 
 class LogInTester:
-    """Class support login in tests."""
+    """Class to support login in tests."""
 
     def _is_logged_in(self):
         """Returns True if a user is logged in.  False otherwise."""
