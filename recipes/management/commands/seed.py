@@ -281,7 +281,6 @@ class Command(BaseCommand):
         except IntegrityError:
             pass
 
-    @staticmethod
     def create_recipe(self, data):
         """
         Create a recipe with the given data.
@@ -365,7 +364,6 @@ class Command(BaseCommand):
         except IntegrityError:
             pass
 
-    @staticmethod
     def create_user(self, data: dict):
         """
         Create a user with the default password.

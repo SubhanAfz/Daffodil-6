@@ -19,7 +19,6 @@ class recipeDataGen:
         )
         self.index = 0
 
-    @staticmethod
     def series_to_string(self, series):
         text = ""
         for item in series:
