@@ -10,8 +10,8 @@ def post_hide(request, id):
     """Hide a post from public view by users.
 
     Retrieves the post by relevant ID.
-    It then checks if the user making the request has permission to hide posts
-    If it does it sets the post to hidden and saves it.
+    It then checks if the user making the request has permission to hide posts.
+    If the user has permission, set the post to hidden and save it.
     """
     post = get_object_or_404(Recipe, id=id)
 
