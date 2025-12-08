@@ -9,19 +9,15 @@ def user_profile(request, username: str):
     Show all recipes for a given username.
     Accepts username with or without a leading '@'.
     """
+    # Handle usernames without '@' by redirecting to the correct format
+    if not username.startswith("@"):
+        alt = f"@{username}"
+        return redirect(reverse("user_profile", args=[alt]))
     profile_user = User.objects.filter(username=username).first()
     if not profile_user:
-        if username.startswith("@"):
-            raise Http404("User does not exist")
-        else:
-            alt = f"@{username}"
-            # redirect usernames without '@' to the correct profile
-            return redirect(reverse("user_profile", args=[alt]))
-
-    # Filter recipes by author
+        raise Http404("User does not exist")
     recipes = Recipe.objects.filter(author=profile_user).select_related("author")
 
-    # Hide hidden recipes if viewing someone else's profile
     if request.user != profile_user:
         recipes = recipes.filter(is_hidden=False)
 

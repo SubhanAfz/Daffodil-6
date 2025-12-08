@@ -3,7 +3,8 @@ exclude = ["recipes/migrations/*"]
 
 [lint]
 exclude = ["recipes/migrations/*", "recipify/*"]
-select = ["E", "F", "PLR"]  # enable Pylint refactor rules (PLR...)
+select = ["F", "PLR", "W"]
+ignore = ["E501"]
 preview = true
 
 [lint.pylint]

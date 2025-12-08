@@ -8,10 +8,9 @@ from recipes.models.report import Report
 
 @login_required
 def post_delete(request, id):
-    """Deletes a post from the database.
-
-    Takes the post id identifies if the user making the request has permission to delete posts/recipes.
-    Error 403 is given if the user does not have permission."""
+    """Deletes a post using the ID from the database.
+    It identifies if the user making the request has permission to delete posts/recipes.
+    """
     post = get_object_or_404(Recipe, id=id)
 
     if not request.user.is_superuser:

@@ -153,15 +153,39 @@ class Command(BaseCommand):
 
         print("Follower assignment complete.      ")
 
+    @staticmethod
+    def _bulk_create_relations(model_class, filter_kwargs, available_queryset, create_data_func, count):
+        """
+        Generic method to bulk create relations avoiding duplicates.
+        Args:
+            model_class: The Django model class to create (e.g., Like, Follow)
+            filter_kwargs: Dictionary of filter conditions to find existing relations
+            available_queryset: QuerySet of available objects to select from
+            create_data_func: Function that takes a selected object and returns dict for model creation
+            count: Number of relations to create
+        """
+        existing_ids = model_class.objects.filter(**filter_kwargs).values_list(
+            list(create_data_func(None).keys())[0] + '_id', flat=True
+        )
+        available_objects = available_queryset.exclude(id__in=existing_ids)
+
+        objects_to_use = random.sample(
+            list(available_objects),
+            min(count, available_objects.count())
+        )
+        model_class.objects.bulk_create([
+            model_class(**create_data_func(obj)) for obj in objects_to_use
+        ])
+
     def add_followers(self, toFollow, count):
-        for _ in range(count):
-            follower = random.choice(User.objects.exclude(id=toFollow.id))
-
-            # Ensure no duplicate follows
-            while Follow.objects.filter(user=toFollow, follower=follower).exists():
-                follower = random.choice(User.objects.exclude(id=toFollow.id))
-
-            Follow.objects.create(user=toFollow, follower=follower)
+        """Add followers to the given user."""
+        self._bulk_create_relations(
+            model_class=Follow,
+            filter_kwargs={'user': toFollow},
+            available_queryset=User.objects.exclude(id=toFollow.id),
+            create_data_func=lambda follower: {'user': toFollow, 'follower': follower},
+            count=count
+        )
 
     def assign_likes_to_recipes(self):
         """
@@ -176,14 +200,14 @@ class Command(BaseCommand):
         print("Like assignment complete.      ")
 
     def add_likes(self, recipe, count):
-        for _ in range(count):
-            liker = random.choice(User.objects.all())
-
-            # Ensure no duplicate likes
-            while Like.objects.filter(user=liker, recipe=recipe).exists():
-                liker = random.choice(User.objects.all())
-
-            Like.objects.create(user=liker, recipe=recipe)
+        """Add likes to the given recipe."""
+        self._bulk_create_relations(
+            model_class=Like,
+            filter_kwargs={'recipe': recipe},
+            available_queryset=User.objects.all(),
+            create_data_func=lambda user: {'user': user, 'recipe': recipe},
+            count=count
+        )
 
     def assign_tags_to_recipes(self):
         """
@@ -191,7 +215,7 @@ class Command(BaseCommand):
         """
         # Create tag objects
         for tag_name in tag_fixtures:
-            tag = Tag.objects.get_or_create(name=tag_name)
+            Tag.objects.get_or_create(name=tag_name)
 
         tags = Tag.objects.all()
 
@@ -203,10 +227,17 @@ class Command(BaseCommand):
             assigned_tags = self.faker.random_elements(
                 elements=list(tags), length=2, unique=True
             )
-            for tag in assigned_tags:
-                tag.recipes.add(recipe)
-                tag.save()
+            self._add_tags_to_recipe(recipe, assigned_tags)
         print("Tag assignment complete.      ")
+
+    @staticmethod
+    def _add_tags_to_recipe(recipe, tags):
+        """
+        Add the given tags to the recipe.
+        """
+        for tag in tags:
+            tag.recipes.add(recipe)
+            tag.save()
 
     def assign_recipes_to_users(self):
         """
@@ -214,16 +245,24 @@ class Command(BaseCommand):
         """
         users = User.objects.all()
         for user in users:
-            for _ in range(self.RECIPES_PER_USER):
-                recipe_count = Recipe.objects.count()
-                print(
-                    f"Seeding recipes {recipe_count}/{self.SEEDED_RECIPE_COUNT}",
-                    end="\r",
-                )
-
-                recipe_data = self.recipeDataGen.get_next_recipe_data(user)
-                self.try_create_recipe(recipe_data)
+            self._create_recipes_for_user(user)
         print("Seeding recipes complete.      ")
+
+    def _create_recipes_for_user(self, user):
+        """
+        Create RECIPES_PER_USER recipes for the given user.
+
+        Args:
+            user (User): The author of the recipes.
+        """
+        recipe_count = Recipe.objects.count()
+        for _ in range(self.RECIPES_PER_USER):
+            print(
+                f"Seeding recipes {recipe_count}/{self.SEEDED_RECIPE_COUNT}",
+                end="\r",
+            )
+            recipe_data = self.recipeDataGen.get_next_recipe_data(user)
+            self.try_create_recipe(recipe_data)
 
     def try_create_recipe(self, data):
         """
@@ -237,7 +276,7 @@ class Command(BaseCommand):
             self.create_recipe(data)
         except IntegrityError:
             pass
-
+    @staticmethod
     def create_recipe(self, data):
         """
         Create a recipe with the given data.
@@ -321,6 +360,7 @@ class Command(BaseCommand):
         except IntegrityError:
             pass
 
+    @staticmethod
     def create_user(self, data: dict):
         """
         Create a user with the default password.

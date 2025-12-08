@@ -38,6 +38,7 @@ class FeedViewTestCase(TestCase):
 
     def test_popular_chefs_query(self):
         """Test that popular chefs are retrieved and ordered by follower count."""
+        MAX_NUMBER_POPULAR_CHEFS = 10
         self.client.force_login(self.user)
 
         user2 = User.objects.get(username="@janedoe")
@@ -55,7 +56,7 @@ class FeedViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
         popular_chefs = response.context["popular_chefs"]
-        self.assertTrue(len(popular_chefs) <= 10)
+        self.assertTrue(len(popular_chefs) <= MAX_NUMBER_POPULAR_CHEFS)
 
         self.assertEqual(popular_chefs[0], user2)
 
@@ -79,6 +80,7 @@ class FeedViewTestCase(TestCase):
 
     def test_trending_recipes_query(self):
         """Test that trending recipes are retrieved and ordered by like count."""
+        MAX_NUMBER_TRENDING = 10
         self.client.force_login(self.user)
 
         user2 = User.objects.get(username="@janedoe")
@@ -97,7 +99,7 @@ class FeedViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
         trending_recipes = response.context["trending_recipes"]
-        self.assertTrue(len(trending_recipes) <= 10)
+        self.assertTrue(len(trending_recipes) <= MAX_NUMBER_TRENDING)
 
         self.assertEqual(trending_recipes[0], recipe1)
 

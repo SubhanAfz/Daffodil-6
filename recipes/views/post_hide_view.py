@@ -9,8 +9,10 @@ from recipes.models.recipe import Recipe
 def post_hide(request, id):
     """Hide a post from public view by users.
 
-    Retrieves the post by relevant ID and gives 404 if there is no appropriate post. It then checks if the user
-    making the request has permission to hide posts, and hides the post if the user does."""
+    Retrieves the post by relevant ID.
+    It then checks if the user making the request has permission to hide posts
+    If it does it sets the post to hidden and saves it.
+    """
     post = get_object_or_404(Recipe, id=id)
 
     if not request.user.is_staff:

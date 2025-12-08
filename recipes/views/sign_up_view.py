@@ -32,7 +32,8 @@ class SignUpView(LoginProhibitedMixin, FormView):
         login(self.request, self.object)
         return super().form_valid(form)
 
-    def get_success_url(self):
+    @staticmethod
+    def get_success_url():
         """
         Determine the redirect URL after successful registration.
         """
