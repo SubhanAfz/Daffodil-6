@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.http import HttpResponseNotAllowed
-from recipes.models import Like, Follow, Favourite, Recipe
+from recipes.models import Notification
 
 @login_required
 def get_user_notifications(request):
@@ -13,18 +13,22 @@ def get_user_notifications(request):
     if request.method != "GET":
         return HttpResponseNotAllowed(["GET"])
 
-    user_recipes = Recipe.objects.filter(author=request.user)
+    user_notifications = Notification.objects.filter(recipient=request.user)
 
-    follows = Follow.objects.filter(followed_user=request.user)
-
-    for recipe in user_recipes:
-        likes = Like.objects.filter(recipe=recipe)
-        favourites = Favourite.objects.filter(recipe=recipe)
-
-    notifications = {
-        "likes": likes,
-        "favourites": favourites,
-        "follows": follows,
+    context = {
+        "notifications": user_notifications,
     }
 
-    return render(request, "notifications.html", notifications)
+    return render(request, "notifications.html", context)
+
+@login_required
+def mark_notifications_as_read(request):
+    """Mark all notifications as read for the logged-in user."""
+
+    if request.method != "POST":
+        return HttpResponseNotAllowed(["POST"])
+
+    user_notifications = Notification.objects.filter(recipient=request.user, is_read=False)
+    user_notifications.update(is_read=True)
+
+    return render(request, "notifications.html", user_notifications)

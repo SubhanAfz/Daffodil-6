@@ -1,36 +1,31 @@
 from django.db import models
 from django.conf import settings
 
-class Follow(models.Model):
+class Notification(models.Model):
     """Model representing a user following another user."""
 
-    to_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="followers"
+    recipient = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="notifications_received",
     )
-    by_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="following"
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="notifications_sent",
     )
-    notification_type = models.CharField(max_length=20, choices=[
-        ('like', 'Like'),
-        ('favourite', 'Favourite'),
-        ('follow', 'Follow'),
-    ])
+    notification_type = models.CharField(
+        max_length=20,
+        choices=[
+            ("like", "liked your recipe"),
+            ("favourite", "favourited your recipe"),
+            ("follow", "started following you"),
+            ("default", "You have a new notification"),
+        ],
+    )
     link = models.URLField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['-created_at']
-
-    def get_notification_message(self):
-        """
-        Generate a notification message based on the type of notification.
-        """
-        match self.notification_type:
-            case 'like':
-                return f"{self.by_user} liked your recipe."
-            case 'favourite':
-                return f"{self.by_user} favourited your recipe."
-            case 'follow':
-                return f"{self.by_user} started following you."
-            case _:
-                return "You have a new notification."
+        ordering = ["-created_at"]

@@ -59,6 +59,15 @@ urlpatterns = [
     ),
     path("users/<str:username>/", views.user_profile, name="user_profile"),
     path("follow/<int:user_id>/", views.toggle_follow, name="toggle_follow"),
+    path(
+        "notifications/",
+        views.get_user_notifications,
+        name="user_notifications",
+    ),    path(
+        "notifications/mark-as-read/",
+        views.mark_notifications_as_read,
+        name="mark_notifications_as_read",
+    ),
 ]
 
 if not settings.PRODUCTION:
