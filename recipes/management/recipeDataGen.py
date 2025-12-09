@@ -13,20 +13,38 @@ class recipeDataGen:
     df = pd.read_csv("recipes/management/recipes_data_sample_1.csv")
 
     def __init__(self):
-        # Convert string representations of lists back to actual lists
-        self.df["ingredients"] = self.df["ingredients"].apply(
-            lambda x: tuple(ast.literal_eval(x))
-        )
-        self.df["directions"] = self.df["directions"].apply(
-            lambda x: tuple(ast.literal_eval(x))
-        )
+        # Check if this is the new format (with image_name column)
+        self.has_image_name = "image_name" in self.df.columns
+        
+        # Handle ingredients column - may be string list or already parsed
+        if "ingredients" in self.df.columns:
+            self.df["ingredients"] = self.df["ingredients"].apply(self._parse_list_column)
+        
+        # instructions column
+        if "directions" in self.df.columns:
+            self.df["directions"] = self.df["directions"].apply(self._parse_list_column)
+        
         self.index = 0
 
+    def _parse_list_column(self, x):
+        """Parse a column that might be a string representation of a list."""
+        if isinstance(x, (list, tuple)):
+            return tuple(x)
+        if pd.isna(x):
+            return tuple()
+        try:
+            return tuple(ast.literal_eval(str(x)))
+        except (ValueError, SyntaxError):
+            # If it's just a plain string, return it as a single-item tuple
+            return (str(x),)
+
     def series_to_string(self, series):
+        """Convert a tuple/list of items to a newline-separated string."""
+        if isinstance(series, str):
+            return series.strip()
         text = ""
         for item in series:
             text += str(item) + "\n"
-
         return text.strip()
 
     def get_next_recipe_data(self, user):
@@ -42,11 +60,18 @@ class recipeDataGen:
 
         # Try to find matching thumbnail image
         thumbnail_path = None
-        slug = slugify(title)
-        image_path = f"recipes/management/sample_images/{slug}.jpg"
-
-        if os.path.exists(image_path):
-            thumbnail_path = image_path
+        
+        if self.has_image_name and pd.notna(row.get("image_name")):
+            # New format: use direct image_name
+            image_path = f"recipes/management/sample_images/{row['image_name']}"
+            if os.path.exists(image_path):
+                thumbnail_path = image_path
+        else:
+            # Old format: slugify the title
+            slug = slugify(title)
+            image_path = f"recipes/management/sample_images/{slug}.jpg"
+            if os.path.exists(image_path):
+                thumbnail_path = image_path
 
         return {
             "title": title,
