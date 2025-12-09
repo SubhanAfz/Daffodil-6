@@ -1,0 +1,39 @@
+<ul class="list-group">
+      {% if notifications.count == 0 %}
+        <div class="card">
+          <div class="card-body text-center text-muted">
+            No unread notifications
+          </div>
+        </div>
+      {% else %}
+        {% for n in notifications %}
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="d-flex align-items-center justify-content-between gap-3">
+              <div class="fw-semibold ">
+                {% if n.sender %}
+                  {{ n.sender.get_full_name|default:n.sender.username }}
+                {% else %}
+                  Someone
+                {% endif %}
+
+                {% if n.notification_type == 'like' %}
+                  liked your recipe
+                {% elif n.notification_type == 'favourite' %}
+                  favourited your recipe
+                {% elif n.notification_type == 'follow' %}
+                  started following you
+                {% else %}
+                  sent you a notification
+                {% endif %}
+              </div>
+              <div>
+                {% if n.link %}
+                    <a href="{{ n.link }}" class="d-block small mt-1">View</a>
+                {% endif %}
+              </div>
+            </div>
+            <small class="text-muted ms-3">{{ n.created_at }}</small>
+          </li>
+        {% endfor %}
+      {% endif %}
+    </ul>
