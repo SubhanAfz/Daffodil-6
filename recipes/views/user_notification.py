@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseNotAllowed
 from recipes.models import Notification
 
+
 @login_required
 def get_user_notifications(request):
     """Get user notifications for likes on their recipes.
@@ -23,7 +24,6 @@ def get_user_notifications(request):
     return render(request, "notifications.html", context)
 
 
-
 @login_required
 def mark_notifications_as_read(request):
     """Mark all notifications as read for the logged-in user."""
@@ -31,7 +31,9 @@ def mark_notifications_as_read(request):
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
 
-    user_notifications = Notification.objects.filter(recipient=request.user, is_read=False)
+    user_notifications = Notification.objects.filter(
+        recipient=request.user, is_read=False
+    )
     user_notifications.update(is_read=True)
 
     return redirect("user_notifications")
