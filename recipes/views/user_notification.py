@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseNotAllowed
 from recipes.models import Notification
 
@@ -16,10 +16,13 @@ def get_user_notifications(request):
     user_notifications = Notification.objects.filter(recipient=request.user)
 
     context = {
-        "notifications": user_notifications,
+        "read_notifications": user_notifications.filter(is_read=True),
+        "unread_notifications": user_notifications.filter(is_read=False),
     }
 
     return render(request, "notifications.html", context)
+
+
 
 @login_required
 def mark_notifications_as_read(request):
@@ -31,4 +34,4 @@ def mark_notifications_as_read(request):
     user_notifications = Notification.objects.filter(recipient=request.user, is_read=False)
     user_notifications.update(is_read=True)
 
-    return render(request, "notifications.html", user_notifications)
+    return redirect("user_notifications")

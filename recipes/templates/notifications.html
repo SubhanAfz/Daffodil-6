@@ -2,49 +2,63 @@
 {% block content %}
 
 <div class="container py-4">
+
   <div class="d-flex justify-content-between mb-3">
-    <h1 class="h3 mb-0">Notifications</h1>
-    <form action="{% url 'mark_notifications_as_read' %}" method="post" class="m-0">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-sm btn-outline-primary">Mark all as read</button>
-    </form>
+    <h1 class="h1 mb-0">Notifications</h1>
   </div>
 
-  {% if notifications %}
+  <div class="container py-4">
+
+    <div class="d-flex justify-content-between mb-3">
+      <div class="mb-4">
+        <h2 class="h2 mb-0">Unread Notifications</h2>
+      </div>
+
+      <form action="{% url 'mark_notifications_as_read' %}" method="post" class="m-0">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-sm btn-outline-primary">Mark all as read</button>
+      </form>
+    </div>
+
     <ul class="list-group">
-      {% for n in notifications %}
-        <li class="list-group-item d-flex justify-content-between align-items-start {% if not n.is_read %}bg-white{% else %}bg-light text-muted{% endif %}">
-          <div class="ms-2 me-auto">
-            <div class="fw-semibold">
-              {% if n.sender %}
-                {{ n.sender.get_full_name|default:n.sender.username }}
-              {% else %}
-                Someone
-              {% endif %}
-              {% if n.notification_type == 'like' %}
-                liked your recipe
-              {% elif n.notification_type == 'favourite' %}
-                favourited your recipe
-              {% elif n.notification_type == 'follow' %}
-                started following you
-              {% else %}
-                sent you a notification
+      {% if unread_notifications.count == 0 %}
+        <div class="card">
+          <div class="card-body text-center text-muted">
+            No unread notifications
+          </div>
+        </div>
+      {% else %}
+        {% for n in unread_notifications %}
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-semibold">
+                {% if n.sender %}
+                  {{ n.sender.get_full_name|default:n.sender.username }}
+                {% else %}
+                  Someone
+                {% endif %}
+
+                {% if n.notification_type == 'like' %}
+                  liked your recipe
+                {% elif n.notification_type == 'favourite' %}
+                  favourited your recipe
+                {% elif n.notification_type == 'follow' %}
+                  started following you
+                {% else %}
+                  sent you a notification
+                {% endif %}
+              </div>
+              {% if n.link %}
+              <a href="{{ n.link }}" class="d-block small mt-1">View</a>
               {% endif %}
             </div>
-            {% if n.link %}
-              <a href="{{ n.link }}" class="d-block small mt-1">View</a>
-            {% endif %}
-          </div>
-          <small class="text-muted ms-3">{{ n.created_at }}</small>
-        </li>
-      {% endfor %}
+            <small class="text-muted ms-3">{{ n.created_at }}</small>
+          </li>
+        {% endfor %}
+      {% endif %}
     </ul>
-  {% else %}
-    <div class="card">
-      <div class="card-body text-center text-muted">
-        No notifications
-      </div>
-    </div>
-  {% endif %}
+  </div>
+
+  
 </div>
 {% endblock %}
