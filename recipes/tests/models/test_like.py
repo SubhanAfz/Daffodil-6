@@ -12,6 +12,12 @@ class LikeModelTest(TestCase):
     def setUp(self):
         self.recipe = Recipe.objects.get(pk=1)
         self.user = User.objects.get(username="@johndoe")
+        
+    def test_string_representation(self):
+        """Test the string representation of a Like instance."""
+        like = Like.objects.create(user=self.user, recipe=self.recipe)
+        expected_str = f"{self.user.username} likes {self.recipe.title}"
+        self.assertEqual(str(like), expected_str)
 
     def test_create_like(self):
         """Test creating a Like instance."""

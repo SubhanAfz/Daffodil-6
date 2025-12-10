@@ -13,6 +13,12 @@ class FavouriteModelTest(TestCase):
         self.recipe = Recipe.objects.get(pk=1)
         self.user = User.objects.get(username="@johndoe")
 
+    def test_string_representation(self):
+        """Test the string representation of a Favourite instance."""
+        favourite = Favourite.objects.create(user=self.user, recipe=self.recipe)
+        expected_str = f"{self.user.username} favourited {self.recipe.title}"
+        self.assertEqual(str(favourite), expected_str)
+    
     def test_create_favourite(self):
         """Test creating a Favourite instance."""
         favourite = Favourite.objects.create(user=self.user, recipe=self.recipe)
