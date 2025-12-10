@@ -15,4 +15,7 @@ RUN uv run manage.py migrate
 
 RUN uv run manage.py seed
 
+# Fix permissions for media files so Nginx can read them
+RUN chmod -R 755 /app/media
+
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "recipify.wsgi:application"]
