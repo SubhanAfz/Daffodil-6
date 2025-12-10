@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from django.core.exceptions import ValidationError
 
 
 class Notification(models.Model):
@@ -31,22 +30,10 @@ class Notification(models.Model):
     is_read = models.BooleanField(default=False)
 
     class Meta:
+        ordering = ["-created_at"]
         constraints = [
-            models.ordering.OrderingConstraint(
-                fields=["-created_at"], name="ordering_by_created_at"
-            ),
             models.UniqueConstraint(
                 fields=["recipient", "sender", "notification_type", "link"],
                 name="unique_notification",
             ),
         ]
-
-    def clean(self):
-        """Model-level validation: prevent self-notifications."""
-        if self.recipient_id and self.sender_id and self.recipient_id == self.sender_id:
-            raise ValidationError("Recipient and sender must be different users.")
-
-    def save(self, *args, **kwargs):
-        # run model validation before saving (raises ValidationError on failure)
-        self.full_clean()
-        super().save(*args, **kwargs)
