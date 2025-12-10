@@ -200,3 +200,17 @@ class SearchViewTestCase(TestCase):
         recipes = response.context["recipes"]
         recipe1_in_context = next(r for r in recipes if r.id == self.recipe1.id)
         self.assertEqual(recipe1_in_context.likes_count, 2)
+
+    def test_max_length_keyword_search(self):
+        """Test searching with maximum length keyword."""
+        max_length_keyword = "a" * 100
+        response = self.client.get(self.url, {"q": max_length_keyword})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.wsgi_request.GET["q"]), 100)
+        self.assertEqual(len(response.context["search_params"]["keyword"]), 100)
+
+        max_length_keyword_exceed = "a" * 101
+        response = self.client.get(self.url, {"q": max_length_keyword_exceed})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.wsgi_request.GET["q"]), 101)
+        self.assertEqual(len(response.context["search_params"]["keyword"]), 100)

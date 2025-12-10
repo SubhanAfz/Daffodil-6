@@ -18,4 +18,4 @@ class Like(models.Model):
         unique_together = ("user", "recipe")
 
     def __str__(self):
-        return f"{self.user} likes {self.recipe}"
+        return f"{self.user} likes {self.recipe.title}"
