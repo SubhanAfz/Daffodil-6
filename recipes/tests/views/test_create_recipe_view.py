@@ -4,7 +4,7 @@ from recipes.models import Recipe
 from django.contrib.auth import get_user_model
 from recipes.tests.helpers import reverse_with_next, get_test_image_file
 from unittest.mock import patch
-from django.db import DatabaseError
+from django.db import DatabaseError, IntegrityError
 import shutil
 import tempfile
 
@@ -104,6 +104,25 @@ class CreateRecipeViewTest(TestCase):
         form = response.context["form"]
         self.assertIn(
             "An error occurred when posting your recipe. Please try again later.",
+            form.non_field_errors(),
+        )
+
+    @patch("recipes.models.Recipe.save")
+    def test_integrity_error_handling(self, mock_save):
+        """Test that IntegrityError is caught and appropriate error message is shown."""
+        mock_save.side_effect = IntegrityError("Integrity constraint violated")
+        num_recipes_before = Recipe.objects.count()
+
+        response = self.client.post(self.url, data=self.form_data)
+
+        num_recipes_after = Recipe.objects.count()
+        self.assertEqual(num_recipes_before, num_recipes_after)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "create_recipe.html")
+
+        form = response.context["form"]
+        self.assertIn(
+            "A database integrity error occurred. Please ensure all fields are valid.",
             form.non_field_errors(),
         )
 
