@@ -15,6 +15,7 @@ def create_like_notification(instance, created, **kwargs):
             link=f"/recipe/{instance.recipe.id}/",
         )
 
+
 @receiver(post_save, sender=Favourite)
 def create_favourite_notification(instance, created, **kwargs):
     """Create a notification when a recipe is favourited."""
@@ -25,6 +26,7 @@ def create_favourite_notification(instance, created, **kwargs):
             notification_type="favourite",
             link=f"/recipe/{instance.recipe.id}/",
         )
+
 
 @receiver(post_save, sender=Follow)
 def create_follow_notification(instance, created, **kwargs):
