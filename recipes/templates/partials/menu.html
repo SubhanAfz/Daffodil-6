@@ -8,4 +8,6 @@
     <li class="nav-item">
       <a class="nav-link {% if request.resolver_match.url_name == 'search' %}active fw-bold text-dark{% endif %}" href="{% url 'search' %}">Search</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link {% if request.resolver_match.url_name == 'notifications' %}active fw-bold text-dark{% endif %}" href="{% url 'notifications' %}">Notifications</a>
 </ul>

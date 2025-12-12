@@ -23,4 +23,4 @@ from .toggle_follow_view import *
 from .toggle_like_view import *
 from .user_profile_view import *
 from .search_view import *
-from .user_notification import *
+from .user_notification_view import *

@@ -36,4 +36,4 @@ def mark_notifications_as_read(request):
     )
     user_notifications.update(is_read=True)
 
-    return redirect("user_notifications")
+    return redirect("notifications")
