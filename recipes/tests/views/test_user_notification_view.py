@@ -1,5 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
+from django.utils import timezone
+from datetime import timedelta
 from recipes.models import Notification
 from recipes.models import User
 from recipes.tests.helpers import reverse_with_next
@@ -87,6 +89,36 @@ class GetUserNotificationsTests(TestCase):
             response.context["unread_notifications"]
         )
         self.assertEqual(total_notifications, 1)
+
+    def test_only_shows_notifications_from_past_week(self):
+        """Test that only notifications from the past week are shown."""
+        self.client.login(username="@testuser", password="Password123")
+        sender = User.objects.create_user(
+            username="@sender", email="sender@example.com", password="Password123"
+        )
+
+        # Notification from 5 days ago (should be included)
+        notif_recent = Notification.objects.create(
+            recipient=self.user,
+            sender=sender,
+            notification_type="like",
+        )
+        notif_recent.created_at = timezone.now() - timedelta(days=5)
+        notif_recent.save()
+
+        # Notification from 10 days ago (should be excluded)
+        notif_old = Notification.objects.create(
+            recipient=self.user,
+            sender=sender,
+            notification_type="follow",
+        )
+        notif_old.created_at = timezone.now() - timedelta(days=10)
+        notif_old.save()
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context["unread_notifications"]), 1)
+        self.assertEqual(response.context["unread_notifications"][0], notif_recent)
 
 
 class MarkAllUnreadNotificationsAsReadTests(TestCase):

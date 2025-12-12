@@ -4,6 +4,8 @@ from django.views.decorators.cache import never_cache
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.urls import reverse
 from django.http import HttpResponseNotAllowed
+from django.utils import timezone
+from datetime import timedelta
 from recipes.models import Notification
 
 
@@ -18,7 +20,9 @@ def get_user_notifications(request):
     if request.method != "GET":
         return HttpResponseNotAllowed(["GET"])
 
-    user_notifications = Notification.objects.filter(recipient=request.user)
+    user_notifications = Notification.objects.filter(
+        recipient=request.user, created_at__gte=timezone.now() - timedelta(days=7)
+    )
 
     context = {
         "read_notifications": user_notifications.filter(is_read=True),
