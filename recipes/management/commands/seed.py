@@ -194,7 +194,7 @@ class Command(BaseCommand):
             model_class=Follow,
             filter_kwargs={"user": tofollow},
             available_queryset=User.objects.exclude(id=tofollow.id),
-            create_data_func=lambda follower: {"user": toFollow, "follower": follower},
+            create_data_func=lambda follower: {"user": tofollow, "follower": follower},
             count=count,
             relation_field="follower",
         )
