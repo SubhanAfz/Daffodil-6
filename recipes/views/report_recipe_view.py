@@ -29,4 +29,8 @@ def report_recipe(request: HttpRequest, recipe_id):
             defaults={"reason": "No reason provided."},
         )
 
+    report_count = Report.objects.filter(recipe=recipe).count()
+    recipe.set_reports(report_count)
+    recipe.save()
+
     return redirect("recipe_detail", recipe_id=recipe.id)
