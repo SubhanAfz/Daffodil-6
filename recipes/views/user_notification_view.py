@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.http import HttpResponseNotAllowed
 from recipes.models import Notification
 
+
 @never_cache
 @login_required
 def get_user_notifications(request):

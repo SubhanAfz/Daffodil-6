@@ -1,5 +1,6 @@
 from recipes.models import Notification
 
+
 def create_notification(recipient, sender, notification_type="default", link=""):
     """
     Create a notification
