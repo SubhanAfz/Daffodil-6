@@ -33,7 +33,7 @@ def create_follow_notification(instance, created, **kwargs):
     """Create a notification when a user is followed."""
     if created:
         create_notification(
-            recipient=instance.followed,
+            recipient=instance.user,
             sender=instance.follower,
             notification_type="follow",
             link=f"/users/{instance.follower.username}/",

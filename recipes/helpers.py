@@ -14,5 +14,5 @@ def create_notification(recipient, sender, notification_type="default", link="")
         link=link,
     )
 
-    if is_notification_created & DEBUG:
+    if is_notification_created:
         print(f"Notification created: {notification_type} from {sender} to {recipient}")
