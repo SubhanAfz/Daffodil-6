@@ -3,7 +3,7 @@ from django.conf import settings
 
 
 class Notification(models.Model):
-    """Model representing a user following another user."""
+    """Model representing a notification for a user."""
 
     recipient = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -37,3 +37,6 @@ class Notification(models.Model):
                 name="unique_notification",
             ),
         ]
+
+    def __str__(self):
+        return f"Notification for {self.recipient.username} from {self.sender.username} ({self.notification_type})"

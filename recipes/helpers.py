@@ -6,6 +6,7 @@ def create_notification(recipient, sender, notification_type="default", link="")
     Create a notification
     notification_type: 'like', 'favourite', 'follow', or 'default'
     """
+
     Notification.objects.get_or_create(
         recipient=recipient,
         sender=sender,

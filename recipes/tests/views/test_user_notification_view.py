@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-from recipes.models import Notification, Recipe
+from recipes.models import Notification
 from recipes.models import User
 from recipes.tests.helpers import reverse_with_next
 
@@ -19,7 +19,9 @@ class GetUserNotificationsTests(TestCase):
         """Test that unauthenticated users are redirected to login."""
         response = self.client.get(self.url)
         redirect_url = reverse_with_next("log_in", self.url)
-        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, redirect_url, status_code=302, target_status_code=200
+        )
 
     def test_get_method_returns_200(self):
         """Test GET request returns success."""
@@ -101,7 +103,9 @@ class MarkAllUnreadNotificationsAsReadTests(TestCase):
         """Test that unauthenticated users are redirected to login."""
         response = self.client.post(self.url)
         redirect_url = reverse_with_next("log_in", self.url)
-        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, redirect_url, status_code=302, target_status_code=200
+        )
 
     def test_get_method_not_allowed(self):
         """Test GET method returns 405."""
@@ -210,7 +214,9 @@ class NotificationViewTests(TestCase):
         url = reverse("notification_view", kwargs={"pk": self.notification.pk})
         response = self.client.get(url)
         redirect_url = reverse_with_next("log_in", url)
-        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+        self.assertRedirects(
+            response, redirect_url, status_code=302, target_status_code=200
+        )
 
     def test_404_for_nonexistent_notification(self):
         """Test 404 is returned for non-existent notification."""
