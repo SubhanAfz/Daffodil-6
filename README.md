@@ -57,25 +57,14 @@ The [dataset](https://github.com/SubhanAfz/Daffodil-6/blob/main/recipes/manageme
 We have used Generative AI to review GitHub Pull Requests. All the Pull Requests which have used Generative AI are shown below:
 
 [#5](https://github.com/SubhanAfz/Daffodil-6/pull/5)
-
 [#6](https://github.com/SubhanAfz/Daffodil-6/pull/6)
-
 [#7](https://github.com/SubhanAfz/Daffodil-6/pull/7)
-
 [#8](https://github.com/SubhanAfz/Daffodil-6/pull/8)
-
 [#10](https://github.com/SubhanAfz/Daffodil-6/pull/10)
-
 [#11](https://github.com/SubhanAfz/Daffodil-6/pull/11)
-
 [#12](https://github.com/SubhanAfz/Daffodil-6/pull/12)
-
 [#14](https://github.com/SubhanAfz/Daffodil-6/pull/14)
-
 [#15](https://github.com/SubhanAfz/Daffodil-6/pull/15)
-
 [#18](https://github.com/SubhanAfz/Daffodil-6/pull/18)
-
 [#19](https://github.com/SubhanAfz/Daffodil-6/pull/19)
-
 [#21](https://github.com/SubhanAfz/Daffodil-6/pull/21)
