@@ -51,17 +51,31 @@ $ python3 manage.py test
 
 ## Sources
 The packages used by this application are specified in `requirements.txt`
+
 The [dataset](https://github.com/SubhanAfz/Daffodil-6/blob/main/recipes/management/recipes_data_sample_1.csv) the seeder uses comes from here: [source](https://www.kaggle.com/datasets/pes12017000148/food-ingredients-and-recipe-dataset-with-images?resource=download&select=Food+Images)
+
 We have used Generative AI to review GitHub Pull Requests. All the Pull Requests which have used Generative AI are shown below:
+
 [#5](https://github.com/SubhanAfz/Daffodil-6/pull/5)
+
 [#6](https://github.com/SubhanAfz/Daffodil-6/pull/6)
+
 [#7](https://github.com/SubhanAfz/Daffodil-6/pull/7)
+
 [#8](https://github.com/SubhanAfz/Daffodil-6/pull/8)
+
 [#10](https://github.com/SubhanAfz/Daffodil-6/pull/10)
+
 [#11](https://github.com/SubhanAfz/Daffodil-6/pull/11)
+
 [#12](https://github.com/SubhanAfz/Daffodil-6/pull/12)
+
 [#14](https://github.com/SubhanAfz/Daffodil-6/pull/14)
+
 [#15](https://github.com/SubhanAfz/Daffodil-6/pull/15)
+
 [#18](https://github.com/SubhanAfz/Daffodil-6/pull/18)
+
 [#19](https://github.com/SubhanAfz/Daffodil-6/pull/19)
+
 [#21](https://github.com/SubhanAfz/Daffodil-6/pull/21)
