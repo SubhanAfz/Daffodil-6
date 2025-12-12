@@ -5,6 +5,8 @@ from recipes.models.user import User
 
 
 class Recipe(models.Model):
+    """Model representing a recipe with content, author, and moderation fields."""
+
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     ingredients = models.TextField(blank=True)
@@ -22,19 +24,23 @@ class Recipe(models.Model):
     )
 
     def report_info_str(self):
+        """Return a string describing the recipe's report status."""
         if not self.is_reported:
             return f'This recipe "{self.title}" has not been reported.'
         else:
             return f'"{self.title}" by {self.author.username} has been reported {self.num_reports} times.'
 
     def set_hidden(self):
+        """Mark the recipe as hidden and record the timestamp."""
         self.is_hidden = True
         self.date_hidden = timezone.now()
 
     def set_public(self):
+        """Mark the recipe as public and clear the hidden timestamp."""
         self.is_hidden = False
         self.date_hidden = None
 
     def set_reports(self, num):
+        """Set the number of reports and update the is_reported flag."""
         self.num_reports = num
         self.is_reported = num > 0

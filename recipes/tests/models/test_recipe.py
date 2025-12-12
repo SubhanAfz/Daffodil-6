@@ -16,6 +16,24 @@ class RecipeModelTestCase(TestCase):
     def setUp(self):
         self.recipe = Recipe.objects.get(id=6)
 
+    def test_report_info_str_reported(self):
+        """Test report_info_str method for a reported recipe"""
+        self.recipe.is_reported = True
+        self.recipe.num_reports = 3
+        self.recipe.save()
+        expected = f'"{self.recipe.title}" by {self.recipe.author.username} has been reported {self.recipe.num_reports} times.'
+        actual = self.recipe.report_info_str()
+        self.assertEqual(expected, actual)
+
+    def test_report_info_str_not_reported(self):
+        """Test report_info_str method for a non-reported recipe"""
+        self.recipe.is_reported = False
+        self.recipe.num_reports = 0
+        self.recipe.save()
+        expected = f'This recipe "{self.recipe.title}" has not been reported.'
+        actual = self.recipe.report_info_str()
+        self.assertEqual(expected, actual)
+
     def test_valid_recipe(self):
         self._assert_recipe_is_valid()
 

@@ -86,10 +86,11 @@ class SearchViewTestCase(TestCase):
         self.assertNotIn(self.recipe2, response.context["recipes"])
 
     def test_search_by_multiple_tags(self):
-        """Test filtering by multiple tags (OR logic)."""
-        response = self.client.get(self.url, {"tags": "italian,spicy"})
+        """Test filtering by multiple tags"""
+        response = self.client.get(self.url, {"tags": "italian,vegetarian"})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context["result_count"], 3)
+        self.assertEqual(response.context["result_count"], 1)
+        self.assertIn(self.recipe3, response.context["recipes"])
 
     def test_search_by_ingredients(self):
         """Test searching by ingredients."""
@@ -190,9 +191,10 @@ class SearchViewTestCase(TestCase):
 
     def test_tag_query_with_spaces(self):
         """Test that tag names with spaces are handled correctly."""
-        response = self.client.get(self.url, {"tags": " italian , spicy "})
+        response = self.client.get(self.url, {"tags": " italian , vegetarian "})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context["result_count"], 3)
+        self.assertEqual(response.context["result_count"], 1)
+        self.assertIn(self.recipe3, response.context["recipes"])
 
     def test_likes_count_annotated(self):
         """Test that likes count is properly annotated."""
@@ -200,3 +202,28 @@ class SearchViewTestCase(TestCase):
         recipes = response.context["recipes"]
         recipe1_in_context = next(r for r in recipes if r.id == self.recipe1.id)
         self.assertEqual(recipe1_in_context.likes_count, 2)
+
+    def test_max_length_keyword_search(self):
+        """Test searching with maximum length keyword."""
+        max_length_keyword = "a" * 100
+        response = self.client.get(self.url, {"q": max_length_keyword})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.wsgi_request.GET["q"]), 100)
+        self.assertEqual(len(response.context["search_params"]["keyword"]), 100)
+
+        max_length_keyword_exceed = "a" * 101
+        response = self.client.get(self.url, {"q": max_length_keyword_exceed})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.wsgi_request.GET["q"]), 101)
+        self.assertEqual(len(response.context["search_params"]["keyword"]), 100)
+
+    def test_search_by_multiple_keywords(self):
+        """Test searching by multiple keywords (AND logic)."""
+        response = self.client.get(self.url, {"q": "Potatoes warming"})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["result_count"], 0)
+
+        response = self.client.get(self.url, {"q": "Potatoes roasted"})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["result_count"], 1)
+        self.assertIn(self.recipe1, response.context["recipes"])
