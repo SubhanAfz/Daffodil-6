@@ -1,117 +1,132 @@
 {% extends 'base_content.html' %} {% block content %}
-<div class="container mt-5">
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="text-center mb-5">
-                <h1 class="display-4 fw-bold mb-3">{{ recipe.title }}</h1>
-                <div class="text-muted">
-                    <span class="me-3"
-                        >By <strong><a href="{% url 'user_profile' recipe.author %}">{{ recipe.author }}</a></strong></span
-                    >
-                    <span>{{ recipe.views }} views</span>,
-                    {% if likes == 1 %}
-                    <span>{{ likes }} like</span>,
-                    {% else %}
-                    <span>{{ likes }} likes</span>,
-                    {% endif %}
-                    {% if favourites == 1 %}
-                    <span>{{ favourites }} favourite</span>
-                    {% else %}
-                    <span>{{ favourites }} favourites</span>
-                    {% endif %}
-                </div>
-            </div>
+        <div class="col-lg-10">
 
-            <div class="mb-5">
-                <div>
-                    <p class="lead text-center fst-italic text-muted mb-4">
-                        "{{ recipe.description }}"
-                    </p>
-                    <!-- Tags Section -->
-                    <div class="d-flex justify-content-center flex-wrap gap-2 mb-4">
-                        {% for tag in tags %}
-                            {% include "partials/tag.html" with tag=tag %}
-                        {% endfor %}
+            <!-- Hero Section with Image -->
+            <div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-5">
+                {% if recipe.thumbnail %}
+                <div class="position-relative" style="height: 400px;">
+                    <img src="{{ recipe.thumbnail.url }}" alt="{{ recipe.title }}" class="w-100 h-100"
+                        style="object-fit: cover;">
+                    <div class="position-absolute bottom-0 start-0 end-0 p-4"
+                        style="background: linear-gradient(transparent, rgba(0,0,0,0.7));">
+                        <h1 class="display-5 fw-bold text-white mb-2">{{ recipe.title }}</h1>
+                        <div class="d-flex align-items-center gap-3 text-white-50 small">
+                            <span>By <a href="{% url 'user_profile' recipe.author %}"
+                                    class="text-white text-decoration-none">{{ recipe.author }}</a></span>
+                            <span>•</span>
+                            <span>{{ recipe.views }} views</span>
+                        </div>
                     </div>
                 </div>
-
-                <div>
-                    <h2 class="text-center"> Ingredients </h1>
-                    <div class="py-4 border-top">
-                        <p class="mb-0" style="white-space: pre-line">
-                            {{ recipe.ingredients }}
-                        </p>
-                    </div>
-                </div>
-
-                <div>
-                    <h2 class="text-center"> Recipe </h1>
-                    <div class="py-4 border-top border-bottom">
-                        <p class="mb-0" style="white-space: pre-line">
-                            {{ recipe.content }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-center gap-2 mb-5">
-                {% if user.is_authenticated %}
-                {% include "partials/report_modal.html" with id=recipe.id %}
-                <form
-                    action="{% url 'toggle_like' recipe.id %}"
-                    method="post"
-                    class="d-inline"
-                >
-                    {% csrf_token %}
-                    <button
-                        type="submit"
-                        id="like-button"
-                        class="btn {% if is_liked %}btn-dark{% else %}btn-outline-dark{% endif %} rounded-pill px-4"
-                    >
-                        {% if is_liked %}Liked{% else %}Like{% endif %}
-                    </button>
-                </form>
-                <form
-                    action="{% url 'toggle_favourite' recipe.id %}"
-                    method="post"
-                    class="d-inline"
-                >
-                    {% csrf_token %}
-                    <button
-                        type="submit"
-                        id="favourite-button"
-                        class="btn {% if is_favourited %}btn-dark{% else %}btn-outline-dark{% endif %} rounded-pill px-4"
-                    >
-                        {% if is_favourited %}Favourited{% else %}Favourite{% endif %}
-                    </button>
-                </form>
-                <button
-                    class="btn btn-link text-muted text-decoration-none px-4"
-                    data-bs-toggle="modal"
-                    data-bs-target="#reportRecipeModal-{{ recipe.id }}">
-                    Report
-                </button>
                 {% else %}
-                <a
-                    href="{% url 'log_in' %}?next={{ request.path }}"
-                    class="btn btn-outline-dark rounded-pill px-4"
-                >
-                    Like
-                </a>
-                <a
-                    href="{% url 'log_in' %}?next={{ request.path }}"
-                    class="btn btn-outline-dark rounded-pill px-4"
-                >
-                    Favourite
-                </a>
-                <button
-                    class="btn btn-link text-muted text-decoration-none px-4"
-                    onclick="window.location.href=`{% url 'log_in' %}?next={{ request.path }}`"
-                >
-                    Report
-                </button>
+                <div class="card-body py-5 bg-light">
+                    <h1 class="display-5 fw-bold mb-3">{{ recipe.title }}</h1>
+                    <div class="text-muted small">
+                        <span>By <a href="{% url 'user_profile' recipe.author %}"
+                                class="text-dark text-decoration-none">{{ recipe.author }}</a></span>
+                        <span class="mx-2">•</span>
+                        <span>{{ recipe.views }} views</span>
+                    </div>
+                </div>
                 {% endif %}
             </div>
+
+            <!-- Interaction Bar: Stats | Actions | Tags -->
+            <div class="d-flex flex-wrap justify-content-center align-items-center gap-4 mb-5 py-3">
+                <!-- Stats (left) -->
+                <div class="d-flex align-items-center gap-3 text-muted small">
+                    <span><i class="bi bi-heart-fill text-secondary me-1"></i>{{ likes }}</span>
+                    <span><i class="bi bi-star-fill text-secondary me-1"></i>{{ favourites }}</span>
+                </div>
+
+                <!-- Action Pill (center) -->
+                {% if user.is_authenticated %}
+                {% include "partials/report_modal.html" with id=recipe.id %}
+                <div class="btn-group rounded-pill overflow-hidden border" role="group">
+                    <form action="{% url 'toggle_like' recipe.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" id="like-button"
+                            class="btn {% if is_liked %}btn-dark{% else %}btn-light{% endif %} border-0 px-3 py-2"
+                            title="{% if is_liked %}Unlike{% else %}Like{% endif %}">
+                            <i class="bi bi-heart{% if is_liked %}-fill{% endif %}"></i>
+                        </button>
+                    </form>
+                    <form action="{% url 'toggle_favourite' recipe.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" id="favourite-button"
+                            class="btn {% if is_favourited %}btn-dark{% else %}btn-light{% endif %} border-0 border-start px-3 py-2"
+                            title="{% if is_favourited %}Unsave{% else %}Save{% endif %}">
+                            <i class="bi bi-star{% if is_favourited %}-fill{% endif %}"></i>
+                        </button>
+                    </form>
+                    <button class="btn btn-light border-0 border-start px-3 py-2" data-bs-toggle="modal"
+                        data-bs-target="#reportRecipeModal-{{ recipe.id }}" title="Report">
+                        <i class="bi bi-flag"></i>
+                    </button>
+                </div>
+                {% else %}
+                <div class="btn-group rounded-pill overflow-hidden border" role="group">
+                    <a href="{% url 'log_in' %}?next={{ request.path }}" class="btn btn-light border-0 px-3 py-2"
+                        title="Like">
+                        <i class="bi bi-heart"></i>
+                    </a>
+                    <a href="{% url 'log_in' %}?next={{ request.path }}"
+                        class="btn btn-light border-0 border-start px-3 py-2" title="Save">
+                        <i class="bi bi-star"></i>
+                    </a>
+                </div>
+                {% endif %}
+
+                <!-- Tags (right) -->
+                {% if tags %}
+                <div class="d-flex flex-wrap gap-2">
+                    {% for tag in tags %}
+                    {% include "partials/tag.html" with tag=tag %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Description -->
+            {% if recipe.description %}
+            <div class="text-center mb-5">
+                <p class="lead fst-italic text-muted">"{{ recipe.description }}"</p>
+            </div>
+            {% endif %}
+
+            <!-- Recipe Content Cards -->
+            <div class="row g-4 mb-5">
+                <!-- Ingredients Card -->
+                <div class="col-md-5">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-header bg-light border-0 py-3">
+                            <h5 class="mb-0 fw-bold text-dark">
+                                <i class="bi bi-basket text-secondary me-2"></i>Ingredients
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-0 text-muted" style="white-space: pre-line; line-height: 1.8;">{{ recipe.ingredients }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instructions Card -->
+                <div class="col-md-7">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-header bg-light border-0 py-3">
+                            <h5 class="mb-0 fw-bold text-dark">
+                                <i class="bi bi-list-ol text-secondary me-2"></i>Instructions
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-0 text-muted" style="white-space: pre-line; line-height: 1.8;">{{ recipe.content }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

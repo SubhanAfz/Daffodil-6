@@ -27,11 +27,10 @@ def search_view(request):
 
     recipes = Recipe.objects.filter(is_hidden=False)
     # Apply keyword filter
-    recipes = _filter(recipes, keyword)
+    recipes = _filter_keywords(recipes, keyword)
     # Apply tags filter
     tag_names = _process_tags(tags_query)
-    if tag_names:
-        recipes = recipes.filter(tags__name__in=tag_names).distinct()
+    recipes = _filter_tags(recipes, tag_names)
 
     if ingredients_query:
         recipes = recipes.filter(ingredients__icontains=ingredients_query)
@@ -61,15 +60,27 @@ def search_view(request):
     )
 
 
-def _filter(recipes, keyword):
+def _filter_tags(recipes, tag_names):
+    if not tag_names:
+        return recipes
+    for tag_name in tag_names:
+        recipes = recipes.filter(tags__name__iexact=tag_name)
+    recipes = recipes.distinct()
+    return recipes
+
+
+def _filter_keywords(recipes, keyword: str):
     """
     Function which applies keyword filtering to the recipes queryset.
     """
-    if keyword:
-        return recipes.filter(
-            Q(title__icontains=keyword)
-            | Q(description__icontains=keyword)
-            | Q(content__icontains=keyword)
+    if not keyword:
+        return recipes
+    keywords = keyword.split()
+    for k in keywords:
+        recipes = recipes.filter(
+            Q(title__icontains=k)
+            | Q(description__icontains=k)
+            | Q(content__icontains=k)
         )
     return recipes
 
@@ -92,8 +103,6 @@ def _process_tags(tags_query):
     """
     Function which processes a string of tags into a list of cleaned tag names.
     """
-    if not tags_query:
-        return []
     return [tag.strip().lower() for tag in tags_query.split(",") if tag.strip()]
 
 

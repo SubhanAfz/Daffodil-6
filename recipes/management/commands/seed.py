@@ -41,16 +41,16 @@ user_fixtures = [
 ]
 
 tag_fixtures = [
-    "Chinese",
-    "Italian",
-    "Mexican",
-    "Indian",
-    "Mediterranean",
-    "Spicy",
-    "Vegan",
-    "Gluten-Free",
-    "Comfort Food",
-    "BBQ",
+    "chinese",
+    "italian",
+    "mexican",
+    "indian",
+    "mediterranean",
+    "spicy",
+    "vegan",
+    "gluten-free",
+    "comfort food",
+    "bbq",
 ]
 
 like_number_fixtures = [
