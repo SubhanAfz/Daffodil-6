@@ -1,6 +1,4 @@
 from recipes.models import Notification
-from recipify.settings import DEBUG
-
 
 def create_notification(recipient, sender, notification_type="default", link=""):
     """
