@@ -7,7 +7,15 @@ from unittest.mock import patch
 from django.db import DatabaseError, IntegrityError
 import shutil
 import tempfile
+from unittest.mock import patch
 
+from django.contrib.auth import get_user_model
+from django.db import DatabaseError
+from django.test import TestCase, override_settings
+from django.urls import reverse
+
+from recipes.models import Recipe
+from recipes.tests.helpers import get_test_image_file, reverse_with_next
 
 MEDIA_ROOT = tempfile.mkdtemp()
 
@@ -37,12 +45,12 @@ class CreateRecipeViewTest(TestCase):
             "content": "Test",
         }
 
-    def test_GET_gives_200_OK(self):
+    def test_get_gives_200_ok(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "create_recipe.html")
 
-    def test_POST_redirects_on_success(self):
+    def test_post_redirects_on_success(self):
         response = self.client.post(self.url, data=self.form_data)
         self.assertEqual(response.status_code, 302)
         recipe = Recipe.objects.latest("pk")

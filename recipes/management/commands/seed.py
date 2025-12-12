@@ -9,12 +9,14 @@ is swallowed and generation continues.
 """
 
 import random
-from faker import Faker
+
+from django.core.files import File
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
-from django.core.files import File
-from recipes.models import User, Recipe, Tag, Follow, Like
-from recipes.management.recipeDataGen import recipeDataGen
+from faker import Faker
+
+from recipes.management.recipeDataGen import RecipeDataGenerator
+from recipes.models import Follow, Like, Recipe, Tag, User
 
 user_fixtures = [
     {
@@ -124,7 +126,7 @@ class Command(BaseCommand):
         """Initialize the command with a locale-specific Faker instance."""
         super().__init__(*args, **kwargs)
         self.faker = Faker("en_US")
-        self.recipeDataGen = recipeDataGen()
+        self.recipeDataGen = RecipeDataGenerator()
 
     def handle(self, *args, **options):
         """
@@ -148,9 +150,9 @@ class Command(BaseCommand):
         possible_followers = User.objects.all()
 
         for count in follower_number_fixtures:
-            toFollow = random.choice(users)
-            self.add_followers(toFollow, count)
-            possible_followers.exclude(id=toFollow.id)
+            tofollow = random.choice(users)
+            self.add_followers(tofollow, count)
+            possible_followers.exclude(id=tofollow.id)
             print("Adding followers to users...", end="\r")
 
         print("Follower assignment complete.      ")
@@ -186,13 +188,13 @@ class Command(BaseCommand):
             [model_class(**create_data_func(obj)) for obj in objects_to_use]
         )
 
-    def add_followers(self, toFollow, count):
+    def add_followers(self, tofollow, count):
         """Add followers to the given user."""
         self._bulk_create_relations(
             model_class=Follow,
-            filter_kwargs={"user": toFollow},
-            available_queryset=User.objects.exclude(id=toFollow.id),
-            create_data_func=lambda follower: {"user": toFollow, "follower": follower},
+            filter_kwargs={"user": tofollow},
+            available_queryset=User.objects.exclude(id=tofollow.id),
+            create_data_func=lambda follower: {"user": tofollow, "follower": follower},
             count=count,
             relation_field="follower",
         )
@@ -271,8 +273,7 @@ class Command(BaseCommand):
             self.try_create_recipe(recipe_data)
             recipe_count = Recipe.objects.count()
             print(
-                f"Seeding recipes {recipe_count}/{self.SEEDED_RECIPE_COUNT}",
-                end="\r",
+                f"Seeding recipes {recipe_count}/{self.SEEDED_RECIPE_COUNT}", end="\r"
             )
 
     def try_create_recipe(self, data):
