@@ -9,6 +9,8 @@ from django.utils.text import slugify
 
 
 class recipeDataGen:
+    """Generator class for creating recipe data from CSV file for database seeding."""
+
     fake = Faker()
     df = pd.read_csv("recipes/management/recipes_data_sample_1.csv")
 
@@ -48,6 +50,7 @@ class recipeDataGen:
         return text.strip()
 
     def get_next_recipe_data(self, user):
+        """Get the next recipe data dictionary from the CSV for the given user."""
         if self.index >= len(self.df):
             self.index = 0  # Reset index if it exceeds dataframe length
 

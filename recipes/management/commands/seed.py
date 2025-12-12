@@ -9,12 +9,14 @@ is swallowed and generation continues.
 """
 
 import random
-from faker import Faker
+
+from django.core.files import File
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
-from django.core.files import File
-from recipes.models import User, Recipe, Tag, Follow, Like
+from faker import Faker
+
 from recipes.management.recipeDataGen import recipeDataGen
+from recipes.models import Follow, Like, Recipe, Tag, User
 
 user_fixtures = [
     {
@@ -271,8 +273,7 @@ class Command(BaseCommand):
             self.try_create_recipe(recipe_data)
             recipe_count = Recipe.objects.count()
             print(
-                f"Seeding recipes {recipe_count}/{self.SEEDED_RECIPE_COUNT}",
-                end="\r",
+                f"Seeding recipes {recipe_count}/{self.SEEDED_RECIPE_COUNT}", end="\r"
             )
 
     def try_create_recipe(self, data):

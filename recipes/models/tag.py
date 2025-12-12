@@ -5,6 +5,8 @@ from recipes.models import Recipe
 
 # e.g. chinese, italian, spicy etc
 class Tag(models.Model):
+    """Model representing a tag for categorizing recipes (e.g., chinese, italian, spicy)."""
+
     name = models.CharField(max_length=200, unique=True)
     recipes = models.ManyToManyField(Recipe, related_name="tags")
 

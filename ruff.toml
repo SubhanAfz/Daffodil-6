@@ -1,12 +1,32 @@
+# Ruff configuration for Band V marking criteria compliance
+# Only includes rules that directly map to marking requirements
+
 [format]
 exclude = ["recipes/migrations/*"]
+skip-magic-trailing-comma = true
 
 [lint]
 exclude = ["recipes/migrations/*", "recipify/*"]
-select = ["F", "PLR", "W"]
-ignore = ["E501"]
+select = [
+    "PLR0915", # V.4: Too many statements (max 15 lines)
+    "PLR1702", # V.4: Too many nested blocks (max 1 level)
+    "N",       # III.4: Naming conventions (snake_case)
+    "ERA",     # III.7: Commented-out code detection
+    "D101",    # III.7: Missing docstring in public class
+    "D102",    # III.7: Missing docstring in public method
+    "D103",    # III.7: Missing docstring in public function
+]
+ignore = []
 preview = true
-
 [lint.pylint]
+# V.4: Functions must be max 15 lines / statements
 max-statements = 15
+
+# V.4: Max 1 level of nesting
 max-nested-blocks = 1
+
+[lint.per-file-ignores]
+# Test files can have longer functions (max 25 lines per V.5)
+"**/tests/*.py" = ["PLR0915", "D"]
+"**/test_*.py" = ["PLR0915", "D"]
+"tests.py" = ["PLR0915", "D"]
