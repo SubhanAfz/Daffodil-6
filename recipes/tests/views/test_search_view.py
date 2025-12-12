@@ -215,6 +215,7 @@ class SearchViewTestCase(TestCase):
         response = self.client.get(self.url, {"q": max_length_keyword_exceed})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.wsgi_request.GET["q"]), 101)
+        self.assertEqual(len(response.context["search_params"]["keyword"]), 100)
 
     def test_search_by_multiple_keywords(self):
         """Test searching by multiple keywords (AND logic)."""
