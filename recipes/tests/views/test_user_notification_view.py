@@ -88,6 +88,7 @@ class GetUserNotificationsTests(TestCase):
         )
         self.assertEqual(total_notifications, 1)
 
+
 class MarkAllUnreadNotificationsAsReadTests(TestCase):
     """Tests for mark_all_unread_notifications_as_read view."""
 

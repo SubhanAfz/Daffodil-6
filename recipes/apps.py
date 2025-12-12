@@ -6,4 +6,4 @@ class RecipesConfig(AppConfig):
     name = "recipes"
 
     def ready(self):  # noqa
-        from . import signals # noqa
+        from . import signals  # noqa

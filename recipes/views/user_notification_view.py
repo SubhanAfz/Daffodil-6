@@ -18,9 +18,7 @@ def get_user_notifications(request):
     if request.method != "GET":
         return HttpResponseNotAllowed(["GET"])
 
-    user_notifications = Notification.objects.filter(
-        recipient=request.user
-    )
+    user_notifications = Notification.objects.filter(recipient=request.user)
 
     context = {
         "read_notifications": user_notifications.filter(is_read=True),
