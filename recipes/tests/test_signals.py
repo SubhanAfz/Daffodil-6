@@ -17,9 +17,7 @@ class SignalTests(TestCase):
             username="user1", password="password123", email="user1@example.com"
         )
         self.user2 = User.objects.create_user(
-            username="user2",
-            password="password123",
-            email="user2@example.com",
+            username="user2", password="password123", email="user2@example.com"
         )
         self.recipe = Recipe.objects.create(
             author=self.user1, title="Test Recipe", content="Test instructions."

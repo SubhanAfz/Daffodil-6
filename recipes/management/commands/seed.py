@@ -271,8 +271,7 @@ class Command(BaseCommand):
             self.try_create_recipe(recipe_data)
             recipe_count = Recipe.objects.count()
             print(
-                f"Seeding recipes {recipe_count}/{self.SEEDED_RECIPE_COUNT}",
-                end="\r",
+                f"Seeding recipes {recipe_count}/{self.SEEDED_RECIPE_COUNT}", end="\r"
             )
 
     def try_create_recipe(self, data):

@@ -52,10 +52,7 @@ def create_test_recipe(title, description, content, author):
     from recipes.models import Recipe
 
     return Recipe.objects.create(
-        title=title,
-        description=description,
-        content=content,
-        author=author,
+        title=title, description=description, content=content, author=author
     )
 
 
@@ -67,9 +64,7 @@ def get_test_image_file(fixtures_relative_path="../fixtures", filename="burger.p
 
     with open(image_path, "rb") as img_file:
         return SimpleUploadedFile(
-            name=filename,
-            content=img_file.read(),
-            content_type="image/png",
+            name=filename, content=img_file.read(), content_type="image/png"
         )
 
 

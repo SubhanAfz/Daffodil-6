@@ -365,8 +365,7 @@ class FeedViewTestCase(TestCase):
         if len(explore_recipes) > 1:
             for i in range(len(explore_recipes) - 1):
                 self.assertGreaterEqual(
-                    explore_recipes[i].created_at,
-                    explore_recipes[i + 1].created_at,
+                    explore_recipes[i].created_at, explore_recipes[i + 1].created_at
                 )
 
     def test_post_request_gives_405(self):

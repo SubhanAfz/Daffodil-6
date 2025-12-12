@@ -35,7 +35,7 @@ class Notification(models.Model):
             models.UniqueConstraint(
                 fields=["recipient", "sender", "notification_type", "link"],
                 name="unique_notification",
-            ),
+            )
         ]
 
     def __str__(self):

@@ -46,10 +46,7 @@ class GetUserNotificationsTests(TestCase):
 
         # Create read and unread notifications
         Notification.objects.create(
-            recipient=self.user,
-            sender=sender,
-            notification_type="like",
-            is_read=True,
+            recipient=self.user, sender=sender, notification_type="like", is_read=True
         )
         Notification.objects.create(
             recipient=self.user,
@@ -71,9 +68,7 @@ class GetUserNotificationsTests(TestCase):
 
         # Create notifications for both users
         Notification.objects.create(
-            recipient=self.user,
-            sender=other_user,
-            notification_type="like",
+            recipient=self.user, sender=other_user, notification_type="like"
         )
         Notification.objects.create(
             recipient=other_user, sender=self.user, notification_type="like"

@@ -34,18 +34,14 @@ class NotificationModelTestCase(TestCase):
     def test_is_read_defaults_to_false(self):
         """Test that the 'is_read' field defaults to False."""
         notif = Notification.objects.create(
-            recipient=self.recipient,
-            sender=self.sender,
-            notification_type="like",
+            recipient=self.recipient, sender=self.sender, notification_type="like"
         )
         self.assertFalse(notif.is_read)
 
     def test_created_at_is_auto_set(self):
         """Test that the 'created_at' field is set automatically."""
         notif = Notification.objects.create(
-            recipient=self.recipient,
-            sender=self.sender,
-            notification_type="favourite",
+            recipient=self.recipient, sender=self.sender, notification_type="favourite"
         )
         self.assertIsNotNone(notif.created_at)
         self.assertLess(notif.created_at, timezone.now())

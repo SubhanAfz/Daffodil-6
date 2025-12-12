@@ -52,18 +52,10 @@ urlpatterns = [
         views.toggle_favourite,
         name="toggle_favourite",
     ),
-    path(
-        "recipe/<int:recipe_id>/report/",
-        views.report_recipe,
-        name="report_recipe",
-    ),
+    path("recipe/<int:recipe_id>/report/", views.report_recipe, name="report_recipe"),
     path("users/<str:username>/", views.user_profile, name="user_profile"),
     path("follow/<int:user_id>/", views.toggle_follow, name="toggle_follow"),
-    path(
-        "notifications/",
-        views.get_user_notifications,
-        name="notifications",
-    ),
+    path("notifications/", views.get_user_notifications, name="notifications"),
     path(
         "notifications/mark-as-read/",
         views.mark_all_unread_notifications_as_read,

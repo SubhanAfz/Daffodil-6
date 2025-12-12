@@ -45,10 +45,6 @@ def get_reports_list(request: HttpRequest):
         )
         num_unresolved_reports = list.count()
 
-    context = {
-        "num_reports": num_unresolved_reports,
-        "list": list,
-        "order": order,
-    }
+    context = {"num_reports": num_unresolved_reports, "list": list, "order": order}
 
     return render(request, "reported_dashboard.html", context)
