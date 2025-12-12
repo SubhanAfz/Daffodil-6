@@ -47,9 +47,7 @@ class SignalTests(TestCase):
         mock_create_notification.assert_not_called()
 
     @patch("recipes.signals.create_notification")
-    def test_create_favourite_notification_on_create(
-        self, mock_create_notification
-    ):
+    def test_create_favourite_notification_on_create(self, mock_create_notification):
         """Verify a notification is created when a recipe is favourited."""
         Favourite.objects.create(user=self.user2, recipe=self.recipe)
 
