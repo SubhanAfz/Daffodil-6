@@ -4,24 +4,22 @@ from django.views.decorators.cache import never_cache
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.urls import reverse
 from django.http import HttpResponseNotAllowed
-from django.utils import timezone
-from datetime import timedelta
 from recipes.models import Notification
 
 
 @never_cache
 @login_required
 def get_user_notifications(request):
-    """Get user notifications for likes on their recipes.
+    """Get all user notifications for likes, favourites, and follows.
 
-    Retrieves all likes on the user's recipes and displays them in the notifications page.
+    Retrieves all notifications on the user's profile and displays them in the notifications page.
     """
 
     if request.method != "GET":
         return HttpResponseNotAllowed(["GET"])
 
     user_notifications = Notification.objects.filter(
-        recipient=request.user, created_at__gte=timezone.now() - timedelta(days=7)
+        recipient=request.user
     )
 
     context = {
