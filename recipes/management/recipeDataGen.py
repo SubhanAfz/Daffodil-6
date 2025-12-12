@@ -8,7 +8,7 @@ from random import randint
 from django.utils.text import slugify
 
 
-class recipeDataGen:
+class RecipeDataGenerator:
     """Generator class for creating recipe data from CSV file for database seeding."""
 
     fake = Faker()
@@ -17,15 +17,17 @@ class recipeDataGen:
     def __init__(self):
         # Check if this is the new format (with image_name column)
         self.has_image_name = "image_name" in self.df.columns
-        
+
         # Handle ingredients column - may be string list or already parsed
         if "ingredients" in self.df.columns:
-            self.df["ingredients"] = self.df["ingredients"].apply(self._parse_list_column)
-        
+            self.df["ingredients"] = self.df["ingredients"].apply(
+                self._parse_list_column
+            )
+
         # instructions column
         if "directions" in self.df.columns:
             self.df["directions"] = self.df["directions"].apply(self._parse_list_column)
-        
+
         self.index = 0
 
     def _parse_list_column(self, x):
@@ -49,6 +51,20 @@ class recipeDataGen:
             text += str(item) + "\n"
         return text.strip()
 
+    def _get_thumbnail_path(self, slug, image_name=None):
+        """Get the thumbnail image path based on slug or image_name."""
+        if (
+            self.has_image_name
+            and image_name
+            and os.path.exists(f"recipes/management/sample_images/{image_name}")
+        ):
+            # new format: use direct image_name
+            return f"recipes/management/sample_images/{image_name}"
+        elif os.path.exists(f"recipes/management/sample_images/{slug}.jpg"):
+            # old format: use slug to find image
+            return f"recipes/management/sample_images/{slug}.jpg"
+        return None
+
     def get_next_recipe_data(self, user):
         """Get the next recipe data dictionary from the CSV for the given user."""
         if self.index >= len(self.df):
@@ -62,19 +78,9 @@ class recipeDataGen:
         content = self.series_to_string(row["directions"])
 
         # Try to find matching thumbnail image
-        thumbnail_path = None
-        
-        if self.has_image_name and pd.notna(row.get("image_name")):
-            # New format: use direct image_name
-            image_path = f"recipes/management/sample_images/{row['image_name']}"
-            if os.path.exists(image_path):
-                thumbnail_path = image_path
-        else:
-            # Old format: slugify the title
-            slug = slugify(title)
-            image_path = f"recipes/management/sample_images/{slug}.jpg"
-            if os.path.exists(image_path):
-                thumbnail_path = image_path
+        thumbnail_path = self._get_thumbnail_path(
+            slugify(title), row.get("image_name") if self.has_image_name else None
+        )
 
         return {
             "title": title,

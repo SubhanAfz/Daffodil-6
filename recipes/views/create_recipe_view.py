@@ -35,8 +35,7 @@ def create_recipe(request: HttpRequest):
         )
     except DatabaseError:
         form.add_error(
-            None,
-            "An error occurred when posting your recipe. Please try again later.",
+            None, "An error occurred when posting your recipe. Please try again later."
         )
     return render(request, "create_recipe.html", {"form": form})
 

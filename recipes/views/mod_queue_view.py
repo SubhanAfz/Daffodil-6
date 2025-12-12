@@ -42,10 +42,6 @@ def get_moderation_queue(request: HttpRequest):
         )
         num_unresolved_posts = list.count()
 
-    context = {
-        "num_posts": num_unresolved_posts,
-        "list": list,
-        "order": order,
-    }
+    context = {"num_posts": num_unresolved_posts, "list": list, "order": order}
 
     return render(request, "hidden_dashboard.html", context)
