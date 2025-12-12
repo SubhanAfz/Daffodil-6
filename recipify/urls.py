@@ -63,10 +63,16 @@ urlpatterns = [
         "notifications/",
         views.get_user_notifications,
         name="notifications",
-    ),    path(
+    ),
+    path(
         "notifications/mark-as-read/",
-        views.mark_notifications_as_read,
+        views.mark_all_unread_notifications_as_read,
         name="mark_notifications_as_read",
+    ),
+    path(
+        "notifications/<int:pk>/view/",
+        views.notification_view,
+        name="notification_view",
     ),
 ]
 

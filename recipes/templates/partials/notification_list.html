@@ -28,7 +28,7 @@
               </div>
               <div>
                 {% if n.link %}
-                    <a href="{{ n.link }}" class="d-block small mt-1">View</a>
+                    <a href="{% url 'notification_view' n.id %}?next={{n.link}}" class="d-block small mt-1">View</a>
                 {% endif %}
               </div>
             </div>
