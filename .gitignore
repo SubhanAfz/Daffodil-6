@@ -1,8 +1,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,django,venv,virtualenv,sublimetext,pycharm+all,visualstudiocode,visualstudio,vim,emacs,macos,linux,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,venv,virtualenv,sublimetext,pycharm+all,visualstudiocode,visualstudio,vim,emacs,macos,linux,windows
 
-main.tf
-output.tf
+
 .terraform.lock.hcl
 ### Terraform ###
 # Local .terraform directories
