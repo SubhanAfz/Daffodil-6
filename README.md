@@ -69,3 +69,6 @@ We have used Generative AI to review GitHub Pull Requests. All the Pull Requests
 [#19](https://github.com/SubhanAfz/Daffodil-6/pull/19)
 [#21](https://github.com/SubhanAfz/Daffodil-6/pull/21)
 [#23](https://github.com/SubhanAfz/Daffodil-6/pull/23)
+## Web server deployment
+
+See [the Caddy deployment guide](caddy/README.md) for production configuration, persistent data, and migration details.

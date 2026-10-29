@@ -1,0 +1,17 @@
+# Public HTTPS terminates at Cloudflare; FRP forwards HTTP to this service.
+http://recipify.subhan.work {
+	@outside not remote_ip private_ranges
+	respond @outside "Forbidden" 403
+
+	handle_path /static/* {
+		root * /var/www/static
+		file_server
+	}
+	handle_path /media/* {
+		root * /var/www/media
+		file_server
+	}
+	handle {
+		reverse_proxy recipify:8000
+	}
+}
