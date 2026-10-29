@@ -16,13 +16,13 @@ jobs:
                     echo "${{ secrets.DEPLOYMENT_SSH_KEY }}" > deploy_key
                     chmod 600 deploy_key
                     ssh -o "StrictHostKeyChecking=no" -i deploy_key ubuntu@${{ secrets.DEPLOYMENT_SERVER_IP }} "
+                    set -eu
                     cd ~/Daffodil-6
-                    git pull origin main
+                    git fetch origin main
+                    git switch main
+                    git pull --ff-only origin main
                     sudo docker compose build
                     sudo docker compose pull
-                    sudo docker compose down
-                    sudo docker volume rm daffodil-6_media_volume
-                    sudo docker volume rm daffodil-6_static_volume
-                    sudo docker compose up -d
+                    sudo docker compose up -d --remove-orphans
                     sudo docker image prune -f
                     "
